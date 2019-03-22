@@ -1,0 +1,17 @@
+{
+  "extends": ["tslint:recommended", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": ["config/**/*.js", "node_modules/**/*.ts"]
+  },
+  "rules": {
+    "no-console": false,
+    "max-classes-per-file": false,
+    "object-literal-sort-keys": false,
+    "jsx-no-lambda": false,
+    "use-isnan": false,
+    "interface-over-type-literal": false,
+    "no-empty": false,
+    "variable-name": false,
+    "no-shadowed-variable": false
+  }
+}
