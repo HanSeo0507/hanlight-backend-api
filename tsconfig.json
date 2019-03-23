@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "plugins": [{ "name": "typescript-tslint-plugin" }],
     "baseUrl": ".",
     "paths": {
       "@Controller/*": ["routes/controllers/*"],
