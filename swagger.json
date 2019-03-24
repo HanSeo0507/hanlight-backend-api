@@ -1,0 +1,183 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "한빛 백엔드 API 문서",
+    "version": "1.0.0",
+    "title": "한빛"
+  },
+  "host": "host",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "verify",
+      "description": "인증"
+    },
+    {
+      "name": "dev",
+      "description": "개발"
+    }
+  ],
+  "schemes": ["https"],
+  "consumes": ["application/json", "application/x-www-form-urlencoded"],
+  "produces": ["application/json"],
+  "paths": {
+    "/dev/errors": {
+      "get": {
+        "tags": ["dev"],
+        "description": "에러 목록",
+        "responses": {
+          "200": {
+            "description": "성공"
+          }
+        }
+      }
+    },
+    "/verify/register": {
+      "post": {
+        "tags": ["verify"],
+        "description": "회원가입",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "id",
+            "description": "아이디",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "password",
+            "description": "비밀번호",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "signKey",
+            "description": "회원가입 키",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "$ref": "#/definitions/SuccessResponse"
+            }
+          }
+        }
+      }
+    },
+    "/verify/login": {
+      "post": {
+        "tags": ["verify"],
+        "description": "로그인",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "id",
+            "description": "아이디",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "password",
+            "description": "비밀번호",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "$ref": "#/definitions/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "pk": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["student", "teacher"]
+        },
+        "admin": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "major": {
+          "type": "string",
+          "description": "학과"
+        },
+        "grade": {
+          "type": "string",
+          "description": "학년"
+        },
+        "classNum": {
+          "type": "string",
+          "description": "반"
+        },
+        "studentNum": {
+          "type": "string",
+          "description": "학급에서의 번호"
+        }
+      }
+    },
+    "SuccessResponse": {
+      "type": "object",
+      "required": ["success", "data"],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "required": ["success", "code", "name", "message", "description"],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "code": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

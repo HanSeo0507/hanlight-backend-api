@@ -19,15 +19,19 @@
     "typescript-tslint-plugin": "^0.3.1"
   },
   "dependencies": {
+    "@types/swagger-ui-express": "^3.0.0",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
     "http": "^0.0.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.5",
+    "path": "^0.12.7",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^5.1.0",
     "sequelize-typescript": "^1.0.0-alpha.9",
+    "swagger-ui": "^3.22.0",
+    "swagger-ui-express": "^4.0.2",
     "ts-node": "^8.0.2"
   }
 }
