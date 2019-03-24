@@ -7,7 +7,7 @@ type Limit_File_Size = 'Limit_File_Size';
 type Wrong_Data = 'Wrong_Data';
 type Unhandled_Error = 'Unhandled_Error';
 type Exist_User = 'Exist_User';
-type Token_Expired = 'TokenExpiredError';
+type Token_Expired = 'Token_Expired';
 
 export type ErrorNames =
   | Not_User
