@@ -15,7 +15,7 @@ import {
 import User from './user.model';
 
 @Table({
-  timestamps: true,
+  timestamps: false,
 })
 export default class Student extends Model<Student> {
   @AutoIncrement
