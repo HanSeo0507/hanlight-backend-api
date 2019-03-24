@@ -32,10 +32,6 @@ export default class Teacher extends Model<Teacher> {
   @Column(DataType.STRING)
   public name: string;
 
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public signKey: string;
-
   @CreatedAt
   public createdAt: Date;
 

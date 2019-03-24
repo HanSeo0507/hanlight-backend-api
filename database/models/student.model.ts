@@ -49,10 +49,6 @@ export default class Student extends Model<Student> {
   @Column(DataType.INTEGER)
   public studentNum: number;
 
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public signKey: string;
-
   @CreatedAt
   public createdAt: Date;
 

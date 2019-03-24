@@ -33,17 +33,18 @@ export default class User extends Model<User> {
   @Column(DataType.INTEGER)
   public admin: number;
 
-  @AllowNull(false)
   @Column(DataType.STRING)
   public id: string;
 
-  @AllowNull(false)
   @Column(DataType.STRING)
   public password: string;
 
-  @AllowNull(false)
   @Column(DataType.STRING)
   public passwordKey: string;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public signKey: string;
 
   @CreatedAt
   public createdAt: Date;
