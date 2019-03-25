@@ -37,6 +37,6 @@ process.on('uncaughtException', err => {
   process.exit(1);
 });
 
-connect(true).then(() => console.log('데이터베이스와 성공적으로 연결되었습니다.')); // database connection
+connect(false).then(() => console.log('데이터베이스와 성공적으로 연결되었습니다.')); // database connection
 
 export default app;

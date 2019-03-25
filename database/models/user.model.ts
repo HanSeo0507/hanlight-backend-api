@@ -1,4 +1,16 @@
-import { AllowNull, AutoIncrement, Column, CreatedAt, DataType, HasOne, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript';
+import {
+  AllowNull,
+  AutoIncrement,
+  Column,
+  CreatedAt,
+  DataType,
+  Default,
+  HasOne,
+  Model,
+  PrimaryKey,
+  Table,
+  UpdatedAt,
+} from 'sequelize-typescript';
 import Student from './student.model';
 import Teacher from './teacher.model';
 
@@ -17,16 +29,22 @@ export default class User extends Model<User> {
   public type: string;
 
   @AllowNull(false)
+  @Default(0)
+  @Column(DataType.INTEGER)
+  public admin: number;
+
   @Column(DataType.STRING)
   public id: string;
 
-  @AllowNull(false)
   @Column(DataType.STRING)
   public password: string;
 
-  @AllowNull(false)
   @Column(DataType.STRING)
   public passwordKey: string;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public signKey: string;
 
   @CreatedAt
   public createdAt: Date;

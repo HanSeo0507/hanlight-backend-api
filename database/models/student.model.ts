@@ -15,7 +15,7 @@ import {
 import User from './user.model';
 
 @Table({
-  timestamps: true,
+  timestamps: false,
 })
 export default class Student extends Model<Student> {
   @AutoIncrement
@@ -48,10 +48,6 @@ export default class Student extends Model<Student> {
   @AllowNull(false)
   @Column(DataType.INTEGER)
   public studentNum: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public signKey: string;
 
   @CreatedAt
   public createdAt: Date;
