@@ -19,3 +19,10 @@
   > NODE_ENV= production | development  
   > PORT= number  
   > TOKEN_SECRET= string
+
+- config/encryption.json
+
+  > "algorithm": "encryption algorithm",  
+  > "saltSize": number,  
+  > "iteration": number,  
+  > "encryptionSize": number
