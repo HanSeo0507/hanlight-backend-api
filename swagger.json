@@ -32,6 +32,17 @@
         }
       }
     },
+    "/dev/api-docs": {
+      "get": {
+        "tags": ["dev"],
+        "description": "API 문서",
+        "responses": {
+          "200": {
+            "description": "성공"
+          }
+        }
+      }
+    },
     "/verify/register": {
       "post": {
         "tags": ["verify"],
