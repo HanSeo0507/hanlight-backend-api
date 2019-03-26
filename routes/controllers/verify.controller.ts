@@ -3,15 +3,17 @@ import { Router } from 'express';
 // common
 import checkValidation from '@Middleware/common/checkValidation';
 import passwordEncryption from '@Middleware/verify/common/passwordEncryption';
+
 // register
 import userExistCheck from '@Middleware/verify/common/userExistCheck';
 import issueToken from '@Middleware/verify/jwt/issueToken';
+import signKeyCheck from '@Middleware/verify/register/signKeyCheck';
+
 // login
 import loginValidation from '@Middleware/verify/login/_validation';
 import login from '@Middleware/verify/login/login';
 import registerValidation from '@Middleware/verify/register/_validation';
 import register from '@Middleware/verify/register/register';
-import signKeyCheck from '@Middleware/verify/register/signKeyCheck';
 
 const router = Router();
 

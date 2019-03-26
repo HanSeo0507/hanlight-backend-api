@@ -1,8 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
-
-import CustomError from '@Middleware/error/customError';
 import * as swaggerUiExpress from 'swagger-ui-express';
 
+import CustomError from '@Middleware/error/customError';
 import Errors from '@Middleware/error/errors';
 
 import * as swaggerJson from '../../swagger.json';
