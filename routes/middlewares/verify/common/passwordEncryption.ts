@@ -12,12 +12,10 @@ const passwordEncryption = (req: Request, res: Response, next: NextFunction) => 
     const salt = res.locals.user.passwordKey || randomBytes(saltSize).toString('base64');
     const key = pbkdf2Sync(password, salt, iteration, encryptionSize, algorithm).toString('base64');
 
-    res.locals = {
-      ...res.locals,
-      temp: {
-        password: key,
-        passwordKey: salt,
-      },
+    res.locals.temp = {
+      ...res.locals.temp,
+      password: key,
+      passwordKey: salt,
     };
     next();
   } catch (error) {

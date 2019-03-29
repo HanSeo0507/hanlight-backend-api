@@ -26,7 +26,7 @@ export default class Student extends Model<Student> {
 
   @ForeignKey(() => User)
   @AllowNull(false)
-  @Column(DataType.INTEGER)
+  @Column(DataType.UUID)
   public user_pk: string;
 
   @AllowNull(false)

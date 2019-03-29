@@ -18,11 +18,11 @@ import Teacher from './teacher.model';
   timestamps: true,
 })
 export default class User extends Model<User> {
-  @AutoIncrement
   @PrimaryKey
   @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public pk: number;
+  @Default(DataType.UUIDV4)
+  @Column(DataType.UUID)
+  public pk: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)
@@ -45,6 +45,9 @@ export default class User extends Model<User> {
   @AllowNull(false)
   @Column(DataType.STRING)
   public signKey: string;
+
+  @Column(DataType.STRING)
+  public tp: string;
 
   @CreatedAt
   public createdAt: Date;

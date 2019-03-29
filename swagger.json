@@ -43,6 +43,74 @@
         }
       }
     },
+    "/verify/phone": {
+      "post": {
+        "tags": ["verify"],
+        "description": "전화번호 인증",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "code",
+            "description": "FB account kit에서 응답값으로 준 code value",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "state",
+            "description": "서버에서 받은 고유 state",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "signKey",
+            "description": "회원가입 키",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "properties": {
+                "facebookToken": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/verify/phone/state": {
+      "post": {
+        "tags": ["verify"],
+        "description": "고유 state 발급",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "signKey",
+            "description": "회원가입 키",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "properties": {
+                "state": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/verify/register": {
       "post": {
         "tags": ["verify"],
@@ -110,7 +178,7 @@
                 },
                 "data": {
                   "properties": {
-                    "token": {
+                    "accessToken": {
                       "type": "string"
                     },
                     "user": {
@@ -129,9 +197,6 @@
     "User": {
       "type": "object",
       "properties": {
-        "pk": {
-          "type": "integer"
-        },
         "type": {
           "type": "string",
           "enum": ["student", "teacher"]

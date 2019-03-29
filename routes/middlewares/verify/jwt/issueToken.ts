@@ -17,7 +17,6 @@ const issueToken = (req: Request, res: Response, next: NextFunction) => {
     data: {
       accessToken,
       user: {
-        pk: user.pk,
         type: user.type,
         admin: user.admin,
         name: (user.student && user.student.name) || user.teacher.name,
