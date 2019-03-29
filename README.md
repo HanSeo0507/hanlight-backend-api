@@ -26,3 +26,9 @@
   > "saltSize": number,  
   > "iteration": number,  
   > "encryptionSize": number
+
+- config/facebook.json
+
+  > "version": "version",
+  > "appId": "app id",
+  > "appSecret": "app secret"
