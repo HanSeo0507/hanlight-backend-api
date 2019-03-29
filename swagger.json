@@ -61,6 +61,13 @@
             "name": "state",
             "description": "서버에서 받은 고유 state",
             "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "signKey",
+            "description": "회원가입 키",
+            "required": true
           }
         ],
         "responses": {
@@ -68,9 +75,6 @@
             "description": "성공",
             "schema": {
               "properties": {
-                "facebookPk": {
-                  "type": "string"
-                },
                 "facebookToken": {
                   "type": "string"
                 }
@@ -81,9 +85,18 @@
       }
     },
     "/verify/phone/state": {
-      "get": {
+      "post": {
         "tags": ["verify"],
         "description": "고유 state 발급",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "signKey",
+            "description": "회원가입 키",
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "description": "성공",
@@ -122,20 +135,6 @@
             "type": "string",
             "name": "signKey",
             "description": "회원가입 키",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "facebookPk",
-            "description": "발급받은 facebookPk",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "facebookToken",
-            "description": "발급받은 facebookToken",
             "required": true
           }
         ],
@@ -198,9 +197,6 @@
     "User": {
       "type": "object",
       "properties": {
-        "pk": {
-          "type": "integer"
-        },
         "type": {
           "type": "string",
           "enum": ["student", "teacher"]
