@@ -74,11 +74,7 @@
           "200": {
             "description": "성공",
             "schema": {
-              "properties": {
-                "facebookToken": {
-                  "type": "string"
-                }
-              }
+              "$ref": "#/definitions/SuccessResponse"
             }
           }
         }
@@ -102,8 +98,16 @@
             "description": "성공",
             "schema": {
               "properties": {
-                "state": {
-                  "type": "string"
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "state": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
