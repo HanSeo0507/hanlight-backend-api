@@ -29,6 +29,6 @@
 
 - config/facebook.json
 
-  > "version": "version",
-  > "appId": "app id",
+  > "version": "version",  
+  > "appId": "app id",  
   > "appSecret": "app secret"
