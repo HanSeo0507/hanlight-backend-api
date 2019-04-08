@@ -1,4 +1,5 @@
 import * as bodyParser from 'body-parser';
+import * as cors from 'cors';
 import * as Debug from 'debug';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
@@ -14,6 +15,7 @@ dotenv.config();
 const app: express.Application = express();
 const debug = Debug('hanlight');
 
+app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(
