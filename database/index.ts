@@ -8,6 +8,10 @@ export const sequelize = new Sequelize({
   database: config.database,
   username: config.username,
   password: config.password,
+  define: {
+    charset: 'utf8',
+    collate: 'utf8_general_ci',
+  },
 });
 
 export async function connect(force: boolean) {
