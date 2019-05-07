@@ -10,7 +10,7 @@ const login = (req: Request, res: Response, next: NextFunction) => {
   if (user.password === requestPassword) {
     next();
   } else {
-    next(new CustomError({ name: 'Not_User' }));
+    next(new CustomError({ name: 'Not_User', message: '등록되지 않은 아이디이거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다.' }));
   }
 };
 

@@ -8,11 +8,10 @@ const signKeyCheck = (req: Request, res: Response, next: NextFunction) => {
 
   User.findOne({
     where: {
-      id: null,
       signKey,
     },
   })
-    .then(user => {
+    .then((user: User) => {
       if (user) {
         if (req.path.includes('/phone')) {
           res.locals.user = user;
@@ -24,7 +23,7 @@ const signKeyCheck = (req: Request, res: Response, next: NextFunction) => {
           next(new CustomError({ name: 'Wrong_Request' }));
         }
       } else {
-        next(new CustomError({ name: 'Not_User', message: '잘못된 키이거나 이미 회원가입을 한 유저입니다.' }));
+        next(new CustomError({ name: 'Not_User', message: '잘못된 키입니다.' }));
       }
     })
     .catch(err => {

@@ -42,7 +42,7 @@ export default class User extends Model<User> {
   @Column(DataType.STRING)
   public passwordKey: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.STRING)
   public signKey: string;
 
