@@ -36,7 +36,7 @@ const fbIssueToken = async (req: Request, res: Response, next: NextFunction) => 
     if (fbVerifyResponse.data.application.id === fbConfig.appId) {
       res.locals.temp = {
         ...res.locals.temp,
-        tp: fbVerifyResponse.data.phone.national_number,
+        tp: '0' + fbVerifyResponse.data.phone.national_number,
       };
       next();
     } else {

@@ -5,7 +5,8 @@
     "paths": {
       "@Controller/*": ["routes/controllers/*"],
       "@Middleware/*": ["routes/middlewares/*"],
-      "@Model/*": ["database/models/*"]
+      "@Model/*": ["database/models/*"],
+      "@Lib/*": ["lib/*"]
     },
     "lib": ["esnext"],
     "target": "esnext",

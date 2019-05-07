@@ -10,7 +10,7 @@ interface IDefinedError {
 }
 
 const ErrorMiddleware: ErrorRequestHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(err);
+  console.error(err.name, err.message);
 
   const error: IDefinedError = Errors[err.name];
   const name: string = err.name;

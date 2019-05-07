@@ -9,12 +9,12 @@
   "basePath": "/api",
   "tags": [
     {
-      "name": "verify",
-      "description": "인증"
+      "name": "user",
+      "description": "유저"
     },
     {
       "name": "dev",
-      "description": "개발"
+      "description": "개발할 때 사용 됨"
     }
   ],
   "schemes": ["https"],
@@ -43,9 +43,9 @@
         }
       }
     },
-    "/verify/phone": {
+    "/user/phone": {
       "post": {
-        "tags": ["verify"],
+        "tags": ["user"],
         "description": "전화번호 인증",
         "parameters": [
           {
@@ -53,13 +53,6 @@
             "type": "string",
             "name": "code",
             "description": "FB account kit에서 응답값으로 준 code value",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "state",
-            "description": "서버에서 받은 고유 state",
             "required": true
           },
           {
@@ -76,20 +69,42 @@
             "schema": {
               "$ref": "#/definitions/SuccessResponse"
             }
+          },
+          "204": {
+            "description": "회원 중에 이미 번호를 가진 유저가 있어서 다음 프로세스를 진행하지 않아도 됨"
+          },
+          "401(Wrong_Request)": {
+            "description": "facebook account kit으로 요청된 code값이 잘못됨"
+          },
+          "412(Not_User)": {
+            "description": "해당 키에 유저가 조회되지 않음"
+          },
+          "412(Wrong_Data)": {
+            "description": "요청 데이터가 잘못됨"
+          },
+          "412(Exist_User)": {
+            "description": "사용 중인 전화번호"
           }
         }
       }
     },
-    "/verify/phone/state": {
-      "post": {
-        "tags": ["verify"],
-        "description": "고유 state 발급",
+    "/user/exist": {
+      "get": {
+        "tags": ["user"],
+        "description": "아이디 중복확인",
         "parameters": [
           {
-            "in": "formData",
+            "in": "query",
             "type": "string",
-            "name": "signKey",
-            "description": "회원가입 키",
+            "name": "key",
+            "description": "[id(아이디), tp(전화번호), signKey(회원가입 키)] 중 하나",
+            "required": true
+          },
+          {
+            "in": "query",
+            "type": "string",
+            "name": "value",
+            "description": "key값에 따른 value",
             "required": true
           }
         ],
@@ -104,20 +119,23 @@
                 "data": {
                   "type": "object",
                   "properties": {
-                    "state": {
-                      "type": "string"
+                    "exist": {
+                      "type": "boolean"
                     }
                   }
                 }
               }
             }
+          },
+          "412(Wrong_Data)": {
+            "description": "요청값의 이상"
           }
         }
       }
     },
-    "/verify/register": {
+    "/user/register": {
       "post": {
-        "tags": ["verify"],
+        "tags": ["user"],
         "description": "회원가입",
         "parameters": [
           {
@@ -148,13 +166,19 @@
             "schema": {
               "$ref": "#/definitions/SuccessResponse"
             }
+          },
+          "401(Wrong_Request)": {
+            "description": "전화번호 인증을 받지 않았는데 회원가입 요청을 날린 경우"
+          },
+          "412(Exist_User)": {
+            "description": "아이디가 사용 중일 때"
           }
         }
       }
     },
-    "/verify/login": {
+    "/user/login": {
       "post": {
-        "tags": ["verify"],
+        "tags": ["user"],
         "description": "로그인",
         "parameters": [
           {
@@ -192,6 +216,103 @@
                 }
               }
             }
+          },
+          "412(Not_User)": {
+            "description": "등록되지 않은 아이디이거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다."
+          }
+        }
+      }
+    },
+    "/user/recovery/id": {
+      "post": {
+        "tags": ["user"],
+        "description": "아이디 찾기",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "code",
+            "description": "FB account kit에서 응답값으로 준 code value",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401(Wrong_Request)": {
+            "description": "facebook account kit으로 요청된 code값이 잘못됨"
+          },
+          "412(Not_User)": {
+            "description": "해당 데이터를 가진 유저가 조회되지 않음"
+          },
+          "412(Wrong_Data)": {
+            "description": "요청 데이터가 잘못됨"
+          }
+        }
+      }
+    },
+    "/user/recovery/password": {
+      "post": {
+        "tags": ["user"],
+        "description": "비밀번호 찾기",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "code",
+            "description": "FB account kit에서 응답값으로 준 code value",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "id",
+            "description": "유저의 아이디",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "password",
+            "description": "뱐경할 비밀번호",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "schema": {
+              "properties": {
+                "success": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "401(Wrong_Request)": {
+            "description": "facebook account kit으로 요청된 code값이 잘못됨"
+          },
+          "412(Not_User)": {
+            "description": "해당 데이터를 가진 유저가 조회되지 않음"
+          },
+          "412(Wrong_Data)": {
+            "description": "요청 데이터가 잘못됨"
           }
         }
       }

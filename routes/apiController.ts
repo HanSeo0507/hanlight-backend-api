@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
 import dev from '@Controller/dev.controller';
-import verify from '@Controller/verify.controller';
+import user from '@Controller/user.controller';
 
 const router = Router();
 
 router.use('/dev', dev);
-router.use('/verify', verify);
+router.use('/user', user);
 
 export default router;
