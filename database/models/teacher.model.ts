@@ -38,6 +38,8 @@ export default class Teacher extends Model<Teacher> {
   @UpdatedAt
   public updatedAt: Date;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, {
+    onDelete: 'CASCADE',
+  })
   public user: User;
 }

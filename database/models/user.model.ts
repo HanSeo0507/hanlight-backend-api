@@ -1,16 +1,19 @@
 import {
   AllowNull,
-  AutoIncrement,
   Column,
   CreatedAt,
   DataType,
   Default,
+  HasMany,
   HasOne,
   Model,
   PrimaryKey,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
+
+import Notice from './notice.model';
+import NoticeLog from './noticeLog.model';
 import Student from './student.model';
 import Teacher from './teacher.model';
 
@@ -60,4 +63,10 @@ export default class User extends Model<User> {
 
   @HasOne(() => Teacher)
   public teacher: Teacher;
+
+  @HasMany(() => Notice)
+  public notice: Notice[];
+
+  @HasMany(() => NoticeLog)
+  public noticeLog: NoticeLog[];
 }

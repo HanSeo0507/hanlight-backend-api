@@ -8,6 +8,7 @@ type Wrong_Data = 'Wrong_Data';
 type Unhandled_Error = 'Unhandled_Error';
 type Exist_User = 'Exist_User';
 type Token_Expired = 'Token_Expired';
+type Forbidden = 'Forbidden';
 
 export type ErrorNames =
   | Not_User
@@ -19,4 +20,5 @@ export type ErrorNames =
   | Wrong_Data
   | Unhandled_Error
   | Exist_User
-  | Token_Expired;
+  | Token_Expired
+  | Forbidden;

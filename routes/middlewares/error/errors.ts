@@ -49,6 +49,11 @@ const Errors = {
     code: 401,
     message: '토큰이 만료되었습니다.',
   },
+  Forbidden: {
+    description: '권한 거부',
+    code: 403,
+    message: '권한이 없습니다.',
+  },
 };
 
 export default Errors;

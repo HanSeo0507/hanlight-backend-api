@@ -337,15 +337,15 @@
           "description": "학과"
         },
         "grade": {
-          "type": "string",
+          "type": "integer",
           "description": "학년"
         },
         "classNum": {
-          "type": "string",
+          "type": "integer",
           "description": "반"
         },
         "studentNum": {
-          "type": "string",
+          "type": "integer",
           "description": "학급에서의 번호"
         }
       }

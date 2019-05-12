@@ -10,14 +10,16 @@ import {
   PrimaryKey,
   Table,
   UpdatedAt,
+  HasMany,
 } from 'sequelize-typescript';
 
 import User from './user.model';
+import NoticeLog from './noticeLog.model';
 
 @Table({
-  timestamps: false,
+  timestamps: true,
 })
-export default class Student extends Model<Student> {
+export default class Notice extends Model<Notice> {
   @AutoIncrement
   @PrimaryKey
   @AllowNull(false)
@@ -25,29 +27,20 @@ export default class Student extends Model<Student> {
   public pk: number;
 
   @ForeignKey(() => User)
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.UUID)
   public user_pk: string;
 
+  @Column(DataType.STRING)
+  public user_name: string;
+
   @AllowNull(false)
   @Column(DataType.STRING)
-  public name: string;
+  public title: string;
 
   @AllowNull(false)
-  @Column(DataType.STRING)
-  public major: string;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public grade: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public classNum: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public studentNum: number;
+  @Column(DataType.TEXT)
+  public content: string;
 
   @CreatedAt
   public createdAt: Date;
@@ -55,8 +48,9 @@ export default class Student extends Model<Student> {
   @UpdatedAt
   public updatedAt: Date;
 
-  @BelongsTo(() => User, {
-    onDelete: 'CASCADE',
-  })
+  @BelongsTo(() => User)
   public user: User;
+
+  @HasMany(() => NoticeLog)
+  public noticeLog: NoticeLog;
 }
