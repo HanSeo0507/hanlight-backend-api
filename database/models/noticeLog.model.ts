@@ -9,15 +9,14 @@ import {
   Model,
   PrimaryKey,
   Table,
-  UpdatedAt,
 } from 'sequelize-typescript';
-
+import Notice from './notice.model';
 import User from './user.model';
 
 @Table({
   timestamps: false,
 })
-export default class Student extends Model<Student> {
+export default class NoticeLog extends Model<NoticeLog> {
   @AutoIncrement
   @PrimaryKey
   @AllowNull(false)
@@ -29,34 +28,21 @@ export default class Student extends Model<Student> {
   @Column(DataType.UUID)
   public user_pk: string;
 
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public name: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public major: string;
-
+  @ForeignKey(() => Notice)
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  public grade: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public classNum: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public studentNum: number;
-
-  @CreatedAt
-  public createdAt: Date;
-
-  @UpdatedAt
-  public updatedAt: Date;
+  public notice_pk: number;
 
   @BelongsTo(() => User, {
     onDelete: 'CASCADE',
   })
   public user: User;
+
+  @BelongsTo(() => Notice, {
+    onDelete: 'CASCADE',
+  })
+  public notice: Notice;
+
+  @CreatedAt
+  public createdAt: Date;
 }
