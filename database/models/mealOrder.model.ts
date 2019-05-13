@@ -14,7 +14,7 @@ export default class MealOrder extends Model<MealOrder> {
   @Column(DataType.STRING)
   public order: string;
 
-  @Default(0)
+  @Default(1)
   @AllowNull(false)
   @Column(DataType.INTEGER)
   public count: number;
