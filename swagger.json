@@ -1,25 +1,36 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "description": "한빛 백엔드 API 문서",
     "version": "1.0.0",
     "title": "한빛"
   },
-  "host": "host",
-  "basePath": "/api",
   "tags": [
     {
       "name": "user",
       "description": "유저"
     },
     {
+      "name": "timetable",
+      "description": "시간표"
+    },
+    {
+      "name": "calendar",
+      "description": "학사일정"
+    },
+    {
+      "name": "notice",
+      "description": "공지사랑"
+    },
+    {
+      "name": "meal",
+      "description": "급식"
+    },
+    {
       "name": "dev",
       "description": "개발할 때 사용 됨"
     }
   ],
-  "schemes": ["https"],
-  "consumes": ["application/json", "application/x-www-form-urlencoded"],
-  "produces": ["application/json"],
   "paths": {
     "/dev/errors": {
       "get": {
@@ -47,43 +58,43 @@
       "post": {
         "tags": ["user"],
         "description": "전화번호 인증",
-        "parameters": [
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "code",
-            "description": "FB account kit에서 응답값으로 준 code value",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "signKey",
-            "description": "회원가입 키",
-            "required": true
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "FB account kit에서 응답값으로 준 code value"
+                  },
+                  "signKey": {
+                    "type": "string",
+                    "description": "회원가입 키"
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "성공",
-            "schema": {
-              "$ref": "#/definitions/SuccessResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
             }
           },
           "204": {
             "description": "회원 중에 이미 번호를 가진 유저가 있어서 다음 프로세스를 진행하지 않아도 됨"
           },
-          "401(Wrong_Request)": {
-            "description": "facebook account kit으로 요청된 code값이 잘못됨"
+          "401": {
+            "description": "(Wrong_Request) facebook account kit으로 요청된 code값이 잘못됨"
           },
-          "412(Not_User)": {
-            "description": "해당 키에 유저가 조회되지 않음"
-          },
-          "412(Wrong_Data)": {
-            "description": "요청 데이터가 잘못됨"
-          },
-          "412(Exist_User)": {
-            "description": "사용 중인 전화번호"
+          "412": {
+            "description": "해당 키에 유저가 조회되지 않음, 요청 데이터가 잘못됨, 요청 데이터가 이미 데이터베이스에 존재함"
           }
         }
       }
@@ -95,14 +106,18 @@
         "parameters": [
           {
             "in": "query",
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "name": "key",
             "description": "[id(아이디), tp(전화번호), signKey(회원가입 키)] 중 하나",
             "required": true
           },
           {
             "in": "query",
-            "type": "string",
+            "schema": {
+              "type": "string"
+            },
             "name": "value",
             "description": "key값에 따른 value",
             "required": true
@@ -111,23 +126,27 @@
         "responses": {
           "200": {
             "description": "성공",
-            "schema": {
-              "properties": {
-                "success": {
-                  "type": "boolean"
-                },
-                "data": {
-                  "type": "object",
+            "content": {
+              "application/json": {
+                "schema": {
                   "properties": {
-                    "exist": {
+                    "success": {
                       "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "exist": {
+                          "type": "boolean"
+                        }
+                      }
                     }
                   }
                 }
               }
             }
           },
-          "412(Wrong_Data)": {
+          "412": {
             "description": "요청값의 이상"
           }
         }
@@ -137,40 +156,40 @@
       "post": {
         "tags": ["user"],
         "description": "회원가입",
-        "parameters": [
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "id",
-            "description": "아이디",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "password",
-            "description": "비밀번호",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "signKey",
-            "description": "회원가입 키",
-            "required": true
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "signKey": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "성공",
-            "schema": {
-              "$ref": "#/definitions/SuccessResponse"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
             }
           },
-          "401(Wrong_Request)": {
+          "401": {
             "description": "전화번호 인증을 받지 않았는데 회원가입 요청을 날린 경우"
           },
-          "412(Exist_User)": {
+          "412": {
             "description": "아이디가 사용 중일 때"
           }
         }
@@ -180,44 +199,44 @@
       "post": {
         "tags": ["user"],
         "description": "로그인",
-        "parameters": [
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "id",
-            "description": "아이디",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "password",
-            "description": "비밀번호",
-            "required": true
+        "requestBody": {
+          "content": {
+            "applicaiton/json": {
+              "schema": {
+                "properties": {
+                  "id": { "type": "string" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "성공",
-            "schema": {
-              "properties": {
-                "success": {
-                  "type": "boolean"
-                },
-                "data": {
+            "content": {
+              "application/json": {
+                "schema": {
                   "properties": {
-                    "accessToken": {
-                      "type": "string"
+                    "success": {
+                      "type": "boolean"
                     },
-                    "user": {
-                      "$ref": "#/definitions/User"
+                    "data": {
+                      "properties": {
+                        "accessToken": {
+                          "type": "string"
+                        },
+                        "user": {
+                          "$ref": "#/components/schemas/User"
+                        }
+                      }
                     }
                   }
                 }
               }
             }
           },
-          "412(Not_User)": {
+          "412": {
             "description": "등록되지 않은 아이디이거나, 아이디 또는 비밀번호를 잘못 입력하셨습니다."
           }
         }
@@ -227,42 +246,48 @@
       "post": {
         "tags": ["user"],
         "description": "아이디 찾기",
-        "parameters": [
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "code",
-            "description": "FB account kit에서 응답값으로 준 code value",
-            "required": true
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "FB account kit에서 응답값으로 준 code value"
+                  }
+                }
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "성공",
-            "schema": {
-              "properties": {
-                "success": {
-                  "type": "boolean"
-                },
-                "data": {
-                  "type": "object",
+            "content": {
+              "application/json": {
+                "schema": {
                   "properties": {
-                    "id": {
-                      "type": "string"
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
               }
             }
           },
-          "401(Wrong_Request)": {
+          "401": {
             "description": "facebook account kit으로 요청된 code값이 잘못됨"
           },
-          "412(Not_User)": {
-            "description": "해당 데이터를 가진 유저가 조회되지 않음"
-          },
-          "412(Wrong_Data)": {
-            "description": "요청 데이터가 잘못됨"
+          "412": {
+            "description": "해당 데이터를 가진 유저가 조회되지 않음, 요청 데이터가 잘못됨"
           }
         }
       }
@@ -271,112 +296,489 @@
       "post": {
         "tags": ["user"],
         "description": "비밀번호 찾기",
+        "requestBody": {
+          "content": {
+            "applicaiton/json": {
+              "schema": {
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "FB account kit에서 응답값으로 준 code value"
+                  },
+                  "id": {
+                    "type": "string",
+                    "description": "유저의 아이디"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "뱐경할 비밀번호"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "facebook account kit으로 요청된 code값이 잘못됨"
+          },
+          "412": {
+            "description": "해당 데이터를 가진 유저가 조회되지 않음, 요청 데이터가 잘못됨"
+          }
+        }
+      }
+    },
+    "/timetable": {
+      "get": {
+        "tags": ["timetable"],
+        "description": "시간표 조회",
         "parameters": [
           {
-            "in": "formData",
-            "type": "string",
-            "name": "code",
-            "description": "FB account kit에서 응답값으로 준 code value",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "id",
-            "description": "유저의 아이디",
-            "required": true
-          },
-          {
-            "in": "formData",
-            "type": "string",
-            "name": "password",
-            "description": "뱐경할 비밀번호",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
             "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "성공",
-            "schema": {
-              "properties": {
-                "success": {
-                  "type": "boolean"
+            "content": {
+              "applicaiton/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "timetable": {
+                          "type": "object",
+                          "properties": {
+                            "월": {
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "화": {
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "수": {
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "목": {
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "금": {
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/calendar": {
+      "get": {
+        "tags": ["calendar"],
+        "description": "학사일정",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
           },
-          "401(Wrong_Request)": {
-            "description": "facebook account kit으로 요청된 code값이 잘못됨"
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "month",
+            "description": "달",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "calendar": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "date": {
+                                "type": "integer"
+                              },
+                              "detail": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notice": {
+      "get": {
+        "tags": ["notice"],
+        "description": "공지사항",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
           },
-          "412(Not_User)": {
-            "description": "해당 데이터를 가진 유저가 조회되지 않음"
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "type",
+            "description": "post | list",
+            "required": true
           },
-          "412(Wrong_Data)": {
-            "description": "요청 데이터가 잘못됨"
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "id",
+            "description": "post - primaryKey",
+            "required": false
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "page",
+            "description": "list - page",
+            "required": false
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "title",
+            "description": "list - title",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/NoticePostResponse"
+                      },
+                      {
+                        "$ref": "#/components/schemas/NoticeListResponse"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meal": {
+      "get": {
+        "tags": ["meal"],
+        "description": "급식 조회",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "sort",
+            "description": "montk | week",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MealResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/meal/order": {
+      "get": {
+        "tags": ["meal"],
+        "description": "급식 순서 조회",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MealOrderResponse"
+                }
+              }
+            }
           }
         }
       }
     }
   },
-  "definitions": {
-    "User": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": ["student", "teacher"]
-        },
-        "admin": {
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "major": {
-          "type": "string",
-          "description": "학과"
-        },
-        "grade": {
-          "type": "integer",
-          "description": "학년"
-        },
-        "classNum": {
-          "type": "integer",
-          "description": "반"
-        },
-        "studentNum": {
-          "type": "integer",
-          "description": "학급에서의 번호"
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["student", "teacher"]
+          },
+          "admin": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "major": {
+            "type": "string",
+            "description": "학과"
+          },
+          "grade": {
+            "type": "integer",
+            "description": "학년"
+          },
+          "classNum": {
+            "type": "integer",
+            "description": "반"
+          },
+          "studentNum": {
+            "type": "integer",
+            "description": "학급에서의 번호"
+          }
         }
-      }
-    },
-    "SuccessResponse": {
-      "type": "object",
-      "required": ["success", "data"],
-      "properties": {
-        "success": {
-          "type": "boolean"
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "required": ["success"],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          }
         }
-      }
-    },
-    "ErrorResponse": {
-      "type": "object",
-      "required": ["success", "code", "name", "message", "description"],
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "code": {
-          "type": "integer"
-        },
-        "name": {
-          "type": "string"
-        },
-        "message": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["success", "code", "name", "message", "description"],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "code": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "NoticePostResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "properties": {
+              "notice": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "pk": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "read": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "NoticeListResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "properties": {
+              "notice": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "pk": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "read": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "MealResponse": {
+        "type": "object",
+        "required": ["success"],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "meal": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "date": {
+                      "type": "integer"
+                    },
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "MealOrderResponse": {
+        "type": "object",
+        "required": ["success"],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "order": {
+                "type": "string"
+              }
+            }
+          }
         }
       }
     }
