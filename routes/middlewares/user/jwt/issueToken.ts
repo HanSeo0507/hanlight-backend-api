@@ -12,6 +12,7 @@ const issueToken = (req: Request, res: Response, next: NextFunction) => {
     },
     tokenSecret
   );
+
   res.json({
     success: true,
     data: {
@@ -19,11 +20,11 @@ const issueToken = (req: Request, res: Response, next: NextFunction) => {
       user: {
         type: user.type,
         admin: user.admin,
-        name: (user.student && user.student.name) || user.teacher.name,
-        major: user.student ? user.student.major : null,
-        grade: user.student ? user.student.grade : null,
-        classNum: user.student ? user.student.classNum : null,
-        studentNum: user.student ? user.student.studentNum : null,
+        name: user[user.type].name,
+        major: user.type === 'student' ? user.student.major : null,
+        grade: user.type === 'student' ? user.student.grade : null,
+        classNum: user.type === 'student' ? user.student.classNum : null,
+        studentNum: user.type === 'student' ? user.student.studentNum : null,
       },
     },
   });

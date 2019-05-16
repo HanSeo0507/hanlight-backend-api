@@ -33,6 +33,9 @@ export default class NoticeLog extends Model<NoticeLog> {
   @Column(DataType.INTEGER)
   public notice_pk: number;
 
+  @CreatedAt
+  public createdAt: Date;
+
   @BelongsTo(() => User, {
     onDelete: 'CASCADE',
   })
@@ -42,7 +45,4 @@ export default class NoticeLog extends Model<NoticeLog> {
     onDelete: 'CASCADE',
   })
   public notice: Notice;
-
-  @CreatedAt
-  public createdAt: Date;
 }

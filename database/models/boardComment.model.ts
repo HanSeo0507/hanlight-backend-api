@@ -5,6 +5,7 @@ import {
   Column,
   CreatedAt,
   DataType,
+  DeletedAt,
   ForeignKey,
   HasMany,
   Model,
@@ -13,30 +14,33 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 
-import NoticeLog from './noticeLog.model';
+import Board from './board.model';
+import BoardPatchLog from './boardPatchLog.model';
 import User from './user.model';
 
 @Table({
   timestamps: true,
 })
-export default class Notice extends Model<Notice> {
+export default class BoardComment extends Model<BoardComment> {
   @AutoIncrement
   @PrimaryKey
   @AllowNull(false)
   @Column(DataType.INTEGER)
   public pk: number;
 
+  @ForeignKey(() => Board)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  public board_pk: number;
+
   @ForeignKey(() => User)
-  @AllowNull(true)
+  @AllowNull(false)
   @Column(DataType.UUID)
   public user_pk: string;
 
-  @Column(DataType.STRING)
-  public user_name: string;
-
   @AllowNull(false)
   @Column(DataType.STRING)
-  public title: string;
+  public user_name: string;
 
   @AllowNull(false)
   @Column(DataType.TEXT)
@@ -48,9 +52,19 @@ export default class Notice extends Model<Notice> {
   @UpdatedAt
   public updatedAt: Date;
 
-  @BelongsTo(() => User)
+  @DeletedAt
+  public deletedAt: Date;
+
+  @BelongsTo(() => User, {
+    onDelete: 'CASCADE',
+  })
   public user: User;
 
-  @HasMany(() => NoticeLog)
-  public noticeLog: NoticeLog;
+  @BelongsTo(() => Board, {
+    onDelete: 'CASCADE',
+  })
+  public board: Board;
+
+  @HasMany(() => BoardPatchLog)
+  public boardPatchLog: BoardPatchLog[];
 }
