@@ -6,20 +6,17 @@ import {
   CreatedAt,
   DataType,
   ForeignKey,
-  HasMany,
   Model,
   PrimaryKey,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
-
-import NoticeLog from './noticeLog.model';
 import User from './user.model';
 
 @Table({
-  timestamps: true,
+  timestamps: false,
 })
-export default class Notice extends Model<Notice> {
+export default class Parent extends Model<Parent> {
   @AutoIncrement
   @PrimaryKey
   @AllowNull(false)
@@ -27,20 +24,13 @@ export default class Notice extends Model<Notice> {
   public pk: number;
 
   @ForeignKey(() => User)
-  @AllowNull(true)
+  @AllowNull(false)
   @Column(DataType.UUID)
   public user_pk: string;
 
-  @Column(DataType.STRING)
-  public user_name: string;
-
   @AllowNull(false)
   @Column(DataType.STRING)
-  public title: string;
-
-  @AllowNull(false)
-  @Column(DataType.TEXT)
-  public content: string;
+  public name: string;
 
   @CreatedAt
   public createdAt: Date;
@@ -48,9 +38,8 @@ export default class Notice extends Model<Notice> {
   @UpdatedAt
   public updatedAt: Date;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, {
+    onDelete: 'CASCADE',
+  })
   public user: User;
-
-  @HasMany(() => NoticeLog)
-  public noticeLog: NoticeLog;
 }

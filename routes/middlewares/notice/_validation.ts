@@ -1,4 +1,4 @@
-import { oneOf, query, ValidationChain } from 'express-validator/check';
+import { oneOf, query } from 'express-validator/check';
 
 const getNoticeValidation = oneOf([
   [

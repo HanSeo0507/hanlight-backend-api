@@ -12,10 +12,13 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 
+import Board from './board.model';
 import Notice from './notice.model';
 import NoticeLog from './noticeLog.model';
 import Student from './student.model';
 import Teacher from './teacher.model';
+import Graduate from './graduate.model';
+import Parent from './parent.model';
 
 @Table({
   timestamps: true,
@@ -29,7 +32,7 @@ export default class User extends Model<User> {
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  public type: string;
+  public type: 'student' | 'teacher' | 'graduate' | 'parent';
 
   @AllowNull(false)
   @Default(0)
@@ -60,13 +63,19 @@ export default class User extends Model<User> {
 
   @HasOne(() => Student)
   public student: Student;
-
   @HasOne(() => Teacher)
   public teacher: Teacher;
+  @HasOne(() => Graduate)
+  public graduate: Graduate;
+  @HasOne(() => Parent)
+  public parent: Parent;
 
   @HasMany(() => Notice)
   public notice: Notice[];
 
   @HasMany(() => NoticeLog)
   public noticeLog: NoticeLog[];
+
+  @HasMany(() => Board)
+  public board: Board[];
 }
