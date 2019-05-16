@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { Op } from 'sequelize';
 
+import CustomError from '@Middleware/error/customError';
+
 import Meal from '@Model/meal.model';
 
 const getMeal = async (req: Request, res: Response, next: NextFunction) => {
@@ -23,18 +25,23 @@ const getMeal = async (req: Request, res: Response, next: NextFunction) => {
           },
   };
 
-  const result: Meal[] = await Meal.findAll({
-    where: whereClause,
-    order: ['date'],
-    attributes: ['date', 'detail'],
-  });
+  try {
+    const result: Meal[] = await Meal.findAll({
+      where: whereClause,
+      order: ['date'],
+      attributes: ['date', 'detail'],
+    });
 
-  await res.json({
-    success: true,
-    data: {
-      meal: result,
-    },
-  });
+    await res.json({
+      success: true,
+      data: {
+        meal: result,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    next(new CustomError({ name: 'Database_Error' }));
+  }
 };
 
 export default getMeal;

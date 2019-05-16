@@ -13,12 +13,12 @@ import {
 } from 'sequelize-typescript';
 
 import Board from './board.model';
+import Graduate from './graduate.model';
 import Notice from './notice.model';
 import NoticeLog from './noticeLog.model';
+import Parent from './parent.model';
 import Student from './student.model';
 import Teacher from './teacher.model';
-import Graduate from './graduate.model';
-import Parent from './parent.model';
 
 @Table({
   timestamps: true,
