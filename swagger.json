@@ -27,6 +27,10 @@
       "description": "급식"
     },
     {
+      "name": "board",
+      "description": "대나무숲"
+    },
+    {
       "name": "dev",
       "description": "개발할 때 사용 됨"
     }
@@ -464,6 +468,9 @@
                 }
               }
             }
+          },
+          "412": {
+            "description": "잘못된 데이터"
           }
         }
       }
@@ -539,6 +546,12 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "존재하지 않는 페이지"
+          },
+          "412": {
+            "description": "잘못된 데이터"
           }
         }
       }
@@ -577,6 +590,9 @@
                 }
               }
             }
+          },
+          "412": {
+            "description": "잘못된 데이터"
           }
         }
       }
@@ -606,6 +622,168 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/board": {
+      "get": {
+        "tags": ["board"],
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "page",
+            "description": "페이지 기본값: 1",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Boards"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["board"],
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Board"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["board"],
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "pk",
+            "description": "board_pk",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Board"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["board"],
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "pk",
+            "description": "board_pk",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "잘못된 데이터"
           }
         }
       }
@@ -642,6 +820,104 @@
             "type": "integer",
             "description": "학급에서의 번호"
           }
+        }
+      },
+      "Board": {
+        "type": "object",
+        "properties": {
+          "pk": {
+            "type": "integer"
+          },
+          "user_name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Boards": {
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Board"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "edited": {
+                  "type": "boolean"
+                },
+                "commentLength": {
+                  "type": "integer"
+                },
+                "comment": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Comment"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "edited": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "pk": { "type": "integer" },
+          "user_name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          }
+        }
+      },
+      "Comments": {
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "type": "object",
+              "properties": {
+                "pk": { "type": "integer" },
+                "user_name": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "edited": {
+                  "type": "boolean"
+                }
+              }
+            }
+          ]
         }
       },
       "SuccessResponse": {
