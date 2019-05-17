@@ -659,6 +659,9 @@
                 }
               }
             }
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
           }
         }
       },
@@ -698,6 +701,12 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "권한 없음(재학생과 졸업생만 가능)"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
           }
         }
       },
@@ -746,6 +755,12 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "권한 없음(재학생과 졸업생만 가능)"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
           }
         }
       },
@@ -782,8 +797,308 @@
               }
             }
           },
+          "403": {
+            "description": "권한 없음(재학생과 졸업생만 가능)"
+          },
           "412": {
-            "description": "잘못된 데이터"
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      }
+    },
+    "/board/comment": {
+      "get": {
+        "tags": ["board"],
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "board_pk",
+            "description": "board_pk",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "page",
+            "description": "페이지 기본값: 1",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comments"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "없는 Board"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      },
+      "post": {
+        "tags": ["board"],
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "board_pk",
+            "description": "board_pk",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "최대 300자"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 없음(재학생과 졸업생만 가능)"
+          },
+          "404": {
+            "description": "없는 Board"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["board"],
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "board_pk",
+            "description": "board_pk",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "comment_pk",
+            "description": "comment_pk",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "최대 300자"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 없음(재학생과 졸업생만 가능)"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["board"],
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "board_pk",
+            "description": "board_pk",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "comment_pk",
+            "description": "comment_pk",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 없음(재학생과 졸업생만 가능)"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      }
+    },
+    "/board/report": {
+      "post": {
+        "tags": ["board"],
+        "description": "신고하기",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "type",
+            "description": "board | comment",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "board_pk",
+            "description": "board_pk",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "comment_pk",
+            "description": "comment - comment_pk",
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "최대 300자"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
           }
         }
       }
