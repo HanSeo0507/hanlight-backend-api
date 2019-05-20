@@ -14,6 +14,8 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 import BoardComment from './boardComment.model';
+import BoardCommentLike from './boardCommentLike.model';
+import BoardLike from './boardLike.model';
 import BoardPatchLog from './boardPatchLog.model';
 import User from './user.model';
 
@@ -59,4 +61,7 @@ export default class Board extends Model<Board> {
 
   @HasMany(() => BoardComment)
   public comment: BoardComment[];
+
+  @HasMany(() => BoardLike)
+  public boardLike: BoardLike[];
 }

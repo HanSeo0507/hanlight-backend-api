@@ -7,6 +7,7 @@ import patchCommentValidation from '@Middleware/board/comment/patch/_validation'
 import PostCommentValidation from '@Middleware/board/comment/post/_validation';
 import deleteBoardValidation from '@Middleware/board/delete/_validation';
 import getBoardValidation from '@Middleware/board/get/_validation';
+import likeValidation from '@Middleware/board/like/_validation';
 import patchBoardValidation from '@Middleware/board/patch/_validation';
 import postBoardValidation from '@Middleware/board/post/_validation';
 import reportValidation from '@Middleware/board/report/_validation';
@@ -30,6 +31,9 @@ import getComment from '@Middleware/board/comment/get/getComment';
 import patchComment from '@Middleware/board/comment/patch/patchComment';
 import postComment from '@Middleware/board/comment/post/postComment';
 
+// like
+import boardLike from '@Middleware/board/like/boardLike';
+
 const router: Router = Router();
 
 router.get('/', getBoardValidation);
@@ -41,6 +45,7 @@ router.get('/comment', getCommentValidation);
 router.post('/comment', checkUserType, PostCommentValidation);
 router.patch('/comment', checkUserType, patchCommentValidation);
 router.delete('/comment', checkUserType, deleteCommentValidation);
+router.get('/like', checkUserType, likeValidation);
 
 router.use(checkValidation);
 
@@ -53,5 +58,6 @@ router.get('/comment', getComment);
 router.post('/comment', postComment);
 router.patch('/comment', patchComment);
 router.delete('/comment', deleteComment);
+router.get('/like', boardLike);
 
 export default router;

@@ -5,24 +5,20 @@ import {
   Column,
   CreatedAt,
   DataType,
-  DeletedAt,
   ForeignKey,
-  HasMany,
   Model,
   PrimaryKey,
   Table,
-  UpdatedAt,
 } from 'sequelize-typescript';
 
 import Board from './board.model';
-import BoardCommentLike from './boardCommentLike.model';
-import BoardPatchLog from './boardPatchLog.model';
+import BoardComment from './boardComment.model';
 import User from './user.model';
 
 @Table({
   timestamps: true,
 })
-export default class BoardComment extends Model<BoardComment> {
+export default class BoardCommentLike extends Model<BoardCommentLike> {
   @AutoIncrement
   @PrimaryKey
   @AllowNull(false)
@@ -34,27 +30,18 @@ export default class BoardComment extends Model<BoardComment> {
   @Column(DataType.INTEGER)
   public board_pk: number;
 
+  @ForeignKey(() => BoardComment)
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  public comment_pk: number;
+
   @ForeignKey(() => User)
   @AllowNull(false)
   @Column(DataType.UUID)
   public user_pk: string;
 
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public user_name: string;
-
-  @AllowNull(false)
-  @Column(DataType.TEXT)
-  public content: string;
-
   @CreatedAt
   public createdAt: Date;
-
-  @UpdatedAt
-  public updatedAt: Date;
-
-  @DeletedAt
-  public deletedAt: Date;
 
   @BelongsTo(() => User, {
     onDelete: 'CASCADE',
@@ -66,9 +53,8 @@ export default class BoardComment extends Model<BoardComment> {
   })
   public board: Board;
 
-  @HasMany(() => BoardPatchLog)
-  public boardPatchLog: BoardPatchLog[];
-
-  @HasMany(() => BoardCommentLike)
-  public boardCommentLike: BoardCommentLike[];
+  @BelongsTo(() => BoardComment, {
+    onDelete: 'CASCADE',
+  })
+  public comment: BoardComment;
 }

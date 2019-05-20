@@ -1047,7 +1047,7 @@
           {
             "in": "query",
             "schema": {
-              "type": "integer"
+              "type": "string"
             },
             "name": "type",
             "description": "board | comment",
@@ -1096,6 +1096,68 @@
                 }
               }
             }
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      }
+    },
+    "/board/like": {
+      "get": {
+        "tags": ["board"],
+        "description": "좋아요",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "type",
+            "description": "board | comment",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "board_pk",
+            "description": "board, comment - board_pk",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "comment_pk",
+            "description": "comment - comment_pk",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "존재하지 않는 페이지"
           },
           "412": {
             "description": "잘못된 요청 데이터"
@@ -1167,7 +1229,7 @@
                 "edited": {
                   "type": "boolean"
                 },
-                "commentLength": {
+                "commentCount": {
                   "type": "integer"
                 },
                 "comment": {
