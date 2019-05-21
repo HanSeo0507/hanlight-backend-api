@@ -13,6 +13,8 @@ import {
 } from 'sequelize-typescript';
 
 import Board from './board.model';
+import BoardCommentLike from './boardCommentLike.model';
+import BoardLike from './boardLike.model';
 import Graduate from './graduate.model';
 import Notice from './notice.model';
 import NoticeLog from './noticeLog.model';
@@ -78,4 +80,10 @@ export default class User extends Model<User> {
 
   @HasMany(() => Board)
   public board: Board[];
+
+  @HasMany(() => BoardLike)
+  public boardLike: BoardLike[];
+
+  @HasMany(() => BoardCommentLike)
+  public boardCommentLike: BoardCommentLike[];
 }
