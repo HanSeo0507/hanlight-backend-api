@@ -503,7 +503,7 @@
             "schema": {
               "type": "string"
             },
-            "name": "id",
+            "name": "post_pk",
             "description": "post - primaryKey",
             "required": false
           },
@@ -721,15 +721,6 @@
             "name": "access_token",
             "description": "토큰",
             "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "pk",
-            "description": "board_pk",
-            "required": true
           }
         ],
         "requestBody": {
@@ -739,6 +730,9 @@
                 "properties": {
                   "content": {
                     "type": "string"
+                  },
+                  "board_pk": {
+                    "type": "integer"
                   }
                 }
               }
@@ -781,7 +775,7 @@
             "schema": {
               "type": "integer"
             },
-            "name": "pk",
+            "name": "board_pk",
             "description": "board_pk",
             "required": true
           }
@@ -868,15 +862,6 @@
             "name": "access_token",
             "description": "토큰",
             "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "board_pk",
-            "description": "board_pk",
-            "required": true
           }
         ],
         "requestBody": {
@@ -887,6 +872,9 @@
                   "content": {
                     "type": "string",
                     "description": "최대 300자"
+                  },
+                  "board_pk": {
+                    "type": "integer"
                   }
                 }
               }
@@ -926,24 +914,6 @@
             "name": "access_token",
             "description": "토큰",
             "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "board_pk",
-            "description": "board_pk",
-            "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "comment_pk",
-            "description": "comment_pk",
-            "required": true
           }
         ],
         "requestBody": {
@@ -954,6 +924,12 @@
                   "content": {
                     "type": "string",
                     "description": "최대 300자"
+                  },
+                  "board_pk": {
+                    "type": "integer"
+                  },
+                  "comment_pk": {
+                    "type": "integer"
                   }
                 }
               }

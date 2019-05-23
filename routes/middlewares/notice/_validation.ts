@@ -5,7 +5,7 @@ const getNoticeValidation = oneOf([
     query('type')
       .isString()
       .custom(val => val === 'post'),
-    query('id')
+    query('post_pk')
       .isNumeric()
       .isInt({ min: 1, max: 10000 }),
   ],

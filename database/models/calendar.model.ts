@@ -1,4 +1,16 @@
-import { AllowNull, AutoIncrement, Column, CreatedAt, DataType, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript';
+import {
+  AllowNull,
+  AutoIncrement,
+  Column,
+  CreatedAt,
+  DataType,
+  DeletedAt,
+  HasMany,
+  Model,
+  PrimaryKey,
+  Table,
+  UpdatedAt,
+} from 'sequelize-typescript';
 
 @Table({
   timestamps: true,

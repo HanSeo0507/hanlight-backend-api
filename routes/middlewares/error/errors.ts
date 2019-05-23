@@ -1,4 +1,12 @@
-const Errors = {
+import { ErrorNames } from './errorNames';
+
+interface IError {
+  description: string;
+  code: number;
+  message: string;
+}
+
+const Errors: { [key in ErrorNames]: IError } = {
   Not_User: {
     description: '일치하는 유저가 없음',
     code: 412,
@@ -53,6 +61,11 @@ const Errors = {
     description: '권한 거부',
     code: 403,
     message: '권한이 없습니다.',
+  },
+  Exist_Data: {
+    description: '중복 요소',
+    code: 412,
+    message: '중복되는 데이터입니다.',
   },
 };
 

@@ -7,8 +7,8 @@ import BoardPatchLog from '@Model/boardPatchLog.model';
 import User from '@Model/user.model';
 
 const patchComment = async (req: Request, res: Response, next: NextFunction) => {
-  const board_pk: number = req.query.board_pk;
-  const comment_pk: number = req.query.comment_pk;
+  const board_pk: number = req.body.board_pk;
+  const comment_pk: number = req.body.comment_pk;
   const content: string = req.body.content;
   const user: User = res.locals.user;
 
@@ -22,19 +22,20 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
     });
 
     if (past_comment && past_comment.content !== content) {
-      const now_comment: BoardComment = await past_comment.update({
-        content,
-        updatedAt: new Date(),
-      });
-
-      await BoardPatchLog.create({
-        type: 'comment',
-        user_pk: user.pk,
-        user_name: user[user.type].name,
-        board_pk,
-        comment_pk,
-        past_content: past_comment.content,
-      });
+      const [now_comment]: [BoardComment, unknown] = await Promise.all([
+        past_comment.update({
+          content,
+          updatedAt: new Date(),
+        }),
+        BoardPatchLog.create({
+          type: 'comment',
+          user_pk: user.pk,
+          user_name: user[user.type].name,
+          board_pk,
+          comment_pk,
+          past_content: past_comment.content,
+        }),
+      ]);
 
       await res.json({
         success: true,

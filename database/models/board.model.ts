@@ -13,9 +13,11 @@ import {
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
+
 import BoardComment from './boardComment.model';
 import BoardCommentLike from './boardCommentLike.model';
 import BoardLike from './boardLike.model';
+import BoardManageLog from './boardManageLog.model';
 import BoardPatchLog from './boardPatchLog.model';
 import User from './user.model';
 
@@ -56,12 +58,13 @@ export default class Board extends Model<Board> {
   })
   public user: User;
 
-  @HasMany(() => BoardPatchLog)
-  public boardPatchLog: BoardPatchLog[];
-
   @HasMany(() => BoardComment)
   public comment: BoardComment[];
-
   @HasMany(() => BoardLike)
   public boardLike: BoardLike[];
+
+  @HasMany(() => BoardPatchLog)
+  public boardPatchLog: BoardPatchLog[];
+  @HasMany(() => BoardManageLog)
+  public BoardManageLog: BoardManageLog[];
 }

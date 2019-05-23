@@ -56,8 +56,16 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
     res.json({
       success: true,
       data: {
-        board: boardResult.map(val => {
-          const comments = val.comment.map(comment => ({
+        board: boardResult.map(val => ({
+          pk: val.pk,
+          user_name: val.user_name,
+          content: val.content,
+          edited: !!val.boardPatchLog.length,
+          createdAt: val.createdAt,
+          isLiked: val.boardLike.some(val => val.user_pk === user.pk),
+          likeCount: val.boardLike.length,
+          commentCount: commentResult.filter(comment => comment.board_pk === val.pk).length,
+          comment: val.comment.map(comment => ({
             pk: comment.pk,
             user_name: comment.user_name,
             content: comment.content,
@@ -65,20 +73,8 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
             edited: !!comment.boardPatchLog.length,
             isLiked: comment.boardCommentLike.some(val => val.user_pk === user.pk),
             likeCount: comment.boardCommentLike.length,
-          }));
-
-          return {
-            pk: val.pk,
-            user_name: val.user_name,
-            content: val.content,
-            edited: !!val.boardPatchLog.length,
-            createdAt: val.createdAt,
-            isLiked: val.boardLike.some(val => val.user_pk === user.pk),
-            likeCount: val.boardLike.length,
-            commentCount: commentResult.filter(comment => comment.board_pk === val.pk).length,
-            comment: comments,
-          };
-        }),
+          })),
+        })),
       },
     });
   } catch (error) {

@@ -4,9 +4,10 @@ import CustomError from '@Middleware/error/customError';
 import TimeTable from '@Model/timeTable.model';
 import User from '@Model/user.model';
 
+export const days = ['월', '화', '수', '목', '금'];
+
 const getTimeTable = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const days = ['월', '화', '수', '목', '금'];
 
   try {
     const result: TimeTable[] =

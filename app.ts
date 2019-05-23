@@ -7,6 +7,7 @@ import * as morgan from 'morgan';
 
 import CustomError from '@Middleware/error/customError';
 import ErrorMiddleware from '@Middleware/error/errorMiddleware';
+import adminController from 'routes/adminController';
 import apiController from 'routes/apiController';
 import { connect } from './database/index';
 
@@ -25,6 +26,7 @@ app.use(
 );
 
 app.use('/api', apiController);
+app.use('/admin', adminController);
 
 app.use((req, res, next) => {
   // err.status = 404;

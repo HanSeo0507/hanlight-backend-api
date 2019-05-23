@@ -8,7 +8,7 @@ import User from '@Model/user.model';
 
 const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const board_pk = req.query.pk;
+  const board_pk = req.body.board_pk;
   const current_content = req.body.content;
 
   try {
@@ -20,18 +20,19 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (past_board && past_board.content !== current_content) {
-      const current_board: Board = await past_board.update({
-        content: current_content,
-        updatedAt: new Date(),
-      });
+      const [current_board]: [Board, unknown] = await Promise.all([
+        past_board.update({
+          content: current_content,
+          updatedAt: new Date(),
+        }),
+        BoardPatchLog.create({
+          board_pk,
+          user_pk: user.pk,
+          past_content: past_board.content,
+        }),
+      ]);
 
-      await BoardPatchLog.create({
-        board_pk,
-        user_pk: user.pk,
-        past_content: past_board.content,
-      });
-
-      await res.json({
+      res.json({
         success: true,
         data: {
           board: {

@@ -14,10 +14,10 @@ export const sequelize = new Sequelize({
   },
 });
 
-export async function connect(force: boolean) {
+export async function connect(force: boolean, logging?: boolean) {
   try {
     await sequelize.addModels([__dirname + '/models/**/*.model.ts']);
-    await sequelize.sync({ force });
+    await sequelize.sync({ force, logging });
   } catch (error) {
     console.error(error);
     process.exit(1);

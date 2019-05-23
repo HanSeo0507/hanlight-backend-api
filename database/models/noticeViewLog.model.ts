@@ -16,7 +16,7 @@ import User from './user.model';
 @Table({
   timestamps: false,
 })
-export default class NoticeLog extends Model<NoticeLog> {
+export default class NoticeViewLog extends Model<NoticeViewLog> {
   @AutoIncrement
   @PrimaryKey
   @AllowNull(false)

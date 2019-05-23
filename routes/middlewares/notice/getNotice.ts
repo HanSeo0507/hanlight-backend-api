@@ -1,15 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import { Op } from 'sequelize';
 
+import deleteUndefined from '@Lib/deleteUndefined';
 import CustomError from '@Middleware/error/customError';
 import Notice from '@Model/notice.model';
-import NoticeLog from '@Model/noticeLog.model';
+import NoticeViewLog from '@Model/noticeViewLog.model';
 
 const getNotice = async (req: Request, res: Response, next: NextFunction) => {
   const limit = 15;
   const seachType: 'list' | 'post' = req.query.type;
   const searchPage = (req.query.page && req.query.page - 1) || 0;
-  const searchId = req.query.id;
+  const searchPk = req.query.post_pk;
   const searchTitle = req.query.title;
 
   try {
@@ -17,18 +18,20 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
     if (seachType === 'post') {
       notice = await Notice.findOne({
         where: {
-          pk: searchId,
+          pk: searchPk,
+          approved: true,
         },
         attributes: ['pk', 'title', 'content', 'updatedAt'],
       });
     } else {
-      const whereClause = {
+      const listWhereClause = {
         title: (searchTitle && { [Op.like]: `%${searchTitle}%` }) || undefined,
+        approved: true,
       };
-      await Object.keys(whereClause).forEach(key => whereClause[key] === undefined && delete whereClause[key]);
+      deleteUndefined(listWhereClause);
 
       notice = await Notice.findAll({
-        where: whereClause,
+        where: listWhereClause,
         offset: searchPage * limit,
         limit,
         attributes: ['pk', 'title', 'updatedAt'],
@@ -37,7 +40,7 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
 
     if (Array.isArray(notice)) {
       const noticePks = notice.map(val => val.pk);
-      const logs = await NoticeLog.findAll({
+      const logs = await NoticeViewLog.findAll({
         where: {
           user_pk: res.locals.user.pk,
           notice_pk: noticePks,

@@ -1,4 +1,4 @@
-import { AllowNull, AutoIncrement, Column, CreatedAt, DataType, Model, PrimaryKey, Table, UpdatedAt } from 'sequelize-typescript';
+import { AllowNull, AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
 
 @Table({
   timestamps: false,
@@ -33,10 +33,4 @@ export default class TimeTable extends Model<TimeTable> {
   @AllowNull(false)
   @Column(DataType.INTEGER)
   public th: number;
-
-  @CreatedAt
-  public createdAt: Date;
-
-  @UpdatedAt
-  public updatedAt: Date;
 }

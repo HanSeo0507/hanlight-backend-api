@@ -1,7 +1,7 @@
-import { body, query } from 'express-validator/check';
+import { body } from 'express-validator/check';
 
 const PostCommentValidation = [
-  query('board_pk').isInt(),
+  body('board_pk').isInt(),
   body('content')
     .isString()
     .isLength({ max: 300 }),
