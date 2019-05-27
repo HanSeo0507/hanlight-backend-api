@@ -5,6 +5,7 @@ import CustomError from '@Middleware/error/customError';
 import Board from '@Model/board.model';
 import BoardComment from '@Model/boardComment.model';
 import BoardCommentLike from '@Model/boardCommentLike.model';
+import BoardImage from '@Model/boardImage.model';
 import BoardLike from '@Model/boardLike.model';
 import BoardPatchLog from '@Model/boardPatchLog.model';
 import User from '@Model/user.model';
@@ -45,6 +46,9 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
           model: BoardLike,
           attributes: ['user_pk'],
         },
+        {
+          model: BoardImage,
+        },
       ],
     });
 
@@ -60,6 +64,9 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
           pk: val.pk,
           user_name: val.user_name,
           content: val.content,
+          files: val.boardImage.map(
+            (boardImage: BoardImage) => `https://s3.ap-northeast-2.amazonaws.com/hanlight/board/${boardImage.file}`
+          ),
           edited: !!val.boardPatchLog.length,
           createdAt: val.createdAt,
           isLiked: val.boardLike.some(val => val.user_pk === user.pk),

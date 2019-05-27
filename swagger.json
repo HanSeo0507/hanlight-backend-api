@@ -680,11 +680,16 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "properties": {
                   "content": {
                     "type": "string"
+                  },
+                  "files": {
+                    "type": "array",
+                    "format": "binary",
+                    "description": "image/jpeg, image/png"
                   }
                 }
               }
@@ -1187,6 +1192,12 @@
           "content": {
             "type": "string"
           },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "createdAt": {
             "type": "string"
           }
@@ -1321,7 +1332,7 @@
                     "title": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "createdAt": {
                       "type": "string"
                     },
                     "read": {
@@ -1352,7 +1363,7 @@
                     "title": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "createdAt": {
                       "type": "string"
                     },
                     "read": {

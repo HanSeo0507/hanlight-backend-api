@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import CustomError from '@Middleware/error/customError';
 
 import Board from '@Model/board.model';
+import BoardImage from '@Model/boardImage.model';
 import BoardPatchLog from '@Model/boardPatchLog.model';
 import User from '@Model/user.model';
 
@@ -17,6 +18,11 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
         pk: board_pk,
         user_pk: user.pk,
       },
+      include: [
+        {
+          model: BoardImage,
+        },
+      ],
     });
 
     if (past_board && past_board.content !== current_content) {
@@ -28,6 +34,8 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
         BoardPatchLog.create({
           board_pk,
           user_pk: user.pk,
+          user_name: user[user.type].name,
+          type: 'board',
           past_content: past_board.content,
         }),
       ]);
@@ -39,6 +47,9 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
             pk: current_board.pk,
             user_name: current_board.user_name,
             content: current_board.content,
+            files: current_board.boardImage.map(
+              (boardImage: BoardImage) => `https://s3.ap-northeast-2.amazonaws.com/hanlight/board/${boardImage.file}`
+            ),
             createdAt: current_board.createdAt,
           },
         },
