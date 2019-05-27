@@ -32,3 +32,8 @@
   > "version": "version",  
   > "appId": "app id",  
   > "appSecret": "app secret"
+
+- config/awsConfig.json
+  > "accessKeyId": "string",  
+  > "secretAccessKey": "string",  
+  > "region": "ap-northeast-2"

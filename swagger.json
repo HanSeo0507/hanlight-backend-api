@@ -503,7 +503,7 @@
             "schema": {
               "type": "string"
             },
-            "name": "id",
+            "name": "post_pk",
             "description": "post - primaryKey",
             "required": false
           },
@@ -680,11 +680,16 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "properties": {
                   "content": {
                     "type": "string"
+                  },
+                  "files": {
+                    "type": "array",
+                    "format": "binary",
+                    "description": "image/jpeg, image/png"
                   }
                 }
               }
@@ -721,15 +726,6 @@
             "name": "access_token",
             "description": "토큰",
             "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "pk",
-            "description": "board_pk",
-            "required": true
           }
         ],
         "requestBody": {
@@ -739,6 +735,9 @@
                 "properties": {
                   "content": {
                     "type": "string"
+                  },
+                  "board_pk": {
+                    "type": "integer"
                   }
                 }
               }
@@ -781,7 +780,7 @@
             "schema": {
               "type": "integer"
             },
-            "name": "pk",
+            "name": "board_pk",
             "description": "board_pk",
             "required": true
           }
@@ -868,15 +867,6 @@
             "name": "access_token",
             "description": "토큰",
             "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "board_pk",
-            "description": "board_pk",
-            "required": true
           }
         ],
         "requestBody": {
@@ -887,6 +877,9 @@
                   "content": {
                     "type": "string",
                     "description": "최대 300자"
+                  },
+                  "board_pk": {
+                    "type": "integer"
                   }
                 }
               }
@@ -926,24 +919,6 @@
             "name": "access_token",
             "description": "토큰",
             "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "board_pk",
-            "description": "board_pk",
-            "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "comment_pk",
-            "description": "comment_pk",
-            "required": true
           }
         ],
         "requestBody": {
@@ -954,6 +929,12 @@
                   "content": {
                     "type": "string",
                     "description": "최대 300자"
+                  },
+                  "board_pk": {
+                    "type": "integer"
+                  },
+                  "comment_pk": {
+                    "type": "integer"
                   }
                 }
               }
@@ -1211,6 +1192,12 @@
           "content": {
             "type": "string"
           },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "createdAt": {
             "type": "string"
           }
@@ -1345,7 +1332,7 @@
                     "title": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "createdAt": {
                       "type": "string"
                     },
                     "read": {
@@ -1376,7 +1363,7 @@
                     "title": {
                       "type": "string"
                     },
-                    "updatedAt": {
+                    "createdAt": {
                       "type": "string"
                     },
                     "read": {

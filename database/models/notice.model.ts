@@ -5,6 +5,8 @@ import {
   Column,
   CreatedAt,
   DataType,
+  Default,
+  DeletedAt,
   ForeignKey,
   HasMany,
   Model,
@@ -13,7 +15,8 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 
-import NoticeLog from './noticeLog.model';
+import NoticeApproveLog from './noticeApproveLog.model';
+import NoticeViewLog from './noticeViewLog.model';
 import User from './user.model';
 
 @Table({
@@ -34,13 +37,16 @@ export default class Notice extends Model<Notice> {
   @Column(DataType.STRING)
   public user_name: string;
 
-  @AllowNull(false)
   @Column(DataType.STRING)
   public title: string;
 
-  @AllowNull(false)
   @Column(DataType.TEXT)
   public content: string;
+
+  @AllowNull(false)
+  @Default(false)
+  @Column(DataType.BOOLEAN)
+  public approved: boolean;
 
   @CreatedAt
   public createdAt: Date;
@@ -48,9 +54,14 @@ export default class Notice extends Model<Notice> {
   @UpdatedAt
   public updatedAt: Date;
 
+  @DeletedAt
+  public deletedAt: Date;
+
   @BelongsTo(() => User)
   public user: User;
 
-  @HasMany(() => NoticeLog)
-  public noticeLog: NoticeLog;
+  @HasMany(() => NoticeViewLog)
+  public noticeViewLog: NoticeViewLog;
+  @HasMany(() => NoticeApproveLog)
+  public noticeApproveLog: NoticeApproveLog[];
 }

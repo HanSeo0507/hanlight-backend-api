@@ -3,10 +3,12 @@ import * as cors from 'cors';
 import * as Debug from 'debug';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
+import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
 import CustomError from '@Middleware/error/customError';
 import ErrorMiddleware from '@Middleware/error/errorMiddleware';
+import adminController from 'routes/adminController';
 import apiController from 'routes/apiController';
 import { connect } from './database/index';
 
@@ -16,6 +18,7 @@ const app: express.Application = express();
 const debug = Debug('hanlight');
 
 app.use(cors());
+app.use(helmet());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(
@@ -25,6 +28,7 @@ app.use(
 );
 
 app.use('/api', apiController);
+app.use('/admin', adminController);
 
 app.use((req, res, next) => {
   // err.status = 404;

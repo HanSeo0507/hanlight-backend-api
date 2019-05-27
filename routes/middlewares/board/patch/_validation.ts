@@ -1,7 +1,7 @@
-import { body, query, ValidationChain } from 'express-validator/check';
+import { body, ValidationChain } from 'express-validator/check';
 
 const patchBoardValidation: ValidationChain[] = [
-  query('pk').isInt(),
+  body('board_pk').isInt(),
   body('content')
     .isString()
     .isLength({ max: 600 }),
