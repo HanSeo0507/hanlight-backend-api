@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import * as Debug from 'debug';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
+import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 
 import CustomError from '@Middleware/error/customError';
@@ -17,6 +18,7 @@ const app: express.Application = express();
 const debug = Debug('hanlight');
 
 app.use(cors());
+app.use(helmet());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(

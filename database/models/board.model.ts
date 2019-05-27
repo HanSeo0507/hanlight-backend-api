@@ -20,6 +20,7 @@ import BoardLike from './boardLike.model';
 import BoardManageLog from './boardManageLog.model';
 import BoardPatchLog from './boardPatchLog.model';
 import User from './user.model';
+import BoardImage from './boardImage.model';
 
 @Table({
   timestamps: true,
@@ -62,6 +63,8 @@ export default class Board extends Model<Board> {
   public comment: BoardComment[];
   @HasMany(() => BoardLike)
   public boardLike: BoardLike[];
+  @HasMany(() => BoardImage)
+  public boardImage: BoardImage[];
 
   @HasMany(() => BoardPatchLog)
   public boardPatchLog: BoardPatchLog[];

@@ -20,7 +20,9 @@ import checkUserType from '@Middleware/board/common/checkUserType';
 import deleteBoard from '@Middleware/board/delete/deleteBoard';
 import getBoard from '@Middleware/board/get/getBoard';
 import patchBoard from '@Middleware/board/patch/patchBoard';
+import postMulter from '@Middleware/board/post/boardMulter';
 import postBoard from '@Middleware/board/post/postBoard';
+import postBoardImage from '@Middleware/board/post/postBoardImage';
 
 // report
 import report from '@Middleware/board/report/report';
@@ -37,7 +39,7 @@ import boardLike from '@Middleware/board/like/boardLike';
 const router: Router = Router();
 
 router.get('/', getBoardValidation);
-router.post('/', checkUserType, postBoardValidation);
+router.post('/', checkUserType, postMulter, postBoardValidation);
 router.patch('/', checkUserType, patchBoardValidation);
 router.delete('/', checkUserType, deleteBoardValidation);
 router.post('/report', reportValidation);
@@ -50,7 +52,7 @@ router.get('/like', checkUserType, likeValidation);
 router.use(checkValidation);
 
 router.get('/', getBoard);
-router.post('/', postBoard);
+router.post('/', postBoardImage, postBoard);
 router.patch('/', patchBoard);
 router.delete('/', deleteBoard);
 router.post('/report', report);
