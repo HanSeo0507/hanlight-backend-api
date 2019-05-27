@@ -21,7 +21,7 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
           pk: searchPk,
           approved: true,
         },
-        attributes: ['pk', 'title', 'content', 'updatedAt'],
+        attributes: ['pk', 'title', 'content', 'createdAt'],
       });
     } else {
       const listWhereClause = {
@@ -34,7 +34,8 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
         where: listWhereClause,
         offset: searchPage * limit,
         limit,
-        attributes: ['pk', 'title', 'updatedAt'],
+        attributes: ['pk', 'title', 'createdAt'],
+        order: [['createdAt', 'DESC']],
       });
     }
 
@@ -50,7 +51,7 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
         const EditedNotice = {
           pk: val.pk,
           title: val.title,
-          updatedAt: val.updatedAt,
+          createdAt: val.createdAt,
           read: false,
         };
         for (const log of logs) {
