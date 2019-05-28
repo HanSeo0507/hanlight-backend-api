@@ -24,6 +24,10 @@ export default class Calendar extends Model<Calendar> {
 
   @AllowNull(false)
   @Column(DataType.INTEGER)
+  public year: number;
+
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
   public month: number;
 
   @AllowNull(false)
