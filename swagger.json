@@ -344,51 +344,47 @@
             "description": "해당 데이터를 가진 유저가 조회되지 않음, 요청 데이터가 잘못됨"
           }
         }
-      },
-      "/user/login": {
-        "post": {
-          "tags": ["user"],
-          "description": "로그인",
-          "requestBody": {
+      }
+    },
+    "/user": {
+      "get": {
+        "tags": ["user"],
+        "description": "유저 조회",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
             "content": {
-              "applicaiton/json": {
+              "application/json": {
                 "schema": {
                   "properties": {
-                    "id": { "type": "string" },
-                    "password": { "type": "string" }
-                  }
-                }
-              }
-            }
-          },
-          "responses": {
-            "200": {
-              "description": "성공",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "properties": {
-                      "success": {
-                        "type": "boolean"
-                      },
-                      "data": {
-                        "properties": {
-                          "accessToken": {
-                            "type": "string"
-                          },
-                          "user": {
-                            "$ref": "#/components/schemas/User"
-                          }
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/User"
                         }
                       }
                     }
                   }
                 }
               }
-            },
-            "401": {
-              "description": "잘못된 토큰"
             }
+          },
+          "401": {
+            "description": "잘못된 토큰"
           }
         }
       }
