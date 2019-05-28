@@ -432,6 +432,15 @@
             "schema": {
               "type": "string"
             },
+            "name": "year",
+            "description": "년도",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
             "name": "month",
             "description": "달",
             "required": true
