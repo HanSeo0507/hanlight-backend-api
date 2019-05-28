@@ -33,7 +33,7 @@ const recentCalendar = async (req: Request, res: Response, next: NextFunction) =
           },
         ],
       },
-      order: [['year', 'ASC'], ['month', 'ASC']],
+      order: [['year', 'ASC'], ['month', 'ASC'], ['date', 'ASC']],
       attributes: ['year', 'month', 'date', 'detail'],
     });
 

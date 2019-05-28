@@ -6,7 +6,6 @@ import passwordEncryption from '@Middleware/user/common/passwordEncryption';
 
 // register
 import userExistCheck from '@Middleware/user/common/userExistCheck';
-import issueToken from '@Middleware/user/jwt/issueToken';
 import signKeyCheck from '@Middleware/user/register/signKeyCheck';
 
 // login
@@ -31,6 +30,14 @@ import recoveryId from '@Middleware/user/recovery/id/recoveryId';
 import recoveryPwValidation from '@Middleware/user/recovery/password/_validation';
 import recoveryPw from '@Middleware/user/recovery/password/recoveryPw';
 
+// jwt
+import getUserFromToken from '@Middleware/user/jwt/getUserFromToken';
+import issueToken from '@Middleware/user/jwt/issueToken';
+import verifyToken from '@Middleware/user/jwt/veirfyToken';
+
+// get
+import getUser from '@Middleware/user/get/getUser';
+
 const router = Router();
 
 router.use('/register', registerValidation);
@@ -48,5 +55,6 @@ router.post('/phone', signKeyCheck, fbCheckCode, phoneCheck, phoneInsert);
 router.get('/exist', exist);
 router.post('/recovery/id', fbCheckCode, recoveryId);
 router.post('/recovery/password', fbCheckCode, passwordEncryption, recoveryPw);
+router.get('/', verifyToken, getUserFromToken, getUser);
 
 export default router;
