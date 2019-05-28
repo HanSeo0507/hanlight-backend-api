@@ -4,11 +4,13 @@ import CustomError from '@Middleware/error/customError';
 import Calendar from '@Model/calendar.model';
 
 const getCalendar = async (req: Request, res: Response, next: NextFunction) => {
-  const month = req.query.month;
+  const year: number = req.query.year;
+  const month: number = req.query.month;
 
   try {
     const result = await Calendar.findAll({
       where: {
+        year,
         month,
       },
     }).map((val: Calendar) => ({
