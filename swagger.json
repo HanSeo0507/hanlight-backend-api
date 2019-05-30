@@ -689,6 +689,15 @@
             "name": "sort",
             "description": "montk | week",
             "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "month",
+            "description": "sort month - month",
+            "required": true
           }
         ],
         "responses": {
