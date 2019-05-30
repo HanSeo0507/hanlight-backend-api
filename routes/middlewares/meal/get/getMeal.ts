@@ -7,30 +7,72 @@ import Meal from '@Model/meal.model';
 
 const getMeal = async (req: Request, res: Response, next: NextFunction) => {
   const sort: 'month' | 'week' = req.query.sort;
+  const month: number | null = req.query.month;
 
   const date = new Date();
 
-  const whereClause = {
-    month: date.getMonth() + 1,
-    date:
-      sort === 'week'
-        ? {
-            [Op.and]: {
-              [Op.gte]: date.getDate(),
-              [Op.lt]: date.getDate() + 7,
-            },
-          }
-        : {
-            [Op.ne]: null,
-          },
-  };
-
   try {
-    const result: Meal[] = await Meal.findAll({
-      where: whereClause,
-      order: ['date'],
-      attributes: ['date', 'detail'],
+    const meal: Array<{
+      month: number;
+      date: number;
+      detail: string;
+    }> = await Meal.findAll({
+      where:
+        sort === 'week'
+          ? {
+              [Op.or]: [
+                {
+                  month: date.getMonth() + 1,
+                  date: {
+                    [Op.gte]: date.getDate(),
+                  },
+                },
+                {
+                  month: date.getMonth() + 2,
+                },
+              ],
+            }
+          : {
+              month,
+              date: {
+                [Op.ne]: null,
+              },
+            },
+      order: [['month', 'ASC'], ['date', 'ASC']],
+      attributes: ['month', 'date', 'detail'],
+      limit: sort === 'week' ? 7 : 32,
     });
+
+    const result =
+      sort === 'month'
+        ? meal
+        : new Array(7).fill(null).map((_, i) => {
+            const d = new Date();
+            d.setDate(date.getDate() + i);
+            const dMonth = d.getMonth() + 1;
+            const dDate = d.getDate();
+            const dDay = d.getDay();
+
+            if (dDay === 0 || dDay === 6) {
+              return {
+                month: dMonth,
+                date: dDate,
+                detail: '주말',
+              };
+            } else if (meal.some(val => val.month === dMonth && val.date === dDate)) {
+              return {
+                month: dMonth,
+                date: dDate,
+                detail: meal[meal.findIndex(val => val.month === dMonth && val.date === dDate)].detail,
+              };
+            } else {
+              return {
+                month: dMonth,
+                date: dDate,
+                detail: 'X',
+              };
+            }
+          });
 
     await res.json({
       success: true,
