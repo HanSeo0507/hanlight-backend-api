@@ -53,17 +53,17 @@ const getMeal = async (req: Request, res: Response, next: NextFunction) => {
             const dDate = d.getDate();
             const dDay = d.getDay();
 
-            if (dDay === 0 || dDay === 6) {
-              return {
-                month: dMonth,
-                date: dDate,
-                detail: '주말',
-              };
-            } else if (meal.some(val => val.month === dMonth && val.date === dDate)) {
+            if (meal.some(val => val.month === dMonth && val.date === dDate)) {
               return {
                 month: dMonth,
                 date: dDate,
                 detail: meal[meal.findIndex(val => val.month === dMonth && val.date === dDate)].detail,
+              };
+            } else if (dDay === 0 || dDay === 6) {
+              return {
+                month: dMonth,
+                date: dDate,
+                detail: '주말',
               };
             } else {
               return {
