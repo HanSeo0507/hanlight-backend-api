@@ -4,7 +4,13 @@ import CustomError from '@Middleware/error/customError';
 import User from '@Model/user.model';
 
 const exist = (req: Request, res: Response, next: NextFunction) => {
-  const { key, value } = req.query;
+  const {
+    key,
+    value,
+  }: {
+    key: 'id' | 'tp' | 'signKey';
+    value: string;
+  } = req.query;
 
   User.findOne({
     where: {
@@ -15,7 +21,7 @@ const exist = (req: Request, res: Response, next: NextFunction) => {
       res.json({
         success: true,
         data: {
-          exist: !!user,
+          exist: user && user[key] === value,
         },
       })
     )
