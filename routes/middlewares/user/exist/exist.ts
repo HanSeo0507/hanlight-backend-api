@@ -8,7 +8,7 @@ const exist = (req: Request, res: Response, next: NextFunction) => {
     key,
     value,
   }: {
-    key: 'id' | 'tp' | 'signKey';
+    key: 'id' | 'signKey';
     value: string;
   } = req.query;
 
