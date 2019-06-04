@@ -8,7 +8,7 @@ const exist = (req: Request, res: Response, next: NextFunction) => {
     key,
     value,
   }: {
-    key: 'id' | 'tp' | 'signKey';
+    key: 'id' | 'signKey';
     value: string;
   } = req.query;
 
@@ -21,7 +21,7 @@ const exist = (req: Request, res: Response, next: NextFunction) => {
       res.json({
         success: true,
         data: {
-          exist: user && user[key] === value,
+          exist: !!(user && user[key] === value),
         },
       })
     )
