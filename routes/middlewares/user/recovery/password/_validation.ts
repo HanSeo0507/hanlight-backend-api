@@ -7,9 +7,6 @@ const recoveryPwValidation: ValidationChain[] = [
   body('id')
     .isString()
     .matches(id),
-  body('password')
-    .isString()
-    .matches(password),
 ];
 
 export default recoveryPwValidation;

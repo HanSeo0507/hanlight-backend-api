@@ -312,10 +312,6 @@
                   "id": {
                     "type": "string",
                     "description": "유저의 아이디"
-                  },
-                  "password": {
-                    "type": "string",
-                    "description": "뱐경할 비밀번호"
                   }
                 }
               }
@@ -331,6 +327,9 @@
                   "properties": {
                     "success": {
                       "type": "boolean"
+                    },
+                    "accessToken": {
+                      "type": "string"
                     }
                   }
                 }
@@ -377,6 +376,55 @@
                           "$ref": "#/components/schemas/User"
                         }
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "잘못된 토큰"
+          }
+        }
+      }
+    },
+    "/user/password": {
+      "patch": {
+        "tags": ["user"],
+        "description": "유저 비밀번호 변경",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
                     }
                   }
                 }
