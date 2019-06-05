@@ -16,7 +16,7 @@ const phoneCheck = (req: Request, res: Response, next: NextFunction) => {
             res.locals.user = user;
             next();
           } else {
-            next(new CustomError({ name: 'Not_User', message: '존재하지 않는 유저입니다.' }));
+            next(new CustomError({ name: 'Not_User', message: '일치하는 유저가 없습니다.' }));
           }
           break;
 
