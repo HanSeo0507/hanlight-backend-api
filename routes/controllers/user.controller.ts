@@ -28,7 +28,6 @@ import exist from '@Middleware/user/exist/exist';
 import recoveryIdValidation from '@Middleware/user/recovery/id/_validation';
 import recoveryId from '@Middleware/user/recovery/id/recoveryId';
 import recoveryPwValidation from '@Middleware/user/recovery/password/_validation';
-import recoveryPw from '@Middleware/user/recovery/password/recoveryPw';
 
 // jwt
 import getUserFromToken from '@Middleware/user/jwt/getUserFromToken';
@@ -38,6 +37,10 @@ import verifyToken from '@Middleware/user/jwt/veirfyToken';
 // get
 import getUser from '@Middleware/user/get/getUser';
 
+// patch
+import userPatchPassword from '@Middleware/user/patch/password/_validation';
+import patchPassword from '@Middleware/user/patch/password/patchPassword';
+
 const router = Router();
 
 router.use('/register', registerValidation);
@@ -46,15 +49,18 @@ router.use('/phone', phoneValidation);
 router.use('/exist', existValidation);
 router.use('/recovery/id', recoveryIdValidation);
 router.use('/recovery/password', recoveryPwValidation);
+router.patch('/password', userPatchPassword);
 
 router.use(checkValidation);
 
 router.post('/register', userExistCheck, signKeyCheck, passwordEncryption, register);
-router.post('/login', userExistCheck, passwordEncryption, login, issueToken);
+router.post('/login', userExistCheck, passwordEncryption, login, issueToken('login'));
 router.post('/phone', signKeyCheck, fbCheckCode, phoneCheck, phoneInsert);
 router.get('/exist', exist);
 router.post('/recovery/id', fbCheckCode, recoveryId);
-router.post('/recovery/password', fbCheckCode, passwordEncryption, recoveryPw);
+router.post('/recovery/password', fbCheckCode, phoneCheck, issueToken('none'));
+
 router.get('/', verifyToken, getUserFromToken, getUser);
+router.patch('/password', verifyToken, getUserFromToken, passwordEncryption, patchPassword);
 
 export default router;

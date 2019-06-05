@@ -1,20 +1,19 @@
 import { query, ValidationChain } from 'express-validator/check';
 
-import { id, signKey } from '@Lib/pattern.json';
+import { id } from '@Lib/pattern.json';
 
 const existValidation: ValidationChain[] = [
-  query('key').isIn(['id', 'signKey']),
+  query('key').isIn(['id']),
   query('value')
     .isString()
     .custom((val, { req }) => {
       const idRegExp: RegExp = new RegExp(id);
-      const signKeyRegExp: RegExp = new RegExp(signKey);
 
       if (req.query.key) {
         if (req.query.key === 'id') {
           return idRegExp.test(val);
         } else {
-          return signKeyRegExp.test(val);
+          return false;
         }
       } else {
         return false;
