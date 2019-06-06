@@ -22,12 +22,12 @@
   > DB_USERNAME= string  
   > DB_PASSWORD= string
 
-  ENCRYPTION_SETTING
+  PW_ENCRYPTION_SETTING
 
-  > ENCRYPTION_ALGORITHM= encryption algorithm  
-  > ENCRYPTION_SALTSIZE= number  
-  > ENCRYPTION_ITERATION= number  
-  > ENCRYPTION_SIZE= number
+  > PW_ENCRYPTION_ALGORITHM= encryption algorithm  
+  > PW_ENCRYPTION_SALTSIZE= number  
+  > PW_ENCRYPTION_ITERATION= number  
+  > PW_ENCRYPTION_SIZE= number
 
   FACEBOOK_SETTING
 

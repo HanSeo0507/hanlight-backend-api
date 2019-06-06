@@ -9,21 +9,22 @@ dotenv.config();
 
 const passwordEncryption = (req: Request, res: Response, next: NextFunction) => {
   const password: string = req.body.password;
-  const ENCRYPTION_SET = {
-    ENCRYPTION_ALGORITHM: process.env.ENCRYPTION_ALGORITHM,
-    ENCRYPTION_ITERATION: parseInt(process.env.ENCRYPTION_ITERATION),
-    ENCRYPTION_SALTSIZE: parseInt(process.env.ENCRYPTION_SALTSIZE),
-    ENCRYPTION_SIZE: parseInt(process.env.ENCRYPTION_SIZE),
+  const PW_ENCRYPTION_SET = {
+    PW_ENCRYPTION_ALGORITHM: process.env.PW_ENCRYPTION_ALGORITHM,
+    PW_ENCRYPTION_ITERATION: parseInt(process.env.PW_ENCRYPTION_ITERATION, 10),
+    PW_ENCRYPTION_SALTSIZE: parseInt(process.env.PW_ENCRYPTION_SALTSIZE, 10),
+    PW_ENCRYPTION_SIZE: parseInt(process.env.PW_ENCRYPTION_SIZE, 10),
   };
 
   try {
-    const salt = (res.locals.user && res.locals.user.passwordKey) || randomBytes(ENCRYPTION_SET.ENCRYPTION_SALTSIZE).toString('base64');
+    const salt =
+      (res.locals.user && res.locals.user.passwordKey) || randomBytes(PW_ENCRYPTION_SET.PW_ENCRYPTION_SALTSIZE).toString('base64');
     const key = pbkdf2Sync(
       password,
       salt,
-      ENCRYPTION_SET.ENCRYPTION_ITERATION,
-      ENCRYPTION_SET.ENCRYPTION_SIZE,
-      ENCRYPTION_SET.ENCRYPTION_ALGORITHM
+      PW_ENCRYPTION_SET.PW_ENCRYPTION_ITERATION,
+      PW_ENCRYPTION_SET.PW_ENCRYPTION_SIZE,
+      PW_ENCRYPTION_SET.PW_ENCRYPTION_ALGORITHM
     ).toString('base64');
 
     res.locals.temp = {
