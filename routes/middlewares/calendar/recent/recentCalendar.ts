@@ -23,7 +23,7 @@ const recentCalendar = async (req: Request, res: Response, next: NextFunction) =
           {
             year: date.getFullYear(),
             month: {
-              [Op.gt]: date.getMonth() + 1,
+              [Op.gt]: date.getMonth() + 2,
             },
           },
           {
