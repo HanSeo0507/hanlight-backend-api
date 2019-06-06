@@ -1,13 +1,15 @@
+import * as dotenv from 'dotenv';
+
 import { Sequelize } from 'sequelize-typescript';
 
-import * as config from '../config/database.json';
+dotenv.config();
 
 export const sequelize = new Sequelize({
-  host: config.host,
+  host: process.env.DB_HOST,
   dialect: 'mysql',
-  database: config.database,
-  username: config.username,
-  password: config.password,
+  database: process.env.DB_NAME,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
   define: {
     charset: 'utf8',
     collate: 'utf8_general_ci',

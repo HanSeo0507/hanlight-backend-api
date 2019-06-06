@@ -1,17 +1,19 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextFunction, Request, Response } from 'express';
+import * as dotenv from 'dotenv';
 import * as qs from 'querystring';
 
 import CustomError from '@Middleware/error/customError';
-import * as fbConfig from '../../../../config/facebook.json';
+
+dotenv.config();
 
 const fbIssueToken = async (req: Request, res: Response, next: NextFunction) => {
-  const fbIssueUrl = `https://graph.accountkit.com/${fbConfig.version}/access_token?`;
-  const fbVerifyUrl = `https://graph.accountkit.com/${fbConfig.version}/me?`;
+  const fbIssueUrl = `https://graph.accountkit.com/${process.env.FB_VERSION}/access_token?`;
+  const fbVerifyUrl = `https://graph.accountkit.com/${process.env.FB_VERSION}/me?`;
   const query = {
     grant_type: 'authorization_code',
     code: req.body.code,
-    access_token: ['AA', fbConfig.appId, fbConfig.appSecret].join('|'),
+    access_token: ['AA', process.env.FB_APP_ID, process.env.FB_APP_SECRET].join('|'),
   };
 
   try {
@@ -33,7 +35,7 @@ const fbIssueToken = async (req: Request, res: Response, next: NextFunction) => 
       };
     }> = await axios.get(`${fbVerifyUrl}access_token=${fbIssueResponse.data.access_token}`);
 
-    if (fbVerifyResponse.data.application.id === fbConfig.appId) {
+    if (fbVerifyResponse.data.application.id === process.env.FB_APP_SECRET) {
       res.locals.temp = {
         ...res.locals.temp,
         tp: '0' + fbVerifyResponse.data.phone.national_number,

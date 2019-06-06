@@ -1,10 +1,11 @@
 import * as AWS from 'aws-sdk';
+import * as dotenv from 'dotenv';
 
-import * as config from '../config/awsConfig.json';
+dotenv.config();
 
 const s3 = new AWS.S3({
-  accessKeyId: config.accessKeyId,
-  secretAccessKey: config.secretAccessKey,
-  region: config.region,
+  accessKeyId: process.env.AWS_ACCESSKEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESSKEY,
+  region: process.env.AWS_REGION,
 });
 export default s3;
