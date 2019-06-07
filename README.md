@@ -7,33 +7,36 @@
   > npm install  
   > npm run start
 
-- config/database.json
-
-  > "host": "아이피",  
-  > "database": "hanlight",  
-  > "username": "root",  
-  > "password": "rootroot"
-
 - .env
+
+  NODE_SETTING
 
   > NODE_ENV= production | development  
   > PORT= number  
   > TOKEN_SECRET= string
 
-- config/encryption.json
+  DATABASE_SETTING
 
-  > "algorithm": "encryption algorithm",  
-  > "saltSize": number,  
-  > "iteration": number,  
-  > "encryptionSize": number
+  > DB_HOST= string  
+  > DB_NAME= string  
+  > DB_USERNAME= string  
+  > DB_PASSWORD= string
 
-- config/facebook.json
+  PW_ENCRYPTION_SETTING
 
-  > "version": "version",  
-  > "appId": "app id",  
-  > "appSecret": "app secret"
+  > PW_ENCRYPTION_ALGORITHM= encryption algorithm  
+  > PW_ENCRYPTION_SALTSIZE= number  
+  > PW_ENCRYPTION_ITERATION= number  
+  > PW_ENCRYPTION_SIZE= number
 
-- config/awsConfig.json
-  > "accessKeyId": "string",  
-  > "secretAccessKey": "string",  
-  > "region": "ap-northeast-2"
+  FACEBOOK_SETTING
+
+  > FB_VERSION= version  
+  > FB_APP_ID= appId  
+  > FB_APP_SECRET= appSecret
+
+  AWS_SETTING
+
+  > AWS_ACCESSKEY_ID= string  
+  > AWS_SECRET_ACCESSKEY= string  
+  > AWS_REGION= ap-northeast-2
