@@ -1,11 +1,7 @@
-import * as dotenv from 'dotenv';
-
 import { pbkdf2Sync, randomBytes } from 'crypto';
 import { NextFunction, Request, Response } from 'express';
 
 import CustomError from '@Middleware/error/customError';
-
-dotenv.config();
 
 const PW_ENCRYPTION_CONFIG = {
   PW_ENCRYPTION_ALGORITHM: process.env.PW_ENCRYPTION_ALGORITHM,

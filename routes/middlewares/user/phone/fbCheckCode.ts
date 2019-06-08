@@ -1,11 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 import { NextFunction, Request, Response } from 'express';
-import * as dotenv from 'dotenv';
 import * as qs from 'querystring';
 
 import CustomError from '@Middleware/error/customError';
-
-dotenv.config();
 
 const FB_CONFIG = {
   FB_VERSION: process.env.FB_VERSION,
@@ -41,7 +38,7 @@ const fbIssueToken = async (req: Request, res: Response, next: NextFunction) => 
       };
     }> = await axios.get(`${fbVerifyUrl}access_token=${fbIssueResponse.data.access_token}`);
 
-    if (fbVerifyResponse.data.application.id === FB_CONFIG.FB_APP_SECRET) {
+    if (fbVerifyResponse.data.application.id === FB_CONFIG.FB_APP_ID) {
       res.locals.temp = {
         ...res.locals.temp,
         tp: '0' + fbVerifyResponse.data.phone.national_number,
