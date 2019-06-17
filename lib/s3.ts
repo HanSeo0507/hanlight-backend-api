@@ -15,4 +15,5 @@ const s3 = new AWS.S3({
   secretAccessKey: S3_CONFIG.AWS_SECRET_ACCESSKEY,
   region: S3_CONFIG.AWS_REGION,
 });
+
 export default s3;
