@@ -29,6 +29,7 @@ const createNoticeLog = async (req: Request, res: Response, next: NextFunction) 
         success: true,
         data: {
           notice,
+          noticeCount: searchType === 'list' ? await Notice.count({ where: { approved: true } }) : undefined,
         },
       });
     }
