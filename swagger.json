@@ -1399,7 +1399,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/User"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1463,7 +1474,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponse"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/User"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1634,16 +1656,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/NoticePost"
-                      },
-                      {
-                        "$ref": "#/components/schemas/NoticeList"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "notice": {
+                          "$ref": "#/components/schemas/NoticeApproveLog"
+                        }
                       }
-                    ]
+                    }
                   }
                 }
               }
@@ -1693,16 +1716,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/NoticePost"
-                      },
-                      {
-                        "$ref": "#/components/schemas/NoticeList"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "notice": {
+                          "$ref": "#/components/schemas/Notice"
+                        }
                       }
-                    ]
+                    }
                   }
                 }
               }
@@ -1758,16 +1782,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/NoticePost"
-                      },
-                      {
-                        "$ref": "#/components/schemas/NoticeList"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "noticeApproveLog": {
+                          "$ref": "#/components/schemas/NoticeApproveLog"
+                        }
                       }
-                    ]
+                    }
                   }
                 }
               }
@@ -1813,16 +1838,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/NoticePost"
-                      },
-                      {
-                        "$ref": "#/components/schemas/NoticeList"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/NoticeApproveLog"
+                        }
                       }
-                    ]
+                    }
                   }
                 }
               }
@@ -1841,9 +1867,9 @@
       }
     },
     "/admin/notice/approve": {
-      "patch": {
+      "post": {
         "tags": ["admin"],
-        "description": "공지사항 조회 여부 변경",
+        "description": "공지사항 작성 수락 여부 요청",
         "parameters": [
           {
             "in": "header",
@@ -1870,7 +1896,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NoticePost"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "notice": {
+                          "$ref": "#/components/schemas/NoticeApproveLog"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1888,7 +1925,7 @@
       },
       "delete": {
         "tags": ["admin"],
-        "description": "공지사항 조회 여부 삭제",
+        "description": "공지사항 작성 수락 여부 삭제",
         "parameters": [
           {
             "in": "header",
@@ -1981,7 +2018,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TimeTable"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "timetable": {
+                          "$ref": "#/components/schemas/TimeTable"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -2082,7 +2130,7 @@
     "/admin/calender": {
       "post": {
         "tags": ["admin"],
-        "description": "달력(학사일정) 생성",
+        "description": "학사일정 생성",
         "parameters": [
           {
             "in": "header",
@@ -2119,7 +2167,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Calender"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "calender": {
+                          "$ref": "#/components/schemas/Calender"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -2137,7 +2196,7 @@
       },
       "patch": {
         "tags": ["admin"],
-        "description": "달력(학사일정) 변경",
+        "description": "학사일정 변경",
         "parameters": [
           {
             "in": "header",
@@ -2177,7 +2236,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Calender"
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/Calender"
+                      },
+                      {
+                        "$ref": "#/components/schemas/CalenderLog"
+                      }
+                    ]
+                  }
                 }
               }
             }
@@ -2195,7 +2264,7 @@
       },
       "delete": {
         "tags": ["admin"],
-        "description": "달력(학사일정) 삭제",
+        "description": "학사일정 삭제",
         "parameters": [
           {
             "in": "header",
@@ -2523,239 +2592,186 @@
           }
         }
       },
+      "Notice": {
+        "type": "object",
+        "properties": {
+          "pk": {
+            "type": "integer"
+          },
+          "user_pk": {
+            "type": "string"
+          },
+          "user_name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "approved": {
+            "type": "boolean"
+          }
+        }
+      },
       "NoticePost": {
         "type": "object",
         "properties": {
-          "success": {
-            "type": "boolean"
+          "pk": {
+            "type": "integer"
           },
-          "data": {
-            "properties": {
-              "notice": {
-                "type": "array",
-                "items": {
-                  "properties": {
-                    "pk": {
-                      "type": "integer"
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    },
-                    "read": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
+          "title": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "read": {
+            "type": "boolean"
           }
         }
       },
       "NoticeList": {
         "type": "object",
         "properties": {
-          "success": {
+          "pk": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "read": {
+            "type": "boolean"
+          }
+        }
+      },
+      "NoticeApproveLog": {
+        "type": "object",
+        "properties": {
+          "pk": {
+            "type": "integer"
+          },
+          "notice_pk": {
+            "type": "integer"
+          },
+          "user_pk": {
+            "type": "string"
+          },
+          "user_name": {
+            "type": "string"
+          },
+          "approved": {
             "type": "boolean"
           },
-          "data": {
-            "properties": {
-              "notice": {
-                "type": "array",
-                "items": {
-                  "properties": {
-                    "pk": {
-                      "type": "integer"
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "createdAt": {
-                      "type": "string"
-                    },
-                    "read": {
-                      "type": "boolean"
-                    }
-                  }
-                }
-              }
-            }
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
           }
         }
       },
       "Meal": {
         "type": "object",
-        "required": ["success"],
         "properties": {
-          "success": {
-            "type": "boolean"
+          "date": {
+            "type": "integer"
           },
-          "data": {
-            "type": "object",
-            "properties": {
-              "meal": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "date": {
-                      "type": "integer"
-                    },
-                    "detail": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+          "detail": {
+            "type": "string"
           }
         }
       },
       "MealOrder": {
         "type": "object",
-        "required": ["success"],
         "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "order": {
-                "type": "string"
-              }
-            }
+          "order": {
+            "type": "string"
           }
         }
       },
       "TimeTable": {
         "type": "object",
         "properties": {
-          "success": {
-            "type": "boolean"
+          "pk": {
+            "type": "integer"
           },
-          "data": {
-            "properties": {
-              "timetable": {
-                "type": "array",
-                "items": {
-                  "properties": {
-                    "pk": {
-                      "type": "integer"
-                    },
-                    "major": {
-                      "type": "string"
-                    },
-                    "grade": {
-                      "type": "integer"
-                    },
-                    "classNum": {
-                      "type": "integer"
-                    },
-                    "day": {
-                      "type": "string"
-                    },
-                    "detail": {
-                      "type": "string"
-                    },
-                    "th": {
-                      "type": "integer"
-                    }
-                  }
-                }
-              }
-            }
+          "major": {
+            "type": "string"
+          },
+          "grade": {
+            "type": "integer"
+          },
+          "classNum": {
+            "type": "integer"
+          },
+          "day": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "th": {
+            "type": "integer"
           }
         }
       },
       "Calender": {
         "type": "object",
         "properties": {
-          "success": {
-            "type": "boolean"
+          "pk": {
+            "type": "integer"
           },
-          "data": {
-            "properties": {
-              "calender": {
-                "type": "array",
-                "items": {
-                  "properties": {
-                    "pk": {
-                      "type": "integer"
-                    },
-                    "year": {
-                      "type": "integer"
-                    },
-                    "month": {
-                      "type": "integer"
-                    },
-                    "date": {
-                      "type": "integer"
-                    },
-                    "detail": {
-                      "type": "string"
-                    },
-                    "createAt": {
-                      "type": "string"
-                    },
-                    "updatedAt": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+          "year": {
+            "type": "integer"
+          },
+          "month": {
+            "type": "integer"
+          },
+          "date": {
+            "type": "integer"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "createAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
           }
         }
       },
-      "UserResponse": {
+      "CalenderLog": {
         "type": "object",
         "properties": {
-          "success": {
-            "type": "boolean"
+          "pk": {
+            "type": "integer"
           },
-          "data": {
-            "properties": {
-              "user": {
-                "type": "array",
-                "items": {
-                  "properties": {
-                    "pk": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "admin": {
-                      "type": "integer"
-                    },
-                    "id": {
-                      "type": "string"
-                    },
-                    "password": {
-                      "type": "string"
-                    },
-                    "passwordKey": {
-                      "type": "string"
-                    },
-                    "signKey": {
-                      "type": "string"
-                    },
-                    "tp": {
-                      "type": "string"
-                    },
-                    "createAt": {
-                      "type": "string"
-                    },
-                    "updatedAt": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+          "user_pk": {
+            "type": "string"
+          },
+          "user_name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "month": {
+            "type": "integer"
+          },
+          "date": {
+            "type": "integer"
+          },
+          "detail": {
+            "type": "string"
           }
         }
       }
