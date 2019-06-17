@@ -42,7 +42,6 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
           });
 
     if (!(notice instanceof Notice)) {
-      console.log(notice);
       const noticePks = notice.rows.map(val => val.pk);
       const logs = await NoticeViewLog.findAll({
         where: {
