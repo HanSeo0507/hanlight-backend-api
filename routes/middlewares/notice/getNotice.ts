@@ -7,7 +7,7 @@ import Notice from '@Model/notice.model';
 import NoticeViewLog from '@Model/noticeViewLog.model';
 
 const getNotice = async (req: Request, res: Response, next: NextFunction) => {
-  const limit = 15;
+  const limit = 10;
   const seachType: 'list' | 'post' = req.query.type;
   const searchPage = (req.query.page && req.query.page - 1) || 0;
   const searchPk = req.query.post_pk;
