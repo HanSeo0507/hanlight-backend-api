@@ -5,7 +5,8 @@ import Notice from '@Model/notice.model';
 import NoticeViewLog from '@Model/noticeViewLog.model';
 
 const createNoticeLog = async (req: Request, res: Response, next: NextFunction) => {
-  const notice: Notice | Notice[] = res.locals.notice;
+  const notice: Notice | Notice[] = res.locals.temp.notice;
+  const resultCount = res.locals.temp.resultCount;
   const searchType: 'list' | 'post' = req.query.type;
   const user_pk = res.locals.user.pk;
 
@@ -13,7 +14,7 @@ const createNoticeLog = async (req: Request, res: Response, next: NextFunction) 
     if (searchType === 'post' && !notice) {
       next(new CustomError({ name: 'Not_Found' }));
     } else {
-      if (!Array.isArray(notice)) {
+      if (notice instanceof Notice) {
         await NoticeViewLog.findOrCreate({
           where: {
             notice_pk: notice.pk,
@@ -29,7 +30,7 @@ const createNoticeLog = async (req: Request, res: Response, next: NextFunction) 
         success: true,
         data: {
           notice,
-          noticeCount: searchType === 'list' ? await Notice.count({ where: { approved: true } }) : undefined,
+          resultCount: notice instanceof Notice ? undefined : resultCount,
         },
       });
     }

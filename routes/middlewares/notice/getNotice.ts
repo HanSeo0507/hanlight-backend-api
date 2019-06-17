@@ -8,61 +8,71 @@ import NoticeViewLog from '@Model/noticeViewLog.model';
 
 const getNotice = async (req: Request, res: Response, next: NextFunction) => {
   const limit = 10;
-  const seachType: 'list' | 'post' = req.query.type;
+  const searchType: 'list' | 'post' = req.query.type;
   const searchPage = (req.query.page && req.query.page - 1) || 0;
   const searchPk = req.query.post_pk;
   const searchTitle = req.query.title;
 
-  try {
-    let notice: Notice | Notice[];
-    if (seachType === 'post') {
-      notice = await Notice.findOne({
-        where: {
+  const whereClause =
+    searchType === 'post'
+      ? {
           pk: searchPk,
           approved: true,
-        },
-        attributes: ['pk', 'title', 'content', 'createdAt'],
-      });
-    } else {
-      const listWhereClause = {
-        title: (searchTitle && { [Op.like]: `%${searchTitle}%` }) || undefined,
-        approved: true,
-      };
-      deleteUndefined(listWhereClause);
+        }
+      : {
+          title: (searchTitle && { [Op.like]: `%${searchTitle}%` }) || undefined,
+          approved: true,
+        };
 
-      notice = await Notice.findAll({
-        where: listWhereClause,
-        offset: searchPage * limit,
-        limit,
-        attributes: ['pk', 'title', 'createdAt'],
-        order: [['createdAt', 'DESC']],
-      });
-    }
+  deleteUndefined(whereClause);
 
-    if (Array.isArray(notice)) {
-      const noticePks = notice.map(val => val.pk);
+  try {
+    const notice: Notice | { rows: Notice[]; count: number } =
+      searchType === 'post'
+        ? await Notice.findOne({
+            where: whereClause,
+            attributes: ['pk', 'title', 'content', 'createdAt'],
+          })
+        : await Notice.findAndCountAll({
+            where: whereClause,
+            offset: searchPage * limit,
+            limit,
+            attributes: ['pk', 'title', 'createdAt'],
+            order: [['createdAt', 'DESC']],
+          });
+
+    if (!(notice instanceof Notice)) {
+      console.log(notice);
+      const noticePks = notice.rows.map(val => val.pk);
       const logs = await NoticeViewLog.findAll({
         where: {
           user_pk: res.locals.user.pk,
           notice_pk: noticePks,
         },
       });
-      res.locals.notice = await notice.map(val => {
-        const EditedNotice = {
-          pk: val.pk,
-          title: val.title,
-          createdAt: val.createdAt,
-          read: false,
-        };
-        for (const log of logs) {
-          if (val.pk === log.notice_pk) {
-            EditedNotice.read = true;
+      res.locals.temp = {
+        ...res.locals.temp,
+        notice: notice.rows.map(val => {
+          const EditedNotice = {
+            pk: val.pk,
+            title: val.title,
+            createdAt: val.createdAt,
+            read: false,
+          };
+          for (const log of logs) {
+            if (val.pk === log.notice_pk) {
+              EditedNotice.read = true;
+            }
           }
-        }
-        return EditedNotice;
-      });
+          return EditedNotice;
+        }),
+        resultCount: notice.count,
+      };
     } else {
-      res.locals.notice = notice;
+      res.locals.temp = {
+        ...res.locals.temp,
+        notice,
+      };
     }
     await next();
   } catch (error) {
