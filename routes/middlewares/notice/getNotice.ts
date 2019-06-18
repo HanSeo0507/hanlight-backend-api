@@ -27,7 +27,7 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
   deleteUndefined(whereClause);
 
   try {
-    const notice: Notice | { rows: Notice[]; count: number } =
+    const notice: Notice | { rows: Notice[]; count: number } | undefined =
       searchType === 'post'
         ? await Notice.findOne({
             where: whereClause,
@@ -41,7 +41,9 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
             order: [['createdAt', 'DESC']],
           });
 
-    if (!(notice instanceof Notice)) {
+    if (!notice) {
+      next(new CustomError({ name: 'Not_Found' }));
+    } else if (!(notice instanceof Notice)) {
       const noticePks = notice.rows.map(val => val.pk);
       const logs = await NoticeViewLog.findAll({
         where: {
