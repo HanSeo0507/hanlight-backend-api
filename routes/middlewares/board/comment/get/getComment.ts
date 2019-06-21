@@ -22,7 +22,7 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (board) {
-      const comments = await BoardComment.findAll({
+      const comments: { rows: BoardComment[]; count: number } = await BoardComment.findAndCountAll({
         where: {
           board_pk,
         },
@@ -40,20 +40,21 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
             attributes: ['user_pk'],
           },
         ],
-      }).map((val: BoardComment) => ({
-        pk: val.pk,
-        user_name: val.user_name,
-        content: val.content,
-        createdAt: val.createdAt,
-        edited: !!val.boardPatchLog.length,
-        isLiked: val.boardCommentLike.some(val => val.user_pk === user.pk),
-        likeCount: val.boardCommentLike.length,
-      }));
+      });
 
       await res.json({
         success: true,
         data: {
-          comment: comments,
+          comment: comments.rows.map((val: BoardComment) => ({
+            pk: val.pk,
+            user_name: val.user_name,
+            content: val.content,
+            createdAt: val.createdAt,
+            edited: !!val.boardPatchLog.length,
+            isLiked: val.boardCommentLike.some(val => val.user_pk === user.pk),
+            likeCount: val.boardCommentLike.length,
+          })),
+          resultCount: comments.count,
         },
       });
     } else {

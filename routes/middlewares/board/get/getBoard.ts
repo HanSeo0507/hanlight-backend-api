@@ -17,11 +17,12 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
   const page = (req.query.page && req.query.page - 1) || 0;
 
   try {
-    const boardResult: Board[] = await Board.findAll({
+    const result: { rows: Board[]; count: number } = await Board.findAndCountAll({
       limit: board_limit,
       offset: page * board_limit,
       attributes: ['pk', 'user_name', 'content', 'createdAt'],
       order: [['createdAt', 'DESC']],
+      distinct: true,
       include: [
         {
           model: BoardPatchLog,
@@ -30,6 +31,7 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
         {
           model: BoardComment,
           attributes: ['pk', 'user_name', 'content', 'createdAt'],
+          order: [['createdAt', 'DESC']],
           limit: comment_limit,
           include: [
             {
@@ -53,14 +55,14 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     const commentResult: BoardComment[] = await BoardComment.findAll({
-      where: { board_pk: boardResult.map(val => val.pk) },
+      where: { board_pk: result.rows.map(val => val.pk) },
       attributes: ['board_pk'],
     });
 
     res.json({
       success: true,
       data: {
-        board: boardResult.map(val => ({
+        board: result.rows.map(val => ({
           pk: val.pk,
           user_name: val.user_name,
           content: val.content,
@@ -82,6 +84,7 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
             likeCount: comment.boardCommentLike.length,
           })),
         })),
+        resultCount: result.count,
       },
     });
   } catch (error) {
