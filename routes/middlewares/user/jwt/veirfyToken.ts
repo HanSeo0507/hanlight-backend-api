@@ -9,6 +9,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const decoded = await jwt.verify(accessToken as string, tokenSecret);
+    console.log(tokenSecret);
     res.locals.user = decoded;
     await next();
   } catch (error) {
