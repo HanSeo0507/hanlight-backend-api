@@ -20,7 +20,7 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
     const result: { rows: Board[]; count: number } = await Board.findAndCountAll({
       limit: board_limit,
       offset: page * board_limit,
-      attributes: ['pk', 'user_name', 'content', 'createdAt'],
+      attributes: ['pk', 'user_pk', 'user_name', 'content', 'createdAt'],
       order: [['createdAt', 'DESC']],
       distinct: true,
       include: [
@@ -30,7 +30,7 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
         },
         {
           model: BoardComment,
-          attributes: ['pk', 'user_name', 'content', 'createdAt'],
+          attributes: ['pk', 'user_pk', 'user_name', 'content', 'createdAt'],
           order: [['createdAt', 'DESC']],
           limit: comment_limit,
           include: [
@@ -59,6 +59,8 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
       attributes: ['board_pk'],
     });
 
+    console.log(result.rows[0].user_pk, user.pk, result.rows[0].user_pk === user.pk);
+
     res.json({
       success: true,
       data: {
@@ -82,7 +84,9 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
             edited: !!comment.boardPatchLog.length,
             isLiked: comment.boardCommentLike.some(val => val.user_pk === user.pk),
             likeCount: comment.boardCommentLike.length,
+            write: comment.user_pk === user.pk,
           })),
+          write: val.user_pk === user.pk,
         })),
         resultCount: result.count,
       },

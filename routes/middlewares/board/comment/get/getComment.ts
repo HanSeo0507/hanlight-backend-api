@@ -29,7 +29,7 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
         limit,
         offset: page * limit,
         order: [['createdAt', 'DESC']],
-        attributes: ['pk', 'user_name', 'content', 'createdAt'],
+        attributes: ['pk', 'user_pk', 'user_name', 'content', 'createdAt'],
         include: [
           {
             model: BoardPatchLog,
@@ -53,6 +53,7 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
             edited: !!val.boardPatchLog.length,
             isLiked: val.boardCommentLike.some(val => val.user_pk === user.pk),
             likeCount: val.boardCommentLike.length,
+            write: val.user_pk === user.pk,
           })),
           resultCount: comments.count,
         },
