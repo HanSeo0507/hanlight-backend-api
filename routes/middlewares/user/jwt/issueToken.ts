@@ -1,8 +1,11 @@
+import * as dotenv from 'dotenv';
 import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import deleteUndefined from '@Lib/deleteUndefined';
 import User from '@Model/user.model';
+
+dotenv.config();
 
 const issueToken = (type: 'login' | 'none') => (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;

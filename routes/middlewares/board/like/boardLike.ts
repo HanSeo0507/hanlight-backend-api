@@ -10,9 +10,9 @@ import User from '@Model/user.model';
 
 const boardLike = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const type: 'board' | 'comment' = req.query.type;
-  const board_pk: number = req.query.board_pk;
-  const comment_pk: number | undefined = req.query.comment_pk;
+  const type: 'board' | 'comment' = req.body.type;
+  const board_pk: number = req.body.board_pk;
+  const comment_pk: number | undefined = req.body.comment_pk;
 
   try {
     const result: Board | BoardComment | undefined =

@@ -17,8 +17,6 @@ dotenv.config();
 const app: express.Application = express();
 const debug = Debug('hanlight');
 
-console.log(process.env);
-
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
