@@ -1,18 +1,18 @@
-import { oneOf, query, ValidationChain } from 'express-validator/check';
+import { body, oneOf } from 'express-validator/check';
 
 const likeValidation = oneOf([
   [
-    query('type')
+    body('type')
       .isString()
       .custom(val => val === 'board'),
-    query('board_pk').isInt(),
+    body('board_pk').isInt(),
   ],
   [
-    query('type')
+    body('type')
       .isString()
       .custom(val => val === 'comment'),
-    query('comment_pk').isInt(),
-    query('board_pk').isInt(),
+    body('comment_pk').isInt(),
+    body('board_pk').isInt(),
   ],
 ]);
 

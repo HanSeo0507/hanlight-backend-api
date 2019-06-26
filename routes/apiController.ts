@@ -12,11 +12,12 @@ import user from '@Controller/user.controller';
 import getUserFromToken from '@Middleware/user/jwt/getUserFromToken';
 import verifyToken from '@Middleware/user/jwt/veirfyToken';
 
+// common
+import getStatus from '@Middleware/common/getStatus';
+
 const router = Router();
 
-router.get('/status', (req: Request, res: Response) => {
-  res.status(200).send();
-});
+router.get('/status', getStatus);
 router.use('/dev', dev);
 router.use('/user', user);
 
