@@ -14,7 +14,7 @@ import verifyToken from '@Middleware/user/jwt/veirfyToken';
 
 const router = Router();
 
-router.use('/status', (req: Request, res: Response) => {
+router.get('/status', (req: Request, res: Response) => {
   res.status(200).send();
 });
 router.use('/dev', dev);
