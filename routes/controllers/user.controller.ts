@@ -32,7 +32,7 @@ import recoveryPwValidation from '@Middleware/user/recovery/password/_validation
 // jwt
 import getUserFromToken from '@Middleware/user/jwt/getUserFromToken';
 import issueToken from '@Middleware/user/jwt/issueToken';
-import verifyToken from '@Middleware/user/jwt/veirfyToken';
+import verifyToken from '@Middleware/user/jwt/verifyToken';
 
 // get
 import getUser from '@Middleware/user/get/getUser';

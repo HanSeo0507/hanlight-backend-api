@@ -10,7 +10,7 @@ import user from '@Controller/user.controller';
 
 // token
 import getUserFromToken from '@Middleware/user/jwt/getUserFromToken';
-import verifyToken from '@Middleware/user/jwt/veirfyToken';
+import verifyToken from '@Middleware/user/jwt/verifyToken';
 
 // common
 import getStatus from '@Middleware/common/getStatus';
