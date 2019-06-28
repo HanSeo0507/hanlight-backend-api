@@ -1,7 +1,10 @@
+import * as dotenv from 'dotenv';
 import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 import CustomError from '@Middleware/error/customError';
+
+dotenv.config();
 
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const accessToken: string | string[] = req.headers.access_token;
@@ -9,7 +12,6 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const decoded = await jwt.verify(accessToken as string, tokenSecret);
-    console.log(tokenSecret);
     res.locals.user = decoded;
     await next();
   } catch (error) {

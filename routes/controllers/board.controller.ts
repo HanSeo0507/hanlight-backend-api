@@ -47,7 +47,7 @@ router.get('/comment', getCommentValidation);
 router.post('/comment', checkUserType, PostCommentValidation);
 router.patch('/comment', checkUserType, patchCommentValidation);
 router.delete('/comment', checkUserType, deleteCommentValidation);
-router.get('/like', checkUserType, likeValidation);
+router.post('/like', likeValidation);
 
 router.use(checkValidation);
 
@@ -60,6 +60,6 @@ router.get('/comment', getComment);
 router.post('/comment', postComment);
 router.patch('/comment', patchComment);
 router.delete('/comment', deleteComment);
-router.get('/like', boardLike);
+router.post('/like', boardLike);
 
 export default router;

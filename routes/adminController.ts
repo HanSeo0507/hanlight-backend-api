@@ -22,7 +22,7 @@ import checkValidation from '@Middleware/common/checkValidation';
 // verify
 import checkAdmin from '@Middleware/admin/common/checkAdmin';
 import getUserFromToken from '@Middleware/user/jwt/getUserFromToken';
-import verifyToken from '@Middleware/user/jwt/veirfyToken';
+import verifyToken from '@Middleware/user/jwt/verifyToken';
 
 // user
 import deleteUser from '@Middleware/admin/user/delete/deleteUser';

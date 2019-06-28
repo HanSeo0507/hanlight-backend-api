@@ -15,12 +15,11 @@ import {
 } from 'sequelize-typescript';
 
 import BoardComment from './boardComment.model';
-import BoardCommentLike from './boardCommentLike.model';
+import BoardImage from './boardImage.model';
 import BoardLike from './boardLike.model';
 import BoardManageLog from './boardManageLog.model';
 import BoardPatchLog from './boardPatchLog.model';
 import User from './user.model';
-import BoardImage from './boardImage.model';
 
 @Table({
   timestamps: true,
@@ -50,9 +49,6 @@ export default class Board extends Model<Board> {
 
   @UpdatedAt
   public updatedAt: Date;
-
-  @DeletedAt
-  public deletedAt: Date;
 
   @BelongsTo(() => User, {
     onDelete: 'CASCADE',

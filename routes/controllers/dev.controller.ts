@@ -1,3 +1,4 @@
+import * as dotenv from 'dotenv';
 import { NextFunction, Request, Response, Router } from 'express';
 import * as swaggerUiExpress from 'swagger-ui-express';
 
@@ -6,6 +7,7 @@ import Errors from '@Middleware/error/errors';
 
 import * as swaggerJson from '../../swagger.json';
 
+dotenv.config();
 const router = Router();
 
 router.use((req: Request, res: Response, next: NextFunction) => {

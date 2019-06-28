@@ -53,9 +53,6 @@ export default class BoardComment extends Model<BoardComment> {
   @UpdatedAt
   public updatedAt: Date;
 
-  @DeletedAt
-  public deletedAt: Date;
-
   @BelongsTo(() => User, {
     onDelete: 'CASCADE',
   })
