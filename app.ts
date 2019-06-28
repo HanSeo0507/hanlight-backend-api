@@ -17,7 +17,9 @@ dotenv.config();
 const app: express.Application = express();
 const debug = Debug('hanlight');
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'development' ? '*' : /halight\.kr/g
+}));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
