@@ -1,22 +1,22 @@
-import { body, oneOf, query } from 'express-validator/check';
+import { body, oneOf } from 'express-validator/check';
 
 const reportValidation = oneOf([
   [
-    query('type')
+    body('type')
       .isString()
       .custom(val => val === 'board'),
-    query('board_pk').isInt(),
+    body('board_pk').isInt(),
     body('content')
       .optional()
       .isString()
       .isLength({ max: 300 }),
   ],
   [
-    query('type')
+    body('type')
       .isString()
       .custom(val => val === 'comment'),
-    query('board_pk').isInt(),
-    query('comment_pk').isInt(),
+    body('board_pk').isInt(),
+    body('comment_pk').isInt(),
     body('content')
       .optional()
       .isString()
