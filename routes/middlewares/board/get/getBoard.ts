@@ -59,8 +59,6 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
       attributes: ['board_pk'],
     });
 
-    console.log(result.rows[0].user_pk, user.pk, result.rows[0].user_pk === user.pk);
-
     res.json({
       success: true,
       data: {
