@@ -24,7 +24,7 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
         success: true,
       });
     } else {
-      next(new CustomError({ name: 'Wrong_Data' }));
+      next(new CustomError({ name: 'Not_Found' }));
     }
   } catch (error) {
     console.log(error);
