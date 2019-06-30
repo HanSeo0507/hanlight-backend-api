@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import CustomError from '@Middleware/error/customError';
+import Board from '@Model/board.model';
 import BoardComment from '@Model/boardComment.model';
 import User from '@Model/user.model';
 
@@ -10,19 +11,30 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
   const user: User = res.locals.user;
 
   try {
-    const comment = await BoardComment.findOne({
+    const comment: { Board: Board; BoardComment: BoardComment } = await Board.findOne({
       where: {
-        pk: comment_pk,
-        board_pk,
+        pk: board_pk,
         user_pk: user.pk,
       },
+      include: [
+        {
+          model: BoardComment,
+          where: {
+            pk: comment_pk,
+          },
+          required: false,
+        },
+      ],
     });
-
-    if (comment) {
-      await comment.destroy();
-      await res.json({
-        success: true,
-      });
+    if (comment.Board) {
+      if (comment.BoardComment) {
+        await comment.BoardComment.destroy();
+        await res.json({
+          success: true,
+        });
+      } else {
+        next(new CustomError({ name: 'Not_Found' }));
+      }
     } else {
       next(new CustomError({ name: 'Not_Found' }));
     }
