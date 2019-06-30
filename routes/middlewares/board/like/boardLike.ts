@@ -15,52 +15,63 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
   const comment_pk: number | undefined = req.body.comment_pk;
 
   try {
-    const result: Board | BoardComment | undefined =
-      type === 'board'
-        ? await Board.findOne({ where: { pk: board_pk } })
-        : await BoardComment.findOne({
-            where: {
-              pk: comment_pk,
-            },
-          });
+    const result: { Board: Board; BoardComment: BoardComment } = await Board.findOne({
+      where: {
+        pk: board_pk,
+        user_pk: user.pk,
+      },
+      include: [
+        {
+          model: BoardComment,
+          where: {
+            pk: comment_pk,
+          },
+          required: false,
+        },
+      ],
+    });
 
-    if (result) {
-      const like: BoardLike | BoardCommentLike | undefined =
-        type === 'board'
-          ? await BoardLike.findOne({
-              where: {
-                board_pk,
-                user_pk: user.pk,
-              },
-            })
-          : await BoardCommentLike.findOne({
-              where: {
-                board_pk,
-                comment_pk,
-                user_pk: user.pk,
-              },
-            });
-
-      if (like) {
-        await like.destroy();
+    if (result.Board) {
+      if (!(type === 'comment' && result.BoardComment)) {
+        next(new CustomError({ name: 'Not_Found' }));
       } else {
-        if (type === 'board') {
-          await BoardLike.create({
-            board_pk,
-            user_pk: user.pk,
-          });
-        } else {
-          await BoardCommentLike.create({
-            board_pk,
-            comment_pk,
-            user_pk: user.pk,
-          });
-        }
-      }
+        const like: BoardLike | BoardCommentLike | undefined =
+          type === 'comment'
+            ? await BoardCommentLike.findOne({
+                where: {
+                  board_pk,
+                  comment_pk,
+                  user_pk: user.pk,
+                },
+              })
+            : await BoardLike.findOne({
+                where: {
+                  board_pk,
+                  user_pk: user.pk,
+                },
+              });
 
-      await res.json({
-        success: true,
-      });
+        if (like) {
+          await like.destroy();
+        } else {
+          if (type === 'comment') {
+            await BoardCommentLike.create({
+              board_pk,
+              comment_pk,
+              user_pk: user.pk,
+            });
+          } else {
+            await BoardLike.create({
+              board_pk,
+              user_pk: user.pk,
+            });
+          }
+        }
+
+        await res.json({
+          success: true,
+        });
+      }
     } else {
       next(new CustomError({ name: 'Not_Found' }));
     }

@@ -15,47 +15,71 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
 
   try {
-    const shouldBeReported: Board | BoardComment =
-      type === 'board'
-        ? await Board.findOne({
+    const result: { Board: Board; BoardComment: BoardComment } = await Board.findOne({
+      where: {
+        pk: board_pk,
+        user_pk: user.pk,
+      },
+      include: [
+        {
+          model: BoardComment,
+          where: {
+            pk: comment_pk,
+          },
+          required: false,
+        },
+      ],
+    });
+
+    if (result.Board) {
+      if (!(type === 'comment' && result.BoardComment)) {
+        next(new CustomError({ name: 'Not_Found' }));
+      } else {
+        const shouldBeReported: Board | BoardComment =
+          type === 'comment'
+            ? await BoardComment.findOne({
+                where: {
+                  pk: comment_pk,
+                  board_pk,
+                },
+              })
+            : await Board.findOne({
+                where: {
+                  pk: board_pk,
+                },
+              });
+
+        if (shouldBeReported) {
+          const [result, created]: [BoardReportLog, boolean] = await BoardReportLog.findOrCreate({
             where: {
-              pk: board_pk,
-            },
-          })
-        : await BoardComment.findOne({
-            where: {
-              pk: comment_pk,
+              type,
               board_pk,
+              comment_pk: comment_pk || null,
+              user_pk: user.pk,
+            },
+            defaults: {
+              type,
+              board_pk,
+              comment_pk: comment_pk || null,
+              user_pk: user.pk,
+              user_name: user[user.type].name,
+              content: content || null,
             },
           });
 
-    if (shouldBeReported) {
-      const [result, created]: [BoardReportLog, boolean] = await BoardReportLog.findOrCreate({
-        where: {
-          type,
-          board_pk,
-          comment_pk: comment_pk || null,
-          user_pk: user.pk,
-        },
-        defaults: {
-          type,
-          board_pk,
-          comment_pk: comment_pk || null,
-          user_pk: user.pk,
-          user_name: user[user.type].name,
-          content: content || null,
-        },
-      });
+          if (!created && result.content !== content) {
+            await result.update({
+              content,
+            });
+          }
 
-      if (!created && result.content !== content) {
-        await result.update({
-          content,
-        });
+          await res.json({
+            success: true,
+          });
+        } else {
+          next(new CustomError({ name: 'Wrong_Data' }));
+        }
       }
-
-      await res.json({
-        success: true,
-      });
     } else {
       next(new CustomError({ name: 'Not_Found' }));
     }
