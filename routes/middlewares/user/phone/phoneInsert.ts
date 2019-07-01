@@ -10,7 +10,7 @@ const phoneInsert = async (req: Request, res: Response, next: NextFunction) => {
     await user.update({
       tp: res.locals.temp.tp,
     });
-    await res.json({
+    res.json({
       success: true,
     });
   } catch (error) {

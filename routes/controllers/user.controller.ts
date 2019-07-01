@@ -40,16 +40,18 @@ import getUser from '@Middleware/user/get/getUser';
 // patch
 import userPatchPassword from '@Middleware/user/patch/password/_validation';
 import patchPassword from '@Middleware/user/patch/password/patchPassword';
+import userPatchPhone from '@Middleware/user/patch/phone/_validation';
 
 const router = Router();
 
-router.use('/register', registerValidation);
-router.use('/login', loginValidation);
-router.use('/phone', phoneValidation);
-router.use('/exist', existValidation);
-router.use('/recovery/id', recoveryIdValidation);
-router.use('/recovery/password', recoveryPwValidation);
+router.post('/register', registerValidation);
+router.post('/login', loginValidation);
+router.post('/phone', phoneValidation);
+router.get('/exist', existValidation);
+router.post('/recovery/id', recoveryIdValidation);
+router.post('/recovery/password', recoveryPwValidation);
 router.patch('/password', userPatchPassword);
+router.patch('/phone', userPatchPhone);
 
 router.use(checkValidation);
 
@@ -62,5 +64,6 @@ router.post('/recovery/password', fbCheckCode, phoneCheck, issueToken('none'));
 
 router.get('/', verifyToken, getUserFromToken, getUser);
 router.patch('/password', verifyToken, getUserFromToken, passwordEncryption, patchPassword);
+router.patch('/phone', verifyToken, getUserFromToken, fbCheckCode, phoneCheck, phoneInsert);
 
 export default router;
