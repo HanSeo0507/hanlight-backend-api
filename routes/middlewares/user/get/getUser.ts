@@ -12,6 +12,7 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
         type: user.type,
         admin: user.admin,
         name: user[user.type].name,
+        id: user.id,
         major: user.type === 'student' ? user.student.major : null,
         grade: user.type === 'student' ? user.student.grade : null,
         classNum: user.type === 'student' ? user.student.classNum : null,
