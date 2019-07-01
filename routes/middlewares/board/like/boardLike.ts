@@ -15,7 +15,7 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
   const comment_pk: number | undefined = req.body.comment_pk;
 
   try {
-    const result: { Board: Board; BoardComment: BoardComment } = await Board.findOne({
+    const board = await Board.findOne({
       where: {
         pk: board_pk,
         user_pk: user.pk,
@@ -31,8 +31,8 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
       ],
     });
 
-    if (result.Board) {
-      if (!(type === 'comment' && result.BoardComment)) {
+    if (board) {
+      if (!(type === 'comment' && board.comment[0])) {
         next(new CustomError({ name: 'Not_Found' }));
       } else {
         const like: BoardLike | BoardCommentLike | undefined =

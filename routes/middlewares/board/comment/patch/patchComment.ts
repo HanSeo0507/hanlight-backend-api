@@ -14,7 +14,7 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
   const user: User = res.locals.user;
 
   try {
-    const past_comment: { Board: Board; BoardComment: BoardComment } = await Board.findOne({
+    const board = await Board.findOne({
       where: {
         pk: board_pk,
         user_pk: user.pk,
@@ -29,20 +29,27 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
         },
       ],
     });
-    if (past_comment.Board) {
-      if (past_comment && past_comment.BoardComment.content !== content) {
+    if (board) {
+      if (board.comment[0]) {
         const [now_comment]: [BoardComment, unknown] = await Promise.all([
-          past_comment.BoardComment.update({
-            content,
-            updatedAt: new Date(),
-          }),
+          BoardComment.update(
+            {
+              content,
+              updatedAt: new Date(),
+            },
+            {
+              where: {
+                pk: board.comment.pk,
+              },
+            }
+          ),
           BoardPatchLog.create({
             type: 'comment',
             user_pk: user.pk,
             user_name: user[user.type].name,
             board_pk,
             comment_pk,
-            past_content: past_comment.BoardComment.content,
+            past_content: board.comment.content,
           }),
         ]);
 
@@ -56,10 +63,10 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
           },
         });
       } else {
-        next(new CustomError({ name: 'Not_Found' }));
+        next(new CustomError({ name: 'Not_Found_Comment' }));
       }
     } else {
-      next(new CustomError({ name: 'Not_Found' }));
+      next(new CustomError({ name: 'Not_Found_Board' }));
     }
   } catch (error) {
     console.log(error);

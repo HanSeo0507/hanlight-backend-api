@@ -11,7 +11,7 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
   const user: User = res.locals.user;
 
   try {
-    const comment: { Board: Board; BoardComment: BoardComment } = await Board.findOne({
+    const board: Board = await Board.findOne({
       where: {
         pk: board_pk,
         user_pk: user.pk,
@@ -26,17 +26,19 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
         },
       ],
     });
-    if (comment.Board) {
-      if (comment.BoardComment) {
-        await comment.BoardComment.destroy();
-        await res.json({
+
+    if (board) {
+      if (board.comment[0]) {
+        await BoardComment.destroy({ where: { pk: comment_pk } });
+
+        res.json({
           success: true,
         });
       } else {
-        next(new CustomError({ name: 'Not_Found' }));
+        next(new CustomError({ name: 'Not_Found_Comment' }));
       }
     } else {
-      next(new CustomError({ name: 'Not_Found' }));
+      next(new CustomError({ name: 'Not_Found_Board' }));
     }
   } catch (error) {
     console.log(error);

@@ -23,7 +23,7 @@ const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
         success: true,
       });
     } else {
-      next(new CustomError({ name: 'Not_Found' }));
+      next(new CustomError({ name: 'Not_Found_Board' }));
     }
   } catch (error) {
     console.log(error);

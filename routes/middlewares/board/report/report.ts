@@ -15,7 +15,7 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
 
   try {
-    const result: { Board: Board; BoardComment: BoardComment } = await Board.findOne({
+    const board = await Board.findOne({
       where: {
         pk: board_pk,
         user_pk: user.pk,
@@ -31,8 +31,8 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
       ],
     });
 
-    if (result.Board) {
-      if (!(type === 'comment' && result.BoardComment)) {
+    if (board) {
+      if (!(type === 'comment' && board.comment[0])) {
         next(new CustomError({ name: 'Not_Found' }));
       } else {
         const shouldBeReported: Board | BoardComment =

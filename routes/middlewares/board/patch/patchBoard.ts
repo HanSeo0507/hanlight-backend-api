@@ -55,7 +55,7 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
         },
       });
     } else {
-      next(new CustomError({ name: 'Not_Found' }));
+      next(new CustomError({ name: 'Not_Found_Board' }));
     }
   } catch (error) {
     console.log(error);
