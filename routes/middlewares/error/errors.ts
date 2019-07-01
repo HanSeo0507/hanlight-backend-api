@@ -67,6 +67,16 @@ const Errors: { [key in ErrorNames]: IError } = {
     code: 412,
     message: '중복되는 데이터입니다.',
   },
+  Not_Found_Board: {
+    description: '해당하는 데이터가 없음',
+    code: 404,
+    message: '존재하지 않는 게시글입니다.',
+  },
+  Not_Found_Comment: {
+    description: '해당하는 데이터가 없음',
+    code: 404,
+    message: '존재하지 않는 댓글입니다.',
+  },
 };
 
 export default Errors;
