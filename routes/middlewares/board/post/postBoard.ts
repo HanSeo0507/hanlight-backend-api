@@ -28,7 +28,7 @@ const postBoard = async (req: Request, res: Response, next: NextFunction) => {
       }
     );
 
-    await res.json({
+    res.json({
       success: true,
       data: {
         board: {

@@ -68,12 +68,12 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
           }
         }
 
-        await res.json({
+        res.json({
           success: true,
         });
       }
     } else {
-      next(new CustomError({ name: 'Not_Found' }));
+      next(new CustomError({ name: 'Not_Found_Board' }));
     }
   } catch (error) {
     console.log(error);

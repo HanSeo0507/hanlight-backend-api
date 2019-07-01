@@ -42,7 +42,7 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
         ],
       });
 
-      await res.json({
+      res.json({
         success: true,
         data: {
           comment: comments.rows.map((val: BoardComment) => ({
@@ -59,7 +59,7 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
         },
       });
     } else {
-      next(new CustomError({ name: 'Not_Found' }));
+      next(new CustomError({ name: 'Not_Found_Board' }));
     }
   } catch (error) {
     console.log(error);

@@ -73,7 +73,7 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
             });
           }
 
-          await res.json({
+          res.json({
             success: true,
           });
         } else {
@@ -81,7 +81,7 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
         }
       }
     } else {
-      next(new CustomError({ name: 'Not_Found' }));
+      next(new CustomError({ name: 'Not_Found_Board' }));
     }
   } catch (error) {
     console.log(error);
