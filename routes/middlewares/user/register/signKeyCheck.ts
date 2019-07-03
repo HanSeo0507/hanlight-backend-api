@@ -15,7 +15,7 @@ const signKeyCheck = (req: Request, res: Response, next: NextFunction) => {
       if (user && user.signKey === signKey) {
         if (req.path.includes('/phone')) {
           res.locals.user = user;
-          user.tp ? res.sendStatus(204) : next();
+          next();
         } else if (user.tp) {
           res.locals.user = user;
           next();
