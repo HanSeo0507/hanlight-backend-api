@@ -881,7 +881,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Boards"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "board": {
+                          "$ref": "#/components/schemas/Boards"
+                        },
+                        "resultCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1069,7 +1083,21 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Comments"
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "comment": {
+                          "$ref": "#/components/schemas/Comments"
+                        },
+                        "resultCount": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -2531,6 +2559,58 @@
         }
       },
       "Boards": {
+        "type": "object",
+        "properties": {
+          "pk": {
+            "type": "integer"
+          },
+          "user_name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "edited": {
+            "type": "boolean"
+          },
+          "commentCount": {
+            "type": "integer"
+          },
+          "comment": {
+            "type": "object",
+            "properties": {
+              "pk": {
+                "type": "integer"
+              },
+              "user_name": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "edited": {
+                "type": "boolean"
+              }
+            }
+          },
+          "write": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Boards-2": {
         "type": "array",
         "items": {
           "allOf": [
@@ -2608,6 +2688,15 @@
               "type": "object",
               "properties": {
                 "edited": {
+                  "type": "boolean"
+                },
+                "isLiked": {
+                  "type": "boolean"
+                },
+                "likeCount": {
+                  "type": "integer"
+                },
+                "write": {
                   "type": "boolean"
                 }
               }
