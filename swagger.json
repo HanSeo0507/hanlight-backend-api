@@ -96,7 +96,7 @@
             }
           },
           "204": {
-            "description": "회원 중에 이미 번호를 가진 유저가 있어서 다음 프로세스를 진행하지 않아도 됨"
+            "description": "유저가 이미 해당 전화번호인 것이 증명되었기 때문에 다음 프로세스를 진행하지 않음"
           },
           "401": {
             "description": "(Wrong_Request) facebook account kit으로 요청된 code값이 잘못됨"
@@ -144,6 +144,9 @@
                 }
               }
             }
+          },
+          "204": {
+            "description": "유저가 이미 해당 전화번호인 것이 증명되었기 때문에 다음 프로세스를 진행하지 않음"
           },
           "401": {
             "description": "(Wrong_Request) facebook account kit으로 요청된 code값이 잘못됨"
