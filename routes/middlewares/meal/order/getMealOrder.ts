@@ -6,7 +6,9 @@ import MealOrder from '@Model/mealOrder.model';
 
 const mealOrder = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const result: MealOrder[] = await MealOrder.findAll();
+    const result: MealOrder[] = await MealOrder.findAll({
+      order: [['createdAt', 'DESC']]
+    });
     const order = result[0].order;
 
     await res.json({
