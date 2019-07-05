@@ -28,10 +28,9 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
         ];
 
   try {
-    const board = await Board.findOne({
+    const board: Board | undefined = await Board.findOne({
       where: {
         pk: board_pk,
-        user_pk: user.pk,
       },
       include,
     });

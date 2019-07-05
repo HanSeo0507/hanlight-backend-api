@@ -27,10 +27,9 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
         ];
 
   try {
-    const board = await Board.findOne({
+    const board: Board | undefined = await Board.findOne({
       where: {
         pk: board_pk,
-        user_pk: user.pk,
       },
       include,
     });
@@ -39,50 +38,32 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
       if (type === 'comment' && !board.comment[0]) {
         next(new CustomError({ name: 'Not_Found_Comment' }));
       } else {
-        const shouldBeReported: Board | BoardComment =
-          type === 'comment'
-            ? await BoardComment.findOne({
-                where: {
-                  pk: comment_pk,
-                  board_pk,
-                },
-              })
-            : await Board.findOne({
-                where: {
-                  pk: board_pk,
-                },
-              });
+        const [result, created]: [BoardReportLog, boolean] = await BoardReportLog.findOrCreate({
+          where: {
+            type,
+            board_pk,
+            comment_pk: comment_pk || null,
+            user_pk: user.pk,
+          },
+          defaults: {
+            type,
+            board_pk,
+            comment_pk: comment_pk || null,
+            user_pk: user.pk,
+            user_name: user[user.type].name,
+            content: content || null,
+          },
+        });
 
-        if (shouldBeReported) {
-          const [result, created]: [BoardReportLog, boolean] = await BoardReportLog.findOrCreate({
-            where: {
-              type,
-              board_pk,
-              comment_pk: comment_pk || null,
-              user_pk: user.pk,
-            },
-            defaults: {
-              type,
-              board_pk,
-              comment_pk: comment_pk || null,
-              user_pk: user.pk,
-              user_name: user[user.type].name,
-              content: content || null,
-            },
+        if (!created && result.content !== content) {
+          await result.update({
+            content,
           });
-
-          if (!created && result.content !== content) {
-            await result.update({
-              content,
-            });
-          }
-
-          res.json({
-            success: true,
-          });
-        } else {
-          next(new CustomError({ name: 'Wrong_Data' }));
         }
+
+        res.json({
+          success: true,
+        });
       }
     } else {
       next(new CustomError({ name: 'Not_Found_Board' }));
