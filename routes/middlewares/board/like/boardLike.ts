@@ -59,14 +59,12 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
           await like.destroy();
         } else {
           if (type === 'comment') {
-            console.log(comment_pk);
             await BoardCommentLike.create({
               board_pk,
               comment_pk,
               user_pk: user.pk,
             });
           } else {
-            console.log(2);
             await BoardLike.create({
               board_pk,
               user_pk: user.pk,
