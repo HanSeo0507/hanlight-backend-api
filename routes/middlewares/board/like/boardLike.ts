@@ -37,47 +37,48 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (board) {
-      if (!(type === 'comment' && board.comment[0])) {
+      if (type === 'comment' && !board.comment[0]) {
         next(new CustomError({ name: 'Not_Found_Comment' }));
-      }
-      const like: BoardLike | BoardCommentLike | undefined =
-        type === 'comment'
-          ? await BoardCommentLike.findOne({
-              where: {
-                board_pk,
-                comment_pk,
-                user_pk: user.pk,
-              },
-            })
-          : await BoardLike.findOne({
-              where: {
-                board_pk,
-                user_pk: user.pk,
-              },
-            });
-
-      if (like) {
-        await like.destroy();
       } else {
-        if (type === 'comment') {
-          console.log(comment_pk);
-          await BoardCommentLike.create({
-            board_pk,
-            comment_pk,
-            user_pk: user.pk,
-          });
-        } else {
-          console.log(2);
-          await BoardLike.create({
-            board_pk,
-            user_pk: user.pk,
-          });
-        }
-      }
+        const like: BoardLike | BoardCommentLike | undefined =
+          type === 'comment'
+            ? await BoardCommentLike.findOne({
+                where: {
+                  board_pk,
+                  comment_pk,
+                  user_pk: user.pk,
+                },
+              })
+            : await BoardLike.findOne({
+                where: {
+                  board_pk,
+                  user_pk: user.pk,
+                },
+              });
 
-      res.json({
-        success: true,
-      });
+        if (like) {
+          await like.destroy();
+        } else {
+          if (type === 'comment') {
+            console.log(comment_pk);
+            await BoardCommentLike.create({
+              board_pk,
+              comment_pk,
+              user_pk: user.pk,
+            });
+          } else {
+            console.log(2);
+            await BoardLike.create({
+              board_pk,
+              user_pk: user.pk,
+            });
+          }
+        }
+
+        res.json({
+          success: true,
+        });
+      }
     } else {
       next(new CustomError({ name: 'Not_Found_Board' }));
     }

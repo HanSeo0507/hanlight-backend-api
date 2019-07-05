@@ -13,6 +13,18 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
   const comment_pk: number = req.body.comment_pk;
   const content: string = req.body.content;
   const user: User = res.locals.user;
+  const include =
+    type === 'board'
+      ? undefined
+      : [
+          {
+            model: BoardComment,
+            where: {
+              pk: comment_pk,
+            },
+            required: false,
+          },
+        ];
 
   try {
     const board = await Board.findOne({
@@ -20,20 +32,12 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
         pk: board_pk,
         user_pk: user.pk,
       },
-      include: [
-        {
-          model: BoardComment,
-          where: {
-            pk: comment_pk,
-          },
-          required: false,
-        },
-      ],
+      include,
     });
 
     if (board) {
-      if (!(type === 'comment' && board.comment[0])) {
-        next(new CustomError({ name: 'Not_Found' }));
+      if (type === 'comment' && !board.comment[0]) {
+        next(new CustomError({ name: 'Not_Found_Comment' }));
       } else {
         const shouldBeReported: Board | BoardComment =
           type === 'comment'
