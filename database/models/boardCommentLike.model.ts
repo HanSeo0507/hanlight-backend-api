@@ -43,6 +43,11 @@ export default class BoardCommentLike extends Model<BoardCommentLike> {
   @CreatedAt
   public createdAt: Date;
 
+  @BelongsTo(() => BoardComment, {
+    onDelete: 'CASCADE',
+  })
+  public boardComment: BoardComment;
+
   @BelongsTo(() => User, {
     onDelete: 'CASCADE',
   })
@@ -52,9 +57,4 @@ export default class BoardCommentLike extends Model<BoardCommentLike> {
     onDelete: 'CASCADE',
   })
   public board: Board;
-
-  @BelongsTo(() => BoardComment, {
-    onDelete: 'CASCADE',
-  })
-  public comment: BoardComment;
 }
