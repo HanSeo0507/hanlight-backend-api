@@ -5,6 +5,7 @@ import CustomError from '@Middleware/error/customError';
 import BoardComment from '@Model/boardComment.model';
 import BoardPatchLog from '@Model/boardPatchLog.model';
 import User from '@Model/user.model';
+import Board from '@Model/board.model';
 
 const patchComment = async (req: Request, res: Response, next: NextFunction) => {
   const board_pk: number = req.body.board_pk;
@@ -13,41 +14,57 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
   const user: User = res.locals.user;
 
   try {
-    const past_comment: BoardComment = await BoardComment.findOne({
+    const board: Board = await Board.findOne({
       where: {
-        pk: comment_pk,
-        board_pk,
-        user_pk: user.pk,
+        pk: board_pk,
       },
+      include: [
+        {
+          model: BoardComment,
+          where: {
+            pk: comment_pk,
+            user_pk: user.pk,
+          },
+          required: false,
+        },
+      ],
     });
 
-    if (past_comment && past_comment.content !== content) {
-      const [now_comment]: [BoardComment, unknown] = await Promise.all([
-        past_comment.update({
-          content,
-          updatedAt: new Date(),
-        }),
-        BoardPatchLog.create({
-          type: 'comment',
-          user_pk: user.pk,
-          user_name: user[user.type].name,
-          board_pk,
-          comment_pk,
-          past_content: past_comment.content,
-        }),
-      ]);
+    if (board) {
+      if (board.comment[0]) {
+        if (board.comment[0].content === content) {
+          res.sendStatus(204);
+        } else {
+          const [now_comment]: [BoardComment, unknown] = await Promise.all([
+            board.comment[0].update({
+              content,
+              updatedAt: new Date(),
+            }),
+            BoardPatchLog.create({
+              type: 'comment',
+              user_pk: user.pk,
+              user_name: user[user.type].name,
+              board_pk,
+              comment_pk,
+              past_content: board.comment[0].content,
+            }),
+          ]);
 
-      await res.json({
-        success: true,
-        data: {
-          pk: now_comment.pk,
-          user_name: now_comment.user_name,
-          content: now_comment.content,
-          createdAt: now_comment.createdAt,
-        },
-      });
+          await res.json({
+            success: true,
+            data: {
+              pk: now_comment.pk,
+              user_name: now_comment.user_name,
+              content: now_comment.content,
+              createdAt: now_comment.createdAt,
+            },
+          });
+        }
+      } else {
+        next(new CustomError({ name: 'Not_Found_Comment' }));
+      }
     } else {
-      next(new CustomError({ name: 'Wrong_Data' }));
+      next(new CustomError({ name: 'Not_Found_Board' }));
     }
   } catch (error) {
     console.log(error);

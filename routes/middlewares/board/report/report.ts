@@ -57,7 +57,7 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
         success: true,
       });
     } else {
-      next(new CustomError({ name: 'Wrong_Data' }));
+      next(new CustomError({ name: type === 'board' ? 'Not_Found_Board' : 'Not_Found_Comment' }));
     }
   } catch (error) {
     console.log(error);

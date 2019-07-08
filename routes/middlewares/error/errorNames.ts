@@ -10,6 +10,8 @@ type Exist_User = 'Exist_User';
 type Token_Expired = 'Token_Expired';
 type Forbidden = 'Forbidden';
 type Exist_Data = 'Exist_Data';
+type Not_Found_Board = 'Not_Found_Board';
+type Not_Found_Comment = 'Not_Found_Comment';
 
 export type ErrorNames =
   | Not_User
@@ -23,4 +25,6 @@ export type ErrorNames =
   | Exist_User
   | Token_Expired
   | Forbidden
-  | Exist_Data;
+  | Exist_Data
+  | Not_Found_Board
+  | Not_Found_Comment;
