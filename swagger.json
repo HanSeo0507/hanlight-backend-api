@@ -35,6 +35,14 @@
       "description": "개발할 때 사용 됨"
     },
     {
+      "name": "status",
+      "description": "상태 확인"
+    },
+    {
+      "name": "hanseithon",
+      "description": "한세톤"
+    },
+    {
       "name": "admin",
       "description": "어드민 페이지"
     }
@@ -42,7 +50,9 @@
   "paths": {
     "/dev/errors": {
       "get": {
-        "tags": ["dev"],
+        "tags": [
+          "dev"
+        ],
         "description": "에러 목록",
         "responses": {
           "200": {
@@ -53,7 +63,9 @@
     },
     "/dev/api-docs": {
       "get": {
-        "tags": ["dev"],
+        "tags": [
+          "dev"
+        ],
         "description": "API 문서",
         "responses": {
           "200": {
@@ -64,7 +76,9 @@
     },
     "/user/phone": {
       "post": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "description": "전화번호 인증",
         "requestBody": {
           "content": {
@@ -159,7 +173,9 @@
     },
     "/user/exist": {
       "get": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "description": "아이디 중복확인",
         "parameters": [
           {
@@ -212,7 +228,9 @@
     },
     "/user/register": {
       "post": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "description": "회원가입",
         "requestBody": {
           "content": {
@@ -255,7 +273,9 @@
     },
     "/user/login": {
       "post": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "description": "로그인",
         "requestBody": {
           "content": {
@@ -306,7 +326,9 @@
     },
     "/user/recovery/id": {
       "post": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "description": "아이디 찾기",
         "requestBody": {
           "content": {
@@ -356,7 +378,9 @@
     },
     "/user/recovery/password": {
       "post": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "description": "비밀번호 찾기",
         "requestBody": {
           "content": {
@@ -405,7 +429,9 @@
     },
     "/user": {
       "get": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "description": "유저 조회",
         "parameters": [
           {
@@ -448,7 +474,9 @@
     },
     "/user/password": {
       "patch": {
-        "tags": ["user"],
+        "tags": [
+          "user"
+        ],
         "description": "유저 비밀번호 변경",
         "parameters": [
           {
@@ -497,7 +525,9 @@
     },
     "/timetable": {
       "get": {
-        "tags": ["timetable"],
+        "tags": [
+          "timetable"
+        ],
         "description": "시간표 조회",
         "parameters": [
           {
@@ -564,7 +594,9 @@
     },
     "/calendar": {
       "get": {
-        "tags": ["calendar"],
+        "tags": [
+          "calendar"
+        ],
         "description": "학사일정",
         "parameters": [
           {
@@ -635,7 +667,9 @@
     },
     "/calendar/recent": {
       "get": {
-        "tags": ["calendar"],
+        "tags": [
+          "calendar"
+        ],
         "description": "최근 학사일정 5개",
         "parameters": [
           {
@@ -694,7 +728,9 @@
     },
     "/notice": {
       "get": {
-        "tags": ["notice"],
+        "tags": [
+          "notice"
+        ],
         "description": "공지사항",
         "parameters": [
           {
@@ -775,7 +811,9 @@
     },
     "/meal": {
       "get": {
-        "tags": ["meal"],
+        "tags": [
+          "meal"
+        ],
         "description": "급식 조회",
         "parameters": [
           {
@@ -825,7 +863,9 @@
     },
     "/meal/order": {
       "get": {
-        "tags": ["meal"],
+        "tags": [
+          "meal"
+        ],
         "description": "급식 순서 조회",
         "parameters": [
           {
@@ -854,7 +894,9 @@
     },
     "/board": {
       "get": {
-        "tags": ["board"],
+        "tags": [
+          "board"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -906,7 +948,9 @@
         }
       },
       "post": {
-        "tags": ["board"],
+        "tags": [
+          "board"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -956,7 +1000,9 @@
         }
       },
       "patch": {
-        "tags": ["board"],
+        "tags": [
+          "board"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -1004,7 +1050,9 @@
         }
       },
       "delete": {
-        "tags": ["board"],
+        "tags": [
+          "board"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -1047,7 +1095,9 @@
     },
     "/board/comment": {
       "get": {
-        "tags": ["board"],
+        "tags": [
+          "board"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -1111,7 +1161,9 @@
         }
       },
       "post": {
-        "tags": ["board"],
+        "tags": [
+          "board"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -1163,7 +1215,9 @@
         }
       },
       "patch": {
-        "tags": ["board"],
+        "tags": [
+          "board"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -1215,7 +1269,9 @@
         }
       },
       "delete": {
-        "tags": ["board"],
+        "tags": [
+          "board"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -1267,7 +1323,9 @@
     },
     "/board/report": {
       "post": {
-        "tags": ["board"],
+        "tags": [
+          "board"
+        ],
         "description": "신고하기",
         "parameters": [
           {
@@ -1339,8 +1397,10 @@
       }
     },
     "/board/like": {
-      "get": {
-        "tags": ["board"],
+      "post": {
+        "tags": [
+          "board"
+        ],
         "description": "좋아요",
         "parameters": [
           {
@@ -1351,35 +1411,30 @@
             "name": "access_token",
             "description": "토큰",
             "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "name": "type",
-            "description": "board | comment",
-            "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "board_pk",
-            "description": "board, comment - board_pk",
-            "required": true
-          },
-          {
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            },
-            "name": "comment_pk",
-            "description": "comment - comment_pk",
-            "required": true
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "board || comment"
+                  },
+                  "board_pk": {
+                    "type": "integer",
+                    "description": "해당 게시글의 pk"
+                  },
+                  "comment_pk": {
+                    "type": "integer",
+                    "description": "댓글 좋아요일 경우 댓글의 pk를 포함해야 한다"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "성공",
@@ -1400,9 +1455,312 @@
         }
       }
     },
+    "/status": {
+      "get": {
+        "tags": [
+          "status"
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hanseithon/team": {
+      "get": {
+        "tags": [
+          "hanseithon"
+        ],
+        "description": "한세톤 팀 목록",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "team": {
+                          "$ref": "#/components/schemas/Teams"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 만료"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "hanseithon"
+        ],
+        "description": "한세톤 팀 생성",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "teamName": {
+                    "type": "string"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "생활 || 게임"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "team": {
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "category": {
+                              "type": "string"
+                            },
+                            "password": {
+                              "type": "string"
+                            },
+                            "leader": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "classNum": {
+                                  "type": "string"
+                                },
+                                "role": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 만료"
+          },
+          "403": {
+            "description": "권한 없음"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터, 중복 요소"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "hanseithon"
+        ],
+        "description": "한세톤 팀 삭제",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "teamPk",
+            "description": "한세톤 팀 pk",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "권한 없음"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      }
+    },
+    "/hanseithon/team/member": {
+      "post": {
+        "tags": [
+          "hanseithon"
+        ],
+        "description": "한세톤 팀 멤버 생성",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "teamPk",
+            "description": "신청하려는 팀의 pk",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "role": {
+                    "type": "string",
+                    "description": "Planner || Developer || Designer"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "team": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "category": {
+                              "type": "string"
+                            },
+                            "member": {
+                              "type": "object",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "classNum": {
+                                  "type": "string"
+                                },
+                                "role": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "토큰 만료"
+          },
+          "403": {
+            "description": "권한 없음"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터, 중복 요소"
+          }
+        }
+      }
+    },
     "/admin/user": {
       "get": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "유저 정보 확인",
         "parameters": [
           {
@@ -1505,7 +1863,9 @@
         }
       },
       "post": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "유저 생성",
         "parameters": [
           {
@@ -1580,7 +1940,9 @@
         }
       },
       "patch": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "유저 정보 변경",
         "parameters": [
           {
@@ -1668,7 +2030,9 @@
         }
       },
       "delete": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "유저 삭제",
         "parameters": [
           {
@@ -1715,7 +2079,9 @@
     },
     "/admin/notice": {
       "get": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "공지사항 조회",
         "parameters": [
           {
@@ -1759,7 +2125,9 @@
         }
       },
       "post": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "공지사항 작성",
         "parameters": [
           {
@@ -1822,7 +2190,9 @@
         }
       },
       "patch": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "공지사항 수정",
         "parameters": [
           {
@@ -1888,7 +2258,9 @@
         }
       },
       "delete": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "공지사항 삭제",
         "parameters": [
           {
@@ -1946,7 +2318,9 @@
     },
     "/admin/notice/approve": {
       "post": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "공지사항 승인 요청",
         "parameters": [
           {
@@ -2002,7 +2376,9 @@
         }
       },
       "delete": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "공지사항 삭제 승인 요청",
         "parameters": [
           {
@@ -2049,7 +2425,9 @@
     },
     "/admin/timetable": {
       "post": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "시간표 생성",
         "parameters": [
           {
@@ -2124,7 +2502,9 @@
         }
       },
       "delete": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "시간표 삭제",
         "parameters": [
           {
@@ -2207,7 +2587,9 @@
     },
     "/admin/calender": {
       "post": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "학사일정 생성",
         "parameters": [
           {
@@ -2273,7 +2655,9 @@
         }
       },
       "patch": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "학사일정 변경",
         "parameters": [
           {
@@ -2341,7 +2725,9 @@
         }
       },
       "delete": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "학사일정 삭제",
         "parameters": [
           {
@@ -2388,7 +2774,9 @@
     },
     "/admin/board": {
       "delete": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "게시글 삭제",
         "parameters": [
           {
@@ -2444,7 +2832,9 @@
     },
     "/admin/comment": {
       "delete": {
-        "tags": ["admin"],
+        "tags": [
+          "admin"
+        ],
         "description": "댓글 삭제",
         "parameters": [
           {
@@ -2506,7 +2896,12 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["student", "teacher", "graduate", "parent"]
+            "enum": [
+              "student",
+              "teacher",
+              "graduate",
+              "parent"
+            ]
           },
           "admin": {
             "type": "integer"
@@ -2610,40 +3005,37 @@
           }
         }
       },
-      "Boards-2": {
-        "type": "array",
-        "items": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/Board"
-            },
-            {
-              "type": "object",
+      "Teams": {
+        "type": "object",
+        "properties": {
+          "pk": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "member": {
+            "type": "array",
+            "items": {
               "properties": {
-                "edited": {
+                "name": {
+                  "type": "string"
+                },
+                "classNum": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string"
+                },
+                "leader": {
                   "type": "boolean"
-                },
-                "commentCount": {
-                  "type": "integer"
-                },
-                "comment": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Comment"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "edited": {
-                          "type": "boolean"
-                        }
-                      }
-                    }
-                  ]
                 }
               }
             }
-          ]
+          }
         }
       },
       "Comment": {
@@ -2706,7 +3098,9 @@
       },
       "Success": {
         "type": "object",
-        "required": ["success"],
+        "required": [
+          "success"
+        ],
         "properties": {
           "success": {
             "type": "boolean"
@@ -2715,7 +3109,13 @@
       },
       "Error": {
         "type": "object",
-        "required": ["success", "code", "name", "message", "description"],
+        "required": [
+          "success",
+          "code",
+          "name",
+          "message",
+          "description"
+        ],
         "properties": {
           "success": {
             "type": "boolean"
@@ -2914,6 +3314,60 @@
           },
           "detail": {
             "type": "string"
+          }
+        }
+      },
+      "HanseithonTeam": {
+        "type": "object",
+        "properties": {
+          "pk": {
+            "type": "integer"
+          },
+          "user_pk": {
+            "type": "string"
+          },
+          "team_name": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string",
+            "description": "생활 || 게임"
+          },
+          "password": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "HanseithonTeamMember": {
+        "type": "object",
+        "properties": {
+          "pk": {
+            "type": "integer"
+          },
+          "user_pk": {
+            "type": "string"
+          },
+          "team_pk": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "classNum": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "description": "Planner || Developer || Designer"
+          },
+          "leader": {
+            "type": "boolean"
           }
         }
       }

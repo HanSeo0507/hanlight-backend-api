@@ -19,6 +19,7 @@ import phoneValidation from '@Middleware/user/phone/_validation';
 import fbCheckCode from '@Middleware/user/phone/fbCheckCode';
 import phoneCheck from '@Middleware/user/phone/phoneCheck';
 import phoneInsert from '@Middleware/user/phone/phoneInsert';
+import createTermAcceptLog from '@Middleware/user/rule/createTermAcceptLog';
 
 // exist
 import existValidation from '@Middleware/user/exist/_validation';
@@ -57,7 +58,7 @@ router.use(checkValidation);
 
 router.post('/register', userExistCheck, signKeyCheck, passwordEncryption, register);
 router.post('/login', userExistCheck, passwordEncryption, login, issueToken('login'));
-router.post('/phone', signKeyCheck, fbCheckCode, phoneCheck, phoneInsert);
+router.post('/phone', signKeyCheck, fbCheckCode, phoneCheck, createTermAcceptLog, phoneInsert);
 router.get('/exist', exist);
 router.post('/recovery/id', fbCheckCode, recoveryId);
 router.post('/recovery/password', fbCheckCode, phoneCheck, issueToken('none'));

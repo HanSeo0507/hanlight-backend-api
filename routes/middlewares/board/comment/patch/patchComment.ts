@@ -2,10 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 
 import CustomError from '@Middleware/error/customError';
 
+import Board from '@Model/board.model';
 import BoardComment from '@Model/boardComment.model';
 import BoardPatchLog from '@Model/boardPatchLog.model';
 import User from '@Model/user.model';
-import Board from '@Model/board.model';
 
 const patchComment = async (req: Request, res: Response, next: NextFunction) => {
   const board_pk: number = req.body.board_pk;
@@ -29,7 +29,30 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
         },
       ],
     });
-
+    if (board) {
+      if (board.comment[0]) {
+        const [now_comment]: [BoardComment, unknown] = await Promise.all([
+          BoardComment.update(
+            {
+              content,
+            },
+            {
+              where: {
+                pk: board.comment[0].pk,
+              },
+            }
+          ),
+          BoardPatchLog.create({
+            type: 'comment',
+            user_pk: user.pk,
+            user_name: user[user.type].name,
+            board_pk,
+            comment_pk,
+            past_content: board.comment[0].content,
+          }),
+        ]);
+      }
+    }
     if (board) {
       if (board.comment[0]) {
         if (board.comment[0].content === content) {

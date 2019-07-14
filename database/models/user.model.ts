@@ -25,6 +25,7 @@ import Student from './student.model';
 import Teacher from './teacher.model';
 import TimeTableLog from './timeTableLog.model';
 import NoticeApproveLog from './noticeApproveLog.model';
+import TermAcceptLog from './termAcceptLog.model';
 
 @Table({
   timestamps: true,
@@ -95,4 +96,7 @@ export default class User extends Model<User> {
   public boardManageLog: BoardManageLog[];
   @HasMany(() => NoticeApproveLog)
   public noticeApproveLog: NoticeApproveLog[];
+
+  @HasOne(() => TermAcceptLog)
+  public termAcceptLog: TermAcceptLog;
 }

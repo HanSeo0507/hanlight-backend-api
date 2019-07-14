@@ -53,7 +53,7 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
         });
       }
 
-      await res.json({
+      res.json({
         success: true,
       });
     } else {

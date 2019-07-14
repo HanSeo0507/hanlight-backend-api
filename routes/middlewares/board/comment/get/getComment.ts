@@ -42,7 +42,7 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
         ],
       });
 
-      await res.json({
+      res.json({
         success: true,
         data: {
           comment: comments.rows.map((val: BoardComment) => ({
