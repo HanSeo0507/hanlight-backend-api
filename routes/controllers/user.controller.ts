@@ -40,6 +40,7 @@ import getUser from '@Middleware/user/get/getUser';
 // patch
 import userPatchPassword from '@Middleware/user/patch/password/_validation';
 import patchPassword from '@Middleware/user/patch/password/patchPassword';
+import createTermAcceptLog from '@Middleware/user/rule/createTermAcceptLog';
 
 const router = Router();
 
@@ -55,7 +56,7 @@ router.use(checkValidation);
 
 router.post('/register', userExistCheck, signKeyCheck, passwordEncryption, register);
 router.post('/login', userExistCheck, passwordEncryption, login, issueToken('login'));
-router.post('/phone', signKeyCheck, fbCheckCode, phoneCheck, phoneInsert);
+router.post('/phone', signKeyCheck, fbCheckCode, phoneCheck, createTermAcceptLog, phoneInsert);
 router.get('/exist', exist);
 router.post('/recovery/id', fbCheckCode, recoveryId);
 router.post('/recovery/password', fbCheckCode, phoneCheck, issueToken('none'));
