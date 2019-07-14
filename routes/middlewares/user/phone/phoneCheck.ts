@@ -22,7 +22,11 @@ const phoneCheck = (req: Request, res: Response, next: NextFunction) => {
 
         case '/phone':
           if (user) {
-            next(new CustomError({ name: 'Exist_User', message: '사용 중인 전화번호입니다.' }));
+            if (res.locals.user && res.locals.user.pk === user.pk) {
+              res.sendStatus(204);
+            } else {
+              next(new CustomError({ name: 'Exist_User', message: '사용 중인 전화번호입니다.' }));
+            }
           } else {
             next();
           }

@@ -9,12 +9,16 @@ dotenv.config();
 
 const issueToken = (type: 'login' | 'none') => (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const tokenSecret = process.env.TOKEN_SECRET;
-  const accessToken = jwt.sign(
+  const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+
+  const accessToken: string = jwt.sign(
     {
       pk: user.pk,
     },
-    tokenSecret
+    accessTokenSecret,
+    {
+      expiresIn: '50m',
+    }
   );
 
   const response = {
@@ -25,6 +29,7 @@ const issueToken = (type: 'login' | 'none') => (req: Request, res: Response, nex
             type: user.type,
             admin: user.admin,
             name: user[user.type].name,
+            id: user.id,
             major: user.type === 'student' ? user.student.major : null,
             grade: user.type === 'student' ? user.student.grade : null,
             classNum: user.type === 'student' ? user.student.classNum : null,

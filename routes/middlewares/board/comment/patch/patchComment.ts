@@ -14,16 +14,16 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
   const user: User = res.locals.user;
 
   try {
-    const board = await Board.findOne({
+    const board: Board = await Board.findOne({
       where: {
         pk: board_pk,
-        user_pk: user.pk,
       },
       include: [
         {
           model: BoardComment,
           where: {
             pk: comment_pk,
+            user_pk: user.pk,
           },
           required: false,
         },
@@ -38,7 +38,7 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
             },
             {
               where: {
-                pk: board.comment.pk,
+                pk: board.comment[0].pk,
               },
             }
           ),
@@ -48,19 +48,41 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
             user_name: user[user.type].name,
             board_pk,
             comment_pk,
-            past_content: board.comment.content,
+            past_content: board.comment[0].content,
           }),
         ]);
+      }
+    }
+    if (board) {
+      if (board.comment[0]) {
+        if (board.comment[0].content === content) {
+          res.sendStatus(204);
+        } else {
+          const [now_comment]: [BoardComment, unknown] = await Promise.all([
+            board.comment[0].update({
+              content,
+              updatedAt: new Date(),
+            }),
+            BoardPatchLog.create({
+              type: 'comment',
+              user_pk: user.pk,
+              user_name: user[user.type].name,
+              board_pk,
+              comment_pk,
+              past_content: board.comment[0].content,
+            }),
+          ]);
 
-        res.json({
-          success: true,
-          data: {
-            pk: now_comment.pk,
-            user_name: now_comment.user_name,
-            content: now_comment.content,
-            createdAt: now_comment.createdAt,
-          },
-        });
+          await res.json({
+            success: true,
+            data: {
+              pk: now_comment.pk,
+              user_name: now_comment.user_name,
+              content: now_comment.content,
+              createdAt: now_comment.createdAt,
+            },
+          });
+        }
       } else {
         next(new CustomError({ name: 'Not_Found_Comment' }));
       }

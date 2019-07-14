@@ -14,23 +14,21 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
     const board: Board = await Board.findOne({
       where: {
         pk: board_pk,
-        user_pk: user.pk,
       },
       include: [
         {
           model: BoardComment,
           where: {
             pk: comment_pk,
+            user_pk: user.pk,
           },
-          required: false,
         },
       ],
     });
 
     if (board) {
       if (board.comment[0]) {
-        await BoardComment.destroy({ where: { pk: comment_pk } });
-
+        await board.comment[0].destroy();
         res.json({
           success: true,
         });

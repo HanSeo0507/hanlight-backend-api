@@ -25,35 +25,39 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
       ],
     });
 
-    if (past_board && past_board.content !== current_content) {
-      const [current_board]: [Board, unknown] = await Promise.all([
-        past_board.update({
-          content: current_content,
-          updatedAt: new Date(),
-        }),
-        BoardPatchLog.create({
-          board_pk,
-          user_pk: user.pk,
-          user_name: user[user.type].name,
-          type: 'board',
-          past_content: past_board.content,
-        }),
-      ]);
+    if (past_board) {
+      if (past_board.content === current_content) {
+        res.sendStatus(204);
+      } else {
+        const [current_board]: [Board, unknown] = await Promise.all([
+          past_board.update({
+            content: current_content,
+            updatedAt: new Date(),
+          }),
+          BoardPatchLog.create({
+            board_pk,
+            user_pk: user.pk,
+            user_name: user[user.type].name,
+            type: 'board',
+            past_content: past_board.content,
+          }),
+        ]);
 
-      res.json({
-        success: true,
-        data: {
-          board: {
-            pk: current_board.pk,
-            user_name: current_board.user_name,
-            content: current_board.content,
-            files: current_board.boardImage.map(
-              (boardImage: BoardImage) => `https://s3.ap-northeast-2.amazonaws.com/hanlight/board/${boardImage.file}`
-            ),
-            createdAt: current_board.createdAt,
+        res.json({
+          success: true,
+          data: {
+            board: {
+              pk: current_board.pk,
+              user_name: current_board.user_name,
+              content: current_board.content,
+              files: current_board.boardImage.map(
+                (boardImage: BoardImage) => `https://s3.ap-northeast-2.amazonaws.com/hanlight/board/${boardImage.file}`
+              ),
+              createdAt: current_board.createdAt,
+            },
           },
-        },
-      });
+        });
+      }
     } else {
       next(new CustomError({ name: 'Not_Found_Board' }));
     }

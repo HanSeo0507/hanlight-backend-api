@@ -22,7 +22,7 @@ const multer = Multer({
     }
   },
   limits: {
-    fileSize: 1048576,
+    fileSize: 1024 * 1024 * 5,
   },
 }).array('files', 5);
 

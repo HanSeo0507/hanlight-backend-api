@@ -8,12 +8,12 @@ dotenv.config();
 
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   const accessToken: string | string[] = req.headers.access_token;
-  const tokenSecret: string = process.env.TOKEN_SECRET;
+  const accessTokenSecret: string = process.env.ACCESS_TOKEN_SECRET;
 
   try {
-    const decoded = await jwt.verify(accessToken as string, tokenSecret);
+    const decoded = await jwt.verify(accessToken as string, accessTokenSecret);
     res.locals.user = decoded;
-    await next();
+    next();
   } catch (error) {
     switch (error.name) {
       case 'TokenExpiredError':

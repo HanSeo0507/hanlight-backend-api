@@ -110,7 +110,57 @@
             }
           },
           "204": {
-            "description": "회원 중에 이미 번호를 가진 유저가 있어서 다음 프로세스를 진행하지 않아도 됨"
+            "description": "유저가 이미 해당 전화번호인 것이 증명되었기 때문에 다음 프로세스를 진행하지 않음"
+          },
+          "401": {
+            "description": "(Wrong_Request) facebook account kit으로 요청된 code값이 잘못됨"
+          },
+          "412": {
+            "description": "해당 키에 유저가 조회되지 않음, 요청 데이터가 잘못됨, 요청 데이터가 이미 데이터베이스에 존재함"
+          }
+        }
+      },
+      "patch": {
+        "tags": ["user"],
+        "description": "전화번호 수정",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "FB account kit에서 응답값으로 준 code value"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "유저가 이미 해당 전화번호인 것이 증명되었기 때문에 다음 프로세스를 진행하지 않음"
           },
           "401": {
             "description": "(Wrong_Request) facebook account kit으로 요청된 code값이 잘못됨"
@@ -2857,6 +2907,9 @@
             "type": "integer"
           },
           "name": {
+            "type": "string"
+          },
+          "id": {
             "type": "string"
           },
           "major": {
