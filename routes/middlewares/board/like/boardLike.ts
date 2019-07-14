@@ -34,7 +34,7 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (board) {
-      if (type === 'board' || board.comment[0]) {
+      if (type === 'board' || (type === 'comment' && board.comment[0])) {
         const like: BoardLike | BoardCommentLike | undefined =
           type === 'board'
             ? await BoardLike.findOne({
@@ -50,6 +50,7 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
                   user_pk: user.pk,
                 },
               });
+
         if (like) {
           await like.destroy();
         } else {
@@ -65,10 +66,13 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
               user_pk: user.pk,
             });
           }
-          res.json({
-            success: true,
-          });
         }
+        res.json({
+          success: true,
+          data: {
+            isLiked: !like,
+          },
+        });
       } else {
         next(new CustomError({ name: 'Not_Found_Comment' }));
       }
