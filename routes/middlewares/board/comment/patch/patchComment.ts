@@ -35,7 +35,6 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
           BoardComment.update(
             {
               content,
-              updatedAt: new Date(),
             },
             {
               where: {

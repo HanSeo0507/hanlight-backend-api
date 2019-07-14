@@ -13,60 +13,51 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
   const comment_pk: number = req.body.comment_pk;
   const content: string = req.body.content;
   const user: User = res.locals.user;
-  const include =
-    type === 'board'
-      ? undefined
-      : [
-          {
-            model: BoardComment,
-            where: {
-              pk: comment_pk,
-            },
-            required: false,
-          },
-        ];
 
   try {
-    const board: Board | undefined = await Board.findOne({
-      where: {
-        pk: board_pk,
-      },
-      include,
-    });
-
-    if (board) {
-      if (type === 'comment' && !board.comment[0]) {
-        next(new CustomError({ name: 'Not_Found_Comment' }));
-      } else {
-        const [result, created]: [BoardReportLog, boolean] = await BoardReportLog.findOrCreate({
-          where: {
-            type,
-            board_pk,
-            comment_pk: comment_pk || null,
-            user_pk: user.pk,
-          },
-          defaults: {
-            type,
-            board_pk,
-            comment_pk: comment_pk || null,
-            user_pk: user.pk,
-            user_name: user[user.type].name,
-            content: content || null,
-          },
-        });
-
-        if (!created && result.content !== content) {
-          await result.update({
-            content,
+    const shouldBeReported: Board | BoardComment =
+      type === 'board'
+        ? await Board.findOne({
+            where: {
+              pk: board_pk,
+            },
+          })
+        : await BoardComment.findOne({
+            where: {
+              pk: comment_pk,
+              board_pk,
+            },
           });
-        }
 
-        res.json({
-          success: true,
+    if (shouldBeReported) {
+      const [result, created]: [BoardReportLog, boolean] = await BoardReportLog.findOrCreate({
+        where: {
+          type,
+          board_pk,
+          comment_pk: comment_pk || null,
+          user_pk: user.pk,
+        },
+        defaults: {
+          type,
+          board_pk,
+          comment_pk: comment_pk || null,
+          user_pk: user.pk,
+          user_name: user[user.type].name,
+          content: content || null,
+        },
+      });
+
+      if (!created && result.content !== content) {
+        await result.update({
+          content,
         });
       }
+
+      res.json({
+        success: true,
+      });
     } else {
-      next(new CustomError({ name: 'Not_Found_Board' }));
+      next(new CustomError({ name: type === 'board' ? 'Not_Found_Board' : 'Not_Found_Comment' }));
     }
   } catch (error) {
     console.log(error);
