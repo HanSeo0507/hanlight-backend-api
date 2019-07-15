@@ -13,6 +13,7 @@ const getCalendar = async (req: Request, res: Response, next: NextFunction) => {
         year,
         month,
       },
+      order: [['date', 'ASC']],
     }).map((val: Calendar) => ({
       date: val.date,
       detail: val.detail,
