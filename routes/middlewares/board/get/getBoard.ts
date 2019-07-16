@@ -37,6 +37,7 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
             {
               model: BoardPatchLog,
               attributes: ['pk'],
+              limit: 1,
             },
             {
               model: BoardCommentLike,

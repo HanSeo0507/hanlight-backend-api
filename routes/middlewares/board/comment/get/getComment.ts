@@ -30,10 +30,12 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
         offset: page * limit,
         order: [['createdAt', 'DESC']],
         attributes: ['pk', 'user_pk', 'user_name', 'content', 'createdAt'],
+        distinct: true,
         include: [
           {
             model: BoardPatchLog,
             attributes: ['pk'],
+            limit: 1,
           },
           {
             model: BoardCommentLike,
