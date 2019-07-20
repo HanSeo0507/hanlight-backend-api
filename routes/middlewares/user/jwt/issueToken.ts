@@ -17,7 +17,7 @@ const issueToken = (type: 'login' | 'none') => (req: Request, res: Response, nex
     },
     accessTokenSecret,
     {
-      expiresIn: '50m',
+      expiresIn: '24h',
     }
   );
 
