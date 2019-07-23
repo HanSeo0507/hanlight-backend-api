@@ -51,6 +51,11 @@ import postCalendar from '@Middleware/admin/calendar/post/postCalendar';
 import deleteComment from '@Middleware/admin/board/comment/delete/deleteComment';
 import deleteBoard from '@Middleware/admin/board/delete/deleteBoard';
 
+// hanseithon
+import hanseithonGetUserValidation from '@Middleware/admin/hanseithon/user/get/_validation';
+import hanseithonGetUser from '@Middleware/admin/hanseithon/user/get/getUser';
+import hanseithonGetUserResponse from '@Middleware/user/get/getUser';
+
 const router: Router = Router();
 
 router.use(verifyToken, getUserFromToken, checkAdmin);
@@ -71,6 +76,7 @@ router.patch('/calendar', patchCalendarValidation);
 router.delete('/calendar', deleteCalendarValidation);
 router.delete('/board', deleteBoardValidation);
 router.delete('/comment', deleteCommentValidation);
+router.post('/hanseithon/user', hanseithonGetUserValidation); // to hide user pk
 
 router.use(checkValidation);
 
@@ -91,5 +97,6 @@ router.patch('/calendar', patchCalendar);
 router.delete('/calendar', deleteCalendar);
 router.delete('/board', deleteBoard);
 router.delete('/comment', deleteComment);
+router.post('/hanseithon/user', hanseithonGetUser, getUserFromToken, hanseithonGetUserResponse);
 
 export default router;

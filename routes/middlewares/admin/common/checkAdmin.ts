@@ -64,6 +64,9 @@ const checkAdmin = (req: Request, res: Response, next: NextFunction) => {
       case 'DELETE /comment':
         checkLevel(3);
         break;
+      case 'POST /hanseithon/user':
+        checkLevel(3);
+        break;
       default:
         console.log(`${req.method} ${req.path}`);
         next(new CustomError({ name: 'Not_Found' }));
