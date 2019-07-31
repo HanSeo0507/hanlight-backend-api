@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 
+import CustomError from '@Middleware/error/customError';
 import User from '@Model/user.model';
 
-import CustomError from '@Middleware/error/customError';
-
-const checkUserType = (req: Request, res: Response, next: NextFunction) => {
+const checkUserType = (type: string | string[]) => (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
 
-  if (user.type === 'student' || user.type === 'graduate') {
+  if (type.includes(user.type)) {
     next();
   } else {
     next(new CustomError({ name: 'Forbidden' }));

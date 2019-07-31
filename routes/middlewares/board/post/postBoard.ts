@@ -15,7 +15,7 @@ const postBoard = async (req: Request, res: Response, next: NextFunction) => {
     const board: Board = await Board.create(
       {
         user_pk: user.pk,
-        user_name: user.student.name,
+        user_name: user[user.type].name,
         content,
         boardImage: files.map(file => ({ file })),
       },

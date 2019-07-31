@@ -1,5 +1,8 @@
 import { Router } from 'express';
 
+// common
+import checkUserType from '@Middleware/common/checkUserType';
+
 // validation
 import deleteCommentValidation from '@Middleware/board/comment/delete/_validation';
 import getCommentValidation from '@Middleware/board/comment/get/_validation';
@@ -12,9 +15,6 @@ import patchBoardValidation from '@Middleware/board/patch/_validation';
 import postBoardValidation from '@Middleware/board/post/_validation';
 import reportValidation from '@Middleware/board/report/_validation';
 import checkValidation from '@Middleware/common/checkValidation';
-
-// common
-import checkUserType from '@Middleware/board/common/checkUserType';
 
 // board
 import deleteBoard from '@Middleware/board/delete/deleteBoard';
@@ -39,14 +39,14 @@ import boardLike from '@Middleware/board/like/boardLike';
 const router: Router = Router();
 
 router.get('/', getBoardValidation);
-router.post('/', checkUserType, postMulter, postBoardValidation);
-router.patch('/', checkUserType, patchBoardValidation);
-router.delete('/', checkUserType, deleteBoardValidation);
+router.post('/', checkUserType(['student', 'graduate']), postMulter, postBoardValidation);
+router.patch('/', checkUserType(['student', 'graduate']), patchBoardValidation);
+router.delete('/', checkUserType(['student', 'graduate']), deleteBoardValidation);
 router.post('/report', reportValidation);
 router.get('/comment', getCommentValidation);
-router.post('/comment', checkUserType, PostCommentValidation);
-router.patch('/comment', checkUserType, patchCommentValidation);
-router.delete('/comment', checkUserType, deleteCommentValidation);
+router.post('/comment', checkUserType(['student', 'graduate']), PostCommentValidation);
+router.patch('/comment', checkUserType(['student', 'graduate']), patchCommentValidation);
+router.delete('/comment', checkUserType(['student', 'graduate']), deleteCommentValidation);
 router.post('/like', likeValidation);
 
 router.use(checkValidation);
