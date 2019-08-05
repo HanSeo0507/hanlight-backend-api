@@ -17,6 +17,7 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
         grade: user.type === 'student' ? user.student.grade : null,
         classNum: user.type === 'student' ? user.student.classNum : null,
         studentNum: user.type === 'student' ? user.student.studentNum : null,
+        image: user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
       },
     },
   });
