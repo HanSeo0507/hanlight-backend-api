@@ -36,7 +36,7 @@ export default class Board extends Model<Board> {
   @Column(DataType.UUID)
   public user_pk: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.STRING)
   public user_name: string;
 

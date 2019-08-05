@@ -19,11 +19,12 @@ const postComment = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (board) {
+      const anonymousWrite: boolean = board.user_name === null && board.user_pk === user.pk;
       const comment: BoardComment = await BoardComment.create({
         board_pk,
         content,
         user_pk: user.pk,
-        user_name: user[user.type].name,
+        user_name: anonymousWrite ? null : user[user.type].name,
       });
 
       await res.json({

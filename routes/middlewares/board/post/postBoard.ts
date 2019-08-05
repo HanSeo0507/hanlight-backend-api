@@ -10,12 +10,13 @@ const postBoard = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
   const content: string = req.body.content;
   const files: string[] = (res.locals.temp && res.locals.temp.files) || [];
+  const anonymous: boolean | undefined = req.body.anonymous;
 
   try {
     const board: Board = await Board.create(
       {
         user_pk: user.pk,
-        user_name: user[user.type].name,
+        user_name: anonymous ? null : user[user.type].name,
         content,
         boardImage: files.map(file => ({ file })),
       },

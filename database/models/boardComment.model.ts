@@ -39,7 +39,7 @@ export default class BoardComment extends Model<BoardComment> {
   @Column(DataType.UUID)
   public user_pk: string;
 
-  @AllowNull(false)
+  @AllowNull(true)
   @Column(DataType.STRING)
   public user_name: string;
 
