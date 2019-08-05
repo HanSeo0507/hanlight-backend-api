@@ -10,7 +10,7 @@ const postBoard = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
   const content: string = req.body.content;
   const files: string[] = (res.locals.temp && res.locals.temp.files) || [];
-  const anonymous: boolean | undefined = req.body.anonymous;
+  const anonymous = req.body.anonymous ? parseInt(req.body.anonymous, 10) : false;
 
   try {
     const board: Board = await Board.create(
