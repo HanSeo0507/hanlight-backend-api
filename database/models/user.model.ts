@@ -19,13 +19,13 @@ import BoardManageLog from './boardManageLog.model';
 import CalendarLog from './calendarLog.model';
 import Graduate from './graduate.model';
 import Notice from './notice.model';
+import NoticeApproveLog from './noticeApproveLog.model';
 import NoticeViewLog from './noticeViewLog.model';
 import Parent from './parent.model';
 import Student from './student.model';
 import Teacher from './teacher.model';
-import TimeTableLog from './timeTableLog.model';
-import NoticeApproveLog from './noticeApproveLog.model';
 import TermAcceptLog from './termAcceptLog.model';
+import TimeTableLog from './timeTableLog.model';
 
 @Table({
   timestamps: true,
@@ -61,6 +61,9 @@ export default class User extends Model<User> {
 
   @Column(DataType.STRING)
   public tp: string;
+
+  @Column(DataType.STRING)
+  public image: string;
 
   @CreatedAt
   public createdAt: Date;

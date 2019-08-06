@@ -43,6 +43,11 @@ import userPatchPassword from '@Middleware/user/patch/password/_validation';
 import patchPassword from '@Middleware/user/patch/password/patchPassword';
 import userPatchPhone from '@Middleware/user/patch/phone/_validation';
 
+// profile-image
+import imageMulter from '@Middleware/user/image/post/imageMulter';
+import postImage from '@Middleware/user/image/post/postImage';
+import updateImage from '@Middleware/user/image/post/updateImage';
+
 const router = Router();
 
 router.post('/register', registerValidation);
@@ -53,6 +58,7 @@ router.post('/recovery/id', recoveryIdValidation);
 router.post('/recovery/password', recoveryPwValidation);
 router.patch('/password', userPatchPassword);
 router.patch('/phone', userPatchPhone);
+router.post('/image', imageMulter);
 
 router.use(checkValidation);
 
@@ -63,8 +69,11 @@ router.get('/exist', exist);
 router.post('/recovery/id', fbCheckCode, recoveryId);
 router.post('/recovery/password', fbCheckCode, phoneCheck, issueToken('none'));
 
-router.get('/', verifyToken, getUserFromToken, getUser);
-router.patch('/password', verifyToken, getUserFromToken, passwordEncryption, patchPassword);
-router.patch('/phone', verifyToken, getUserFromToken, fbCheckCode, phoneCheck, phoneInsert);
+router.use('/', verifyToken, getUserFromToken);
+
+router.get('/', getUser);
+router.patch('/password', passwordEncryption, patchPassword);
+router.patch('/phone', fbCheckCode, phoneCheck, phoneInsert);
+router.post('/image', postImage, updateImage, getUser);
 
 export default router;
