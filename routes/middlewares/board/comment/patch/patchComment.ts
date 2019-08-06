@@ -31,30 +31,6 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
     });
     if (board) {
       if (board.comment[0]) {
-        const [now_comment]: [BoardComment, unknown] = await Promise.all([
-          BoardComment.update(
-            {
-              content,
-            },
-            {
-              where: {
-                pk: board.comment[0].pk,
-              },
-            }
-          ),
-          BoardPatchLog.create({
-            type: 'comment',
-            user_pk: user.pk,
-            user_name: user[user.type].name,
-            board_pk,
-            comment_pk,
-            past_content: board.comment[0].content,
-          }),
-        ]);
-      }
-    }
-    if (board) {
-      if (board.comment[0]) {
         if (board.comment[0].content === content) {
           res.sendStatus(204);
         } else {
@@ -78,6 +54,7 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
             data: {
               pk: now_comment.pk,
               user_name: now_comment.user_name,
+              user_image: user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
               content: now_comment.content,
               createdAt: now_comment.createdAt,
             },

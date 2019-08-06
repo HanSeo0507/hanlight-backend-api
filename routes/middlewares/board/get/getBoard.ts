@@ -25,6 +25,10 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
       distinct: true,
       include: [
         {
+          model: User,
+          attributes: ['image'],
+        },
+        {
           model: BoardPatchLog,
           attributes: ['pk'],
         },
@@ -34,6 +38,10 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
           order: [['createdAt', 'DESC']],
           limit: comment_limit,
           include: [
+            {
+              model: User,
+              attributes: ['image'],
+            },
             {
               model: BoardPatchLog,
               attributes: ['pk'],
@@ -66,6 +74,7 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
         board: result.rows.map(val => ({
           pk: val.pk,
           user_name: val.user_name,
+          user_image: val.user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${val.user.image}` : null,
           content: val.content,
           files: val.boardImage.map(
             (boardImage: BoardImage) => `https://s3.ap-northeast-2.amazonaws.com/hanlight/board/${boardImage.file}`
@@ -78,6 +87,7 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
           comment: val.comment.map(comment => ({
             pk: comment.pk,
             user_name: comment.user_name,
+            user_image: comment.user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${comment.user.image}` : null,
             content: comment.content,
             createdAt: comment.createdAt,
             edited: !!comment.boardPatchLog.length,
