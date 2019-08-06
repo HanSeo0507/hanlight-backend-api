@@ -33,6 +33,10 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
         distinct: true,
         include: [
           {
+            model: User,
+            attributes: ['image'],
+          },
+          {
             model: BoardPatchLog,
             attributes: ['pk'],
             limit: 1,
@@ -50,6 +54,7 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
           comment: comments.rows.map((val: BoardComment) => ({
             pk: val.pk,
             user_name: val.user_name,
+            user_image: val.user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${val.user.image}` : null,
             content: val.content,
             createdAt: val.createdAt,
             edited: !!val.boardPatchLog.length,
