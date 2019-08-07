@@ -29,6 +29,12 @@ const getBoardLike = async (req: Request, res: Response, next: NextFunction) => 
                 include: [
                   {
                     model: BoardCommentLike,
+                    include: [
+                      {
+                        model: User,
+                        attributes: ['image'],
+                      },
+                    ],
                   },
                 ],
               },
@@ -36,25 +42,37 @@ const getBoardLike = async (req: Request, res: Response, next: NextFunction) => 
           : [
               {
                 model: BoardLike,
+                include: [
+                  {
+                    model: User,
+                    attributes: ['image'],
+                  },
+                ],
               },
             ],
     });
-  
+
     if (board) {
       if (type === 'comment' && !board.comment.length) {
         next(new CustomError({ name: 'Not_Found_Comment' }));
       } else {
-        const user: User[] = await User.findAll({
-          where: {
-            pk: type === 'board' ? board.boardLike.map(like => like.user_pk) : board.comment[0].boardCommentLike.map(like => like.user_pk),
-          },
-          attributes: []
-        })
-  
         res.json({
           success: true,
           data: {
-            like: type === 'board' ? board.boardLike : board.comment[0].boardCommentLike,
+            like:
+              type === 'board'
+                ? board.boardLike.map(like => ({
+                    user_name: like.user_name,
+                    user_image: like.user.image
+                      ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${like.user.image}`
+                      : null,
+                  }))
+                : board.comment[0].boardCommentLike.map(like => ({
+                    user_name: like.user_name,
+                    user_image: like.user.image
+                      ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${like.user.image}`
+                      : null,
+                  })),
           },
         });
       }
@@ -62,8 +80,8 @@ const getBoardLike = async (req: Request, res: Response, next: NextFunction) => 
       next(new CustomError({ name: 'Not_Found_Board' }));
     }
   } catch (error) {
-    console.log(error)
-    next(new CustomError({name: 'Database_Error'}))
+    console.log(error);
+    next(new CustomError({ name: 'Database_Error' }));
   }
 };
 
