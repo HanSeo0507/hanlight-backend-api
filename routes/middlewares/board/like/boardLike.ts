@@ -41,7 +41,6 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
                 where: {
                   board_pk,
                   user_pk: user.pk,
-                  user_name: user[user.type].name,
                 },
               })
             : await BoardCommentLike.findOne({
@@ -49,7 +48,6 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
                   board_pk,
                   comment_pk,
                   user_pk: user.pk,
-                  user_name: user[user.type].name,
                 },
               });
 
@@ -60,12 +58,14 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
             await BoardLike.create({
               board_pk,
               user_pk: user.pk,
+              user_name: user[user.type].name,
             });
           } else {
             await BoardCommentLike.create({
               board_pk,
               comment_pk,
               user_pk: user.pk,
+              user_name: user[user.type].name,
             });
           }
         }
