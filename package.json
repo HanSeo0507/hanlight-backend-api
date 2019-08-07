@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "./node_modules/.bin/ts-node -r tsconfig-paths/register www.ts",
-    "user-generate": "./node_modules/.bin/ts-node  -r tsconfig-paths/register ./userGenerator.ts"
+    "migration": "./node_modules/.bin/ts-node -r tsconfig-paths/register"
   },
   "devDependencies": {
     "@types/cors": "^2.8.4",
