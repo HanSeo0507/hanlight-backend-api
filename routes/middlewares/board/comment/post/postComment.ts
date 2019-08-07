@@ -33,7 +33,8 @@ const postComment = async (req: Request, res: Response, next: NextFunction) => {
           comment: {
             pk: comment.pk,
             user_name: comment.user_name,
-            user_image: user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
+            user_image:
+              !anonymousWrite && user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
             content: comment.content,
             createdAt: comment.createdAt,
           },
