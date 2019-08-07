@@ -40,6 +40,9 @@ export default class BoardCommentLike extends Model<BoardCommentLike> {
   @Column(DataType.UUID)
   public user_pk: string;
 
+  @Column(DataType.STRING)
+  public user_name: string;
+
   @CreatedAt
   public createdAt: Date;
 
