@@ -34,6 +34,9 @@ export default class BoardLike extends Model<BoardLike> {
   @Column(DataType.UUID)
   public user_pk: string;
 
+  @Column(DataType.STRING)
+  public user_name: string;
+
   @CreatedAt
   public createdAt: Date;
 
