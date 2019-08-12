@@ -9,13 +9,17 @@ import Teacher from '@Model/teacher.model';
 import User from '@Model/user.model';
 
 const getUserFromToken = async (req: Request, res: Response, next: NextFunction) => {
-  const pk = res.locals.user.pk;
+  const verifiedToken = res.locals.user;
   try {
     const user: User | undefined = await User.findOne({
       where: {
-        pk,
+        pk: verifiedToken.pk,
       },
     });
+
+    if (Number(user.updatedAt) > verifiedToken.iat * 1000) {
+      next(new CustomError({ name: 'Token_Expired' }));
+    }
 
     if (user) {
       switch (user.type) {
