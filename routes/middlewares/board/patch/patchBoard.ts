@@ -48,7 +48,10 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
             board: {
               pk: current_board.pk,
               user_name: current_board.user_name,
-              user_image: user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
+              user_image:
+                current_board.user_name && user.image
+                  ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}`
+                  : null,
               content: current_board.content,
               files: current_board.boardImage.map(
                 (boardImage: BoardImage) => `https://s3.ap-northeast-2.amazonaws.com/hanlight/board/${boardImage.file}`
