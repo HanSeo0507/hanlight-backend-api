@@ -6,6 +6,7 @@ import {
   CreatedAt,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -13,6 +14,7 @@ import {
 } from 'sequelize-typescript';
 
 import Recruit from './recruit.model';
+import RecruitAnswer from './recruitAnswer.model';
 
 @Table({
   timestamps: true,
@@ -40,4 +42,6 @@ export default class RecruitQuestion extends Model {
 
   @BelongsTo(() => Recruit)
   public recruit: Recruit;
+  @HasMany(() => RecruitAnswer)
+  public recruitAnswer: RecruitAnswer[];
 }

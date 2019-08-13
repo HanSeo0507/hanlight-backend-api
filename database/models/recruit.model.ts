@@ -14,6 +14,7 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 
+import RecruitAnswer from './recruitAnswer.model';
 import RecruitAnswerer from './recruitAnswerer.model';
 import RecruitQuestion from './recruitQuestion.model';
 import User from './user.model';
@@ -40,6 +41,7 @@ export default class Recruit extends Model {
   @Column(DataType.STRING)
   public name: string;
 
+  @AllowNull(false)
   @Column(DataType.TEXT)
   public description: string;
 
@@ -62,6 +64,8 @@ export default class Recruit extends Model {
 
   @HasMany(() => RecruitQuestion)
   public recruitQuestion: RecruitQuestion[];
+  @HasMany(() => RecruitAnswer)
+  public recruitAnswer: RecruitAnswer[];
   @HasMany(() => RecruitAnswerer)
   public recruitAnswerer: RecruitAnswerer[];
 }

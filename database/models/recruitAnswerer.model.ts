@@ -6,6 +6,7 @@ import {
   CreatedAt,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -13,6 +14,7 @@ import {
 } from 'sequelize-typescript';
 
 import Recruit from './recruit.model';
+import RecruitAnswer from './recruitAnswer.model';
 import User from './user.model';
 
 @Table({
@@ -43,6 +45,10 @@ export default class RecruitAnswerer extends Model {
   @UpdatedAt
   public updatedAt: Date;
 
+  @BelongsTo(() => User)
+  public user: User;
   @BelongsTo(() => Recruit)
   public recruit: Recruit;
+  @HasMany(() => RecruitAnswer)
+  public recruitAnswer: RecruitAnswer[];
 }
