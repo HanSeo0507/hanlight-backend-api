@@ -1,13 +1,10 @@
 import {
   AllowNull,
   AutoIncrement,
-  BelongsTo,
   Column,
   CreatedAt,
   DataType,
-  DeletedAt,
   ForeignKey,
-  HasMany,
   Model,
   PrimaryKey,
   Table,

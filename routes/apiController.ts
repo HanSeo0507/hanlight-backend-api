@@ -5,6 +5,7 @@ import calendar from '@Controller/calendar.controller';
 import dev from '@Controller/dev.controller';
 import meal from '@Controller/meal.controller';
 import notice from '@Controller/notice.controller';
+import recruit from '@Controller/recruit.controller';
 import timetable from '@Controller/timetable.controller';
 import user from '@Controller/user.controller';
 
@@ -28,5 +29,6 @@ router.use('/calendar', calendar);
 router.use('/notice', notice);
 router.use('/meal', meal);
 router.use('/board', board);
+router.use('/recruit', recruit);
 
 export default router;
