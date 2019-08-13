@@ -22,6 +22,8 @@ import Notice from './notice.model';
 import NoticeApproveLog from './noticeApproveLog.model';
 import NoticeViewLog from './noticeViewLog.model';
 import Parent from './parent.model';
+import Recruit from './recruit.model';
+import RecruitAnswerer from './recruitAnswerer.model';
 import Student from './student.model';
 import Teacher from './teacher.model';
 import TermAcceptLog from './termAcceptLog.model';
@@ -88,6 +90,10 @@ export default class User extends Model<User> {
   public boardLike: BoardLike[];
   @HasMany(() => BoardCommentLike)
   public boardCommentLike: BoardCommentLike[];
+  @HasMany(() => Recruit)
+  public recruit: Recruit[];
+  @HasMany(() => RecruitAnswerer)
+  public recruitAnswerer: RecruitAnswerer[];
 
   @HasMany(() => NoticeViewLog)
   public noticeViewLog: NoticeViewLog[];
@@ -99,7 +105,6 @@ export default class User extends Model<User> {
   public boardManageLog: BoardManageLog[];
   @HasMany(() => NoticeApproveLog)
   public noticeApproveLog: NoticeApproveLog[];
-
   @HasOne(() => TermAcceptLog)
   public termAcceptLog: TermAcceptLog;
 }
