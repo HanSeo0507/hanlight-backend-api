@@ -37,7 +37,6 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
           const [now_comment]: [BoardComment, unknown] = await Promise.all([
             board.comment[0].update({
               content,
-              updatedAt: new Date(),
             }),
             BoardPatchLog.create({
               type: 'comment',
