@@ -1,6 +1,6 @@
 import { body, ValidationChain } from 'express-validator/check';
 
-const postRecruitAnswerValidation: ValidationChain[] = [
+const postAnswerValidation: ValidationChain[] = [
   body('recruit_pk').isInt(),
   body('answers')
     .isArray()
@@ -13,4 +13,4 @@ const postRecruitAnswerValidation: ValidationChain[] = [
     ),
 ];
 
-export default postRecruitAnswerValidation;
+export default postAnswerValidation;

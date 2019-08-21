@@ -15,6 +15,7 @@ import {
 
 import Recruit from './recruit.model';
 import RecruitAnswer from './recruitAnswer.model';
+import RecruitQuestionSelect from './recruitQuestionSelect.model';
 
 @Table({
   timestamps: true,
@@ -31,6 +32,10 @@ export default class RecruitQuestion extends Model {
   public recruit_pk: number;
 
   @AllowNull(false)
+  @Column(DataType.STRING)
+  public type: 'short' | 'long' | 'select';
+
+  @AllowNull(false)
   @Column(DataType.TEXT)
   public question: string;
 
@@ -44,4 +49,6 @@ export default class RecruitQuestion extends Model {
   public recruit: Recruit;
   @HasMany(() => RecruitAnswer)
   public recruitAnswer: RecruitAnswer[];
+  @HasMany(() => RecruitQuestionSelect)
+  public recruitQuestionSelect: RecruitQuestionSelect[];
 }
