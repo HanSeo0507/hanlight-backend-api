@@ -1,4 +1,4 @@
-import { body, ValidationChain } from 'express-validator/check';
+import { body, ValidationChain } from 'express-validator';
 
 const postCalendarValidation: ValidationChain[] = [
   body('month').isInt({ min: 1, max: 12 }),

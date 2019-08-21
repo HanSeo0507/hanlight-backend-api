@@ -1,5 +1,5 @@
 import { id, tp } from '@Lib/pattern.json';
-import { body, ValidationChain } from 'express-validator/check';
+import { body, ValidationChain } from 'express-validator';
 
 const patchUsersValidation: ValidationChain[] = [
   body('user_pk').isUUID(),

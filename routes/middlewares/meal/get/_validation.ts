@@ -1,4 +1,4 @@
-import { oneOf, query } from 'express-validator/check';
+import { oneOf, query } from 'express-validator';
 
 const getMealValidation = oneOf([
   [

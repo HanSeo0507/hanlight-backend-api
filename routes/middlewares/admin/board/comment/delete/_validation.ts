@@ -1,4 +1,4 @@
-import { body, ValidationChain } from 'express-validator/check';
+import { body, ValidationChain } from 'express-validator';
 
 const deleteCommentValidation: ValidationChain[] = [
   body('board_pk').isInt(),
