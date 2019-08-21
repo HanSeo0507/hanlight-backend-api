@@ -48,12 +48,13 @@ const patchComment = async (req: Request, res: Response, next: NextFunction) => 
             }),
           ]);
 
-          await res.json({
+          res.json({
             success: true,
             data: {
               pk: now_comment.pk,
               user_name: now_comment.user_name,
-              user_image: user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
+              user_image:
+                now_comment.user_name && user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
               content: now_comment.content,
               createdAt: now_comment.createdAt,
             },
