@@ -7,18 +7,14 @@ import CustomError from '@Middleware/error/customError';
 const updateProfile = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
   const file: string = res.locals.temp.file;
-  const past_updatedAt = user.updatedAt;
 
   try {
-    res.locals.user = await User.update(
+    res.locals.user = await user.update(
       {
         image: file,
-        updatedAt: past_updatedAt,
       },
       {
-        where: {
-          pk: user.pk,
-        },
+        silent: true,
       }
     );
     next();
