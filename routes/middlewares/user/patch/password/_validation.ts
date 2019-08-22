@@ -1,4 +1,4 @@
-import { body, ValidationChain } from 'express-validator/check';
+import { body, ValidationChain } from 'express-validator';
 
 import { password } from '@Lib/pattern.json';
 

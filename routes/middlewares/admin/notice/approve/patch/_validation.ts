@@ -1,4 +1,4 @@
-import { query, ValidationChain } from 'express-validator/check';
+import { query, ValidationChain } from 'express-validator';
 
 const patchApproveValidation: ValidationChain[] = [query('approve_pk').isInt()];
 

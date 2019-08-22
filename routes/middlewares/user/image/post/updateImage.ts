@@ -9,9 +9,14 @@ const updateProfile = async (req: Request, res: Response, next: NextFunction) =>
   const file: string = res.locals.temp.file;
 
   try {
-    res.locals.user = await user.update({
-      image: file,
-    });
+    res.locals.user = await user.update(
+      {
+        image: file,
+      },
+      {
+        silent: true,
+      }
+    );
     next();
   } catch (error) {
     console.log(error);

@@ -1,5 +1,5 @@
 import { id, password, signKey } from '@Lib/pattern.json';
-import { body, ValidationChain } from 'express-validator/check';
+import { body, ValidationChain } from 'express-validator';
 
 const registerValidation: ValidationChain[] = [
   body('id')

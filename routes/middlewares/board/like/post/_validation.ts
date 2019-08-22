@@ -1,4 +1,4 @@
-import { body, oneOf } from 'express-validator/check';
+import { body, oneOf } from 'express-validator';
 
 const postBoardlikeValidation = oneOf([
   [
