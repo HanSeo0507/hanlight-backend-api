@@ -10,12 +10,13 @@ const postBoard = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
   const content: string = req.body.content;
   const files: string[] = (res.locals.temp && res.locals.temp.files) || [];
+  const anonymous = req.body.anonymous ? parseInt(req.body.anonymous, 10) : false;
 
   try {
     const board: Board = await Board.create(
       {
         user_pk: user.pk,
-        user_name: user[user.type].name,
+        user_name: anonymous ? null : user[user.type].name,
         content,
         boardImage: files.map(file => ({ file })),
       },
@@ -34,6 +35,7 @@ const postBoard = async (req: Request, res: Response, next: NextFunction) => {
         board: {
           pk: board.pk,
           user_name: board.user_name,
+          user_image: !anonymous && user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
           content: board.content,
           createdAt: board.createdAt,
           files: board.boardImage.map(

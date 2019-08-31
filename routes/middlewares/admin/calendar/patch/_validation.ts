@@ -1,4 +1,4 @@
-import { body, ValidationChain } from 'express-validator/check';
+import { body, ValidationChain } from 'express-validator';
 
 const patchCalendarValidation: ValidationChain[] = [
   body('calendar_pk').isInt(),

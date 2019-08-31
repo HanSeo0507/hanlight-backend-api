@@ -1,6 +1,6 @@
-import { body, oneOf } from 'express-validator/check';
+import { body, oneOf } from 'express-validator';
 
-const likeValidation = oneOf([
+const postBoardlikeValidation = oneOf([
   [
     body('type')
       .isString()
@@ -16,4 +16,4 @@ const likeValidation = oneOf([
   ],
 ]);
 
-export default likeValidation;
+export default postBoardlikeValidation;

@@ -1,4 +1,4 @@
-import { query, ValidationChain } from 'express-validator/check';
+import { query, ValidationChain } from 'express-validator';
 
 const userTypes = ['student', 'teacher', 'graduate', 'parent'];
 const majors = ['H', 'U', 'G'];

@@ -8,7 +8,7 @@ import BoardCommentLike from '@Model/boardCommentLike.model';
 import BoardLike from '@Model/boardLike.model';
 import User from '@Model/user.model';
 
-const boardLike = async (req: Request, res: Response, next: NextFunction) => {
+const postBoardLike = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
   const type: 'board' | 'comment' = req.body.type;
   const board_pk: number = req.body.board_pk;
@@ -87,4 +87,4 @@ const boardLike = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default boardLike;
+export default postBoardLike;

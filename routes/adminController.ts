@@ -9,6 +9,7 @@ import postCalendarValidation from '@Middleware/admin/calendar/post/_validation'
 import deleteApproveValidation from '@Middleware/admin/notice/approve/delete/_validation';
 import patchApproveValidation from '@Middleware/admin/notice/approve/patch/_validation';
 import deleteNoticeValidation from '@Middleware/admin/notice/delete/_validation';
+import GetNoticeValidation from '@Middleware/admin/notice/get/_validation';
 import patchNoticeValidation from '@Middleware/admin/notice/patch/_validation';
 import postNoticeValidation from '@Middleware/admin/notice/post/_validation';
 import deleteTimeTableValidation from '@Middleware/admin/timetable/delete/_validation';
@@ -59,6 +60,7 @@ router.get('/user', getUserValidation);
 router.post('/user', postUserValidation);
 router.patch('/user', patchUserValidation);
 router.delete('/user', deleteUserValidation);
+router.get('/notice', GetNoticeValidation);
 router.post('/notice', postNoticeValidation);
 router.patch('/notice', patchNoticeValidation);
 router.delete('/notice', deleteNoticeValidation);
