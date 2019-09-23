@@ -24,6 +24,7 @@ import Notice from './notice.model';
 import NoticeApproveLog from './noticeApproveLog.model';
 import NoticeViewLog from './noticeViewLog.model';
 import Parent from './parent.model';
+import SingerVote from './singerVote.model';
 import Student from './student.model';
 import Teacher from './teacher.model';
 import TermAcceptLog from './termAcceptLog.model';
@@ -109,4 +110,6 @@ export default class User extends Model<User> {
   public lolVote: LolVote;
   @HasOne(() => Match)
   public match: Match;
+  @HasOne(() => SingerVote)
+  public singerVote: SingerVote;
 }

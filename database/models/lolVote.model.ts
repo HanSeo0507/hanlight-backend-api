@@ -28,6 +28,7 @@ export default class LolVote extends Model<LolVote> {
   @Column(DataType.INTEGER)
   public team_pk: number;
 
+  @ForeignKey(() => User)
   @AllowNull(false)
   @Column(DataType.UUID)
   public user_pk: string;
