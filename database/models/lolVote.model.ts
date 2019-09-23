@@ -1,9 +1,20 @@
-import { AllowNull, AutoIncrement, BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  AutoIncrement,
+  BelongsTo,
+  Column,
+  CreatedAt,
+  DataType,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
 import LolTeam from './lolTeam.model';
 import User from './user.model';
 
 @Table({
-  timestamps: false,
+  timestamps: true,
 })
 export default class LolVote extends Model<LolVote> {
   @AutoIncrement

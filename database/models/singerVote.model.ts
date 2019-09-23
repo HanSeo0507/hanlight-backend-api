@@ -2,7 +2,7 @@ import { AllowNull, AutoIncrement, BelongsTo, Column, DataType, ForeignKey, Mode
 import Singer from './singer.model';
 
 @Table({
-  timestamps: false,
+  timestamps: true,
 })
 export default class SingerVote extends Model<SingerVote> {
   @AutoIncrement
