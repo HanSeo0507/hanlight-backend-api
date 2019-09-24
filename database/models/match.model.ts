@@ -18,7 +18,7 @@ export default class Match extends Model<Match> {
 
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  public match_number: number;
+  public lotteryNumber: number;
 
   @AllowNull(false)
   @Column(DataType.BOOLEAN)
