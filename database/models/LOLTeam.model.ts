@@ -1,11 +1,12 @@
 import { AllowNull, AutoIncrement, Column, DataType, HasMany, Model, PrimaryKey, Table } from 'sequelize-typescript';
-import LolTeamMember from './lolTeamMember.model';
-import LolVote from './lolVote.model';
+
+import LOLTeamMember from './LOLTeamMember.model';
+import LOLVote from './LOLVote.model';
 
 @Table({
   timestamps: false,
 })
-export default class LolTeam extends Model<LolTeam> {
+export default class LOLTeam extends Model<LOLTeam> {
   @AutoIncrement
   @PrimaryKey
   @AllowNull(false)
@@ -16,9 +17,9 @@ export default class LolTeam extends Model<LolTeam> {
   @Column(DataType.STRING)
   public name: string;
 
-  @HasMany(() => LolTeamMember)
-  public lolTeamMember: LolTeamMember;
+  @HasMany(() => LOLTeamMember)
+  public LOLTeamMember: LOLTeamMember[];
 
-  @HasMany(() => LolVote)
-  public lolVote: LolVote;
+  @HasMany(() => LOLVote)
+  public LOLVote: LOLVote[];
 }

@@ -1,17 +1,18 @@
 import { AllowNull, AutoIncrement, BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table } from 'sequelize-typescript';
-import LolTeam from './lolTeam.model';
+
+import LOLTeam from './LOLTeam.model';
 
 @Table({
   timestamps: false,
 })
-export default class LolTeamMember extends Model<LolTeamMember> {
+export default class LOLTeamMember extends Model<LOLTeamMember> {
   @AutoIncrement
   @PrimaryKey
   @AllowNull(false)
   @Column(DataType.INTEGER)
   public pk: number;
 
-  @ForeignKey(() => LolTeam)
+  @ForeignKey(() => LOLTeam)
   @AllowNull(false)
   @Column(DataType.INTEGER)
   public team_pk: number;
@@ -28,8 +29,8 @@ export default class LolTeamMember extends Model<LolTeamMember> {
   @Column(DataType.BOOLEAN)
   public leader: boolean;
 
-  @BelongsTo(() => LolTeam, {
+  @BelongsTo(() => LOLTeam, {
     onDelete: 'CASCADE',
   })
-  public lolTeam: LolTeam;
+  public LOLTeam: LOLTeam;
 }
