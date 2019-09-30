@@ -20,10 +20,6 @@ export default class Match extends Model<Match> {
   @Column(DataType.INTEGER)
   public lotteryNumber: number;
 
-  @AllowNull(false)
-  @Column(DataType.BOOLEAN)
-  public confirm: boolean;
-
   @BelongsTo(() => User, {
     onDelete: 'CASCADE',
   })

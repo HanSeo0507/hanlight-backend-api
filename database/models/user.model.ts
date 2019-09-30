@@ -18,7 +18,7 @@ import BoardLike from './boardLike.model';
 import BoardManageLog from './boardManageLog.model';
 import CalendarLog from './calendarLog.model';
 import Graduate from './graduate.model';
-import LolVote from './lolVote.model';
+import LOLVote from './LOLVote.model';
 import Match from './match.model';
 import Notice from './notice.model';
 import NoticeApproveLog from './noticeApproveLog.model';
@@ -106,8 +106,8 @@ export default class User extends Model<User> {
   @HasOne(() => TermAcceptLog)
   public termAcceptLog: TermAcceptLog;
 
-  @HasOne(() => LolVote)
-  public lolVote: LolVote;
+  @HasOne(() => LOLVote)
+  public LOLVote: LOLVote;
   @HasOne(() => Match)
   public match: Match;
   @HasOne(() => SingerVote)

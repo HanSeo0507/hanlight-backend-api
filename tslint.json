@@ -9,6 +9,7 @@
     "no-shadowed-variable": false,
     "variable-name": false,
     "no-unused-variable": true,
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "interface-name": [true, "never-prefix"]
   }
 }

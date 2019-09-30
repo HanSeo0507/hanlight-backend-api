@@ -16,5 +16,5 @@ export default class Singer extends Model<Singer> {
   public name: string;
 
   @HasMany(() => SingerVote)
-  public singerVote: SingerVote;
+  public singerVote: SingerVote[];
 }

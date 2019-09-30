@@ -10,20 +10,21 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import LolTeam from './lolTeam.model';
+
+import LOLTeam from './LOLTeam.model';
 import User from './user.model';
 
 @Table({
   timestamps: true,
 })
-export default class LolVote extends Model<LolVote> {
+export default class LOLVote extends Model<LOLVote> {
   @AutoIncrement
   @PrimaryKey
   @AllowNull(false)
   @Column(DataType.INTEGER)
   public pk: number;
 
-  @ForeignKey(() => LolTeam)
+  @ForeignKey(() => LOLTeam)
   @AllowNull(false)
   @Column(DataType.INTEGER)
   public team_pk: number;
@@ -38,8 +39,8 @@ export default class LolVote extends Model<LolVote> {
   })
   public user: User;
 
-  @BelongsTo(() => LolTeam, {
+  @BelongsTo(() => LOLTeam, {
     onDelete: 'CASCADE',
   })
-  public lolTeam: LolTeam;
+  public LOLTeam: LOLTeam;
 }
