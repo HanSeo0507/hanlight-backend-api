@@ -3,6 +3,7 @@ import { Request, Response, Router } from 'express';
 import board from '@Controller/board.controller';
 import calendar from '@Controller/calendar.controller';
 import dev from '@Controller/dev.controller';
+import festival from '@Controller/festival.controller';
 import meal from '@Controller/meal.controller';
 import notice from '@Controller/notice.controller';
 import timetable from '@Controller/timetable.controller';
@@ -28,5 +29,6 @@ router.use('/calendar', calendar);
 router.use('/notice', notice);
 router.use('/meal', meal);
 router.use('/board', board);
+router.use('/festival', festival);
 
 export default router;
