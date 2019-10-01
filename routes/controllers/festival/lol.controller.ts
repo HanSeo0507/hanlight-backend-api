@@ -2,10 +2,10 @@ import { Router } from 'express';
 
 import checkValidation from '@Middleware/common/checkValidation';
 
-import postLOLVoteValidation from '@Middleware/festival/LOL/post/_validation';
+import postLOLVoteValidation from '@Middleware/festival/lol/post/_validation';
 
-import getLOLTeam from '@Middleware/festival/LOL/get/getLOLTeam';
-import postLOLVote from '@Middleware/festival/LOL/post/postLOLVote';
+import getLOLTeam from '@Middleware/festival/lol/get/getLOLTeam';
+import postLOLVote from '@Middleware/festival/lol/post/postLOLVote';
 
 const router: Router = Router();
 
