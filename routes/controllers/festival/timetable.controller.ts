@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import getFSTimeTable from '@Middleware/festival/timetable/getfsTimeTable';
+import getFSTimeTable from '@Middleware/festival/timetable/getFSTimeTable';
 
 const router: Router = Router();
 
