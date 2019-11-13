@@ -31,6 +31,10 @@
       "description": "대나무숲"
     },
     {
+      "name": "recruit",
+      "description": "모집"
+    },
+    {
       "name": "dev",
       "description": "개발할 때 사용 됨"
     },
@@ -50,9 +54,7 @@
   "paths": {
     "/dev/errors": {
       "get": {
-        "tags": [
-          "dev"
-        ],
+        "tags": ["dev"],
         "description": "에러 목록",
         "responses": {
           "200": {
@@ -63,9 +65,7 @@
     },
     "/dev/api-docs": {
       "get": {
-        "tags": [
-          "dev"
-        ],
+        "tags": ["dev"],
         "description": "API 문서",
         "responses": {
           "200": {
@@ -76,9 +76,7 @@
     },
     "/user/phone": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "description": "전화번호 인증",
         "requestBody": {
           "content": {
@@ -173,9 +171,7 @@
     },
     "/user/exist": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "description": "아이디 중복확인",
         "parameters": [
           {
@@ -228,9 +224,7 @@
     },
     "/user/register": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "description": "회원가입",
         "requestBody": {
           "content": {
@@ -273,9 +267,7 @@
     },
     "/user/login": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "description": "로그인",
         "requestBody": {
           "content": {
@@ -326,9 +318,7 @@
     },
     "/user/recovery/id": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "description": "아이디 찾기",
         "requestBody": {
           "content": {
@@ -378,9 +368,7 @@
     },
     "/user/recovery/password": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "description": "비밀번호 찾기",
         "requestBody": {
           "content": {
@@ -429,9 +417,7 @@
     },
     "/user": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "description": "유저 조회",
         "parameters": [
           {
@@ -474,9 +460,7 @@
     },
     "/user/password": {
       "patch": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "description": "유저 비밀번호 변경",
         "parameters": [
           {
@@ -523,11 +507,103 @@
         }
       }
     },
+    "/user/image": {
+      "post": {
+        "tags": ["user"],
+        "description": "유저 프로필 사진 등록",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "student | teacher | graduate | parent"
+                            },
+                            "admin": {
+                              "type": "integer"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "id": {
+                              "type": "string"
+                            },
+                            "major": {
+                              "type": "string",
+                              "description": "U | H | G | null"
+                            },
+                            "grade": {
+                              "type": "integer",
+                              "description": "integer | null"
+                            },
+                            "classNum": {
+                              "type": "integer",
+                              "description": "integer | null"
+                            },
+                            "studentNum": {
+                              "type": "integer",
+                              "description": "integer | null"
+                            },
+                            "image": {
+                              "type": "string",
+                              "description": "string | null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "잘못된 접근이나 요청, 토큰 or 토큰 만료"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      }
+    },
     "/timetable": {
       "get": {
-        "tags": [
-          "timetable"
-        ],
+        "tags": ["timetable"],
         "description": "시간표 조회",
         "parameters": [
           {
@@ -594,9 +670,7 @@
     },
     "/calendar": {
       "get": {
-        "tags": [
-          "calendar"
-        ],
+        "tags": ["calendar"],
         "description": "학사일정",
         "parameters": [
           {
@@ -667,9 +741,7 @@
     },
     "/calendar/recent": {
       "get": {
-        "tags": [
-          "calendar"
-        ],
+        "tags": ["calendar"],
         "description": "최근 학사일정 5개",
         "parameters": [
           {
@@ -728,9 +800,7 @@
     },
     "/notice": {
       "get": {
-        "tags": [
-          "notice"
-        ],
+        "tags": ["notice"],
         "description": "공지사항",
         "parameters": [
           {
@@ -811,9 +881,7 @@
     },
     "/meal": {
       "get": {
-        "tags": [
-          "meal"
-        ],
+        "tags": ["meal"],
         "description": "급식 조회",
         "parameters": [
           {
@@ -863,9 +931,7 @@
     },
     "/meal/order": {
       "get": {
-        "tags": [
-          "meal"
-        ],
+        "tags": ["meal"],
         "description": "급식 순서 조회",
         "parameters": [
           {
@@ -894,9 +960,7 @@
     },
     "/board": {
       "get": {
-        "tags": [
-          "board"
-        ],
+        "tags": ["board"],
         "parameters": [
           {
             "in": "header",
@@ -948,9 +1012,7 @@
         }
       },
       "post": {
-        "tags": [
-          "board"
-        ],
+        "tags": ["board"],
         "parameters": [
           {
             "in": "header",
@@ -1000,9 +1062,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "board"
-        ],
+        "tags": ["board"],
         "parameters": [
           {
             "in": "header",
@@ -1050,9 +1110,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "board"
-        ],
+        "tags": ["board"],
         "parameters": [
           {
             "in": "header",
@@ -1095,9 +1153,7 @@
     },
     "/board/comment": {
       "get": {
-        "tags": [
-          "board"
-        ],
+        "tags": ["board"],
         "parameters": [
           {
             "in": "header",
@@ -1161,9 +1217,7 @@
         }
       },
       "post": {
-        "tags": [
-          "board"
-        ],
+        "tags": ["board"],
         "parameters": [
           {
             "in": "header",
@@ -1215,9 +1269,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "board"
-        ],
+        "tags": ["board"],
         "parameters": [
           {
             "in": "header",
@@ -1269,9 +1321,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "board"
-        ],
+        "tags": ["board"],
         "parameters": [
           {
             "in": "header",
@@ -1323,9 +1373,7 @@
     },
     "/board/report": {
       "post": {
-        "tags": [
-          "board"
-        ],
+        "tags": ["board"],
         "description": "신고하기",
         "parameters": [
           {
@@ -1397,10 +1445,91 @@
       }
     },
     "/board/like": {
-      "post": {
-        "tags": [
-          "board"
+      "get": {
+        "tags": ["board"],
+        "description": "좋아요 목록",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "type",
+            "description": "board || comment",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "board_pk",
+            "description": "primaryKey - board",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "comment_pk",
+            "description": "primaryKey - comment (type이 comment일 경우만 request)",
+            "required": false
+          }
         ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "properties": {
+                        "like": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "description": "board || comment"
+                            },
+                            "user_name": {
+                              "type": "string"
+                            },
+                            "user_image": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "존재하지 않는 게시글 or 댓글"
+          },
+          "412": {
+            "description": "잘못된 요청 데이터"
+          }
+        }
+      },
+      "post": {
+        "tags": ["board"],
         "description": "좋아요",
         "parameters": [
           {
@@ -1455,11 +1584,358 @@
         }
       }
     },
+    "/recruit": {
+      "get": {
+        "tags": ["recruit"],
+        "description": "모집 보기",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "name": "type",
+            "description": "확인할 타입(화면에 표시될 타입)",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "page",
+            "description": "페이지네이션(페이지 번호, list 타입일 때 request)"
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "recruit_pk",
+            "description": "모집 인덱스(post 타입일 때 request)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "oneOf": [
+                      {
+                        "$ref": "#/components/schemas/RecruitListType"
+                      },
+                      {
+                        "$ref": "#/components/schemas/RecruitPostType"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["recruit"],
+        "description": "모집 생성",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "recruit_pk": {
+                    "type": "integer",
+                    "description": "모집 인덱스(primaryKey - recruit)"
+                  },
+                  "answers": {
+                    "type": "string",
+                    "description": "질문 목록"
+                  },
+                  "question_pk": {
+                    "type": "integer",
+                    "description": "질문 pk(primaryKey - question)"
+                  },
+                  "answer": {
+                    "type": "string",
+                    "description": "질문 답변"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "recruit": {
+                          "type": "object",
+                          "properties": {
+                            "pk": {
+                              "type": "integer"
+                            },
+                            "user_name": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            },
+                            "dueAt": {
+                              "type": "string"
+                            },
+                            "recruitQuestion": {
+                              "type": "array",
+                              "items": {
+                                "properties": {
+                                  "pk": {
+                                    "type": "integer"
+                                  },
+                                  "question": {
+                                    "type": "string"
+                                  },
+                                  "recruit_pk": {
+                                    "type": "integer"
+                                  },
+                                  "updatedAt": {
+                                    "type": "string"
+                                  },
+                                  "createdAt": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            "updatedAt": {
+                              "type": "string"
+                            },
+                            "createdAt": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["recruit"],
+        "description": "모집 삭제",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰",
+            "required": true
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "recruit_pk",
+            "description": "모집 인덱스(primaryKey - recruit)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Success"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recruit/answer": {
+      "get": {
+        "tags": ["recruit"],
+        "description": "모집 답변 보기",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰"
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "recruit_pk",
+            "description": "모집 인덱스(primaryKey - recruit)"
+          },
+          {
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "name": "answerer_pk",
+            "description": "답변자 pk"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "answer": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "question_pk": {
+                                "type": "integer"
+                              },
+                              "answer": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["recruit"],
+        "description": "모집 지원",
+        "parameters": [
+          {
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "name": "access_token",
+            "description": "토큰"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "recruit_pk": {
+                    "type": "integer",
+                    "description": "모집 인덱스(primaryKey - recruit)"
+                  },
+                  "answers": {
+                    "type": "array",
+                    "description": "답변들"
+                  },
+                  "question_pk": {
+                    "type": "integer",
+                    "description": "질문 pk(primaryKey - question)"
+                  },
+                  "answer": {
+                    "type": "string",
+                    "description": "질문 답변"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "answer": {
+                          "type": "array",
+                          "items": {
+                            "properties": {
+                              "question_pk": {
+                                "type": "integer"
+                              },
+                              "answer": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/status": {
       "get": {
-        "tags": [
-          "status"
-        ],
+        "tags": ["status"],
         "responses": {
           "200": {
             "description": "성공",
@@ -1476,9 +1952,7 @@
     },
     "/hanseithon/team": {
       "get": {
-        "tags": [
-          "hanseithon"
-        ],
+        "tags": ["hanseithon"],
         "description": "한세톤 팀 목록",
         "parameters": [
           {
@@ -1522,9 +1996,7 @@
         }
       },
       "post": {
-        "tags": [
-          "hanseithon"
-        ],
+        "tags": ["hanseithon"],
         "description": "한세톤 팀 생성",
         "parameters": [
           {
@@ -1612,9 +2084,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "hanseithon"
-        ],
+        "tags": ["hanseithon"],
         "description": "한세톤 팀 삭제",
         "parameters": [
           {
@@ -1658,9 +2128,7 @@
     },
     "/hanseithon/team/member": {
       "post": {
-        "tags": [
-          "hanseithon"
-        ],
+        "tags": ["hanseithon"],
         "description": "한세톤 팀 멤버 생성",
         "parameters": [
           {
@@ -1758,9 +2226,7 @@
     },
     "/admin/user": {
       "get": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "유저 정보 확인",
         "parameters": [
           {
@@ -1863,9 +2329,7 @@
         }
       },
       "post": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "유저 생성",
         "parameters": [
           {
@@ -1940,9 +2404,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "유저 정보 변경",
         "parameters": [
           {
@@ -2030,9 +2492,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "유저 삭제",
         "parameters": [
           {
@@ -2079,9 +2539,7 @@
     },
     "/admin/notice": {
       "get": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "공지사항 조회",
         "parameters": [
           {
@@ -2125,9 +2583,7 @@
         }
       },
       "post": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "공지사항 작성",
         "parameters": [
           {
@@ -2190,9 +2646,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "공지사항 수정",
         "parameters": [
           {
@@ -2258,9 +2712,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "공지사항 삭제",
         "parameters": [
           {
@@ -2318,9 +2770,7 @@
     },
     "/admin/notice/approve": {
       "post": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "공지사항 승인 요청",
         "parameters": [
           {
@@ -2376,9 +2826,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "공지사항 삭제 승인 요청",
         "parameters": [
           {
@@ -2425,9 +2873,7 @@
     },
     "/admin/timetable": {
       "post": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "시간표 생성",
         "parameters": [
           {
@@ -2502,9 +2948,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "시간표 삭제",
         "parameters": [
           {
@@ -2587,9 +3031,7 @@
     },
     "/admin/calender": {
       "post": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "학사일정 생성",
         "parameters": [
           {
@@ -2655,9 +3097,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "학사일정 변경",
         "parameters": [
           {
@@ -2725,9 +3165,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "학사일정 삭제",
         "parameters": [
           {
@@ -2774,9 +3212,7 @@
     },
     "/admin/board": {
       "delete": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "게시글 삭제",
         "parameters": [
           {
@@ -2832,9 +3268,7 @@
     },
     "/admin/comment": {
       "delete": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "description": "댓글 삭제",
         "parameters": [
           {
@@ -2896,12 +3330,7 @@
         "properties": {
           "type": {
             "type": "string",
-            "enum": [
-              "student",
-              "teacher",
-              "graduate",
-              "parent"
-            ]
+            "enum": ["student", "teacher", "graduate", "parent"]
           },
           "admin": {
             "type": "integer"
@@ -3098,9 +3527,7 @@
       },
       "Success": {
         "type": "object",
-        "required": [
-          "success"
-        ],
+        "required": ["success"],
         "properties": {
           "success": {
             "type": "boolean"
@@ -3109,13 +3536,7 @@
       },
       "Error": {
         "type": "object",
-        "required": [
-          "success",
-          "code",
-          "name",
-          "message",
-          "description"
-        ],
+        "required": ["success", "code", "name", "message", "description"],
         "properties": {
           "success": {
             "type": "boolean"
@@ -3314,6 +3735,88 @@
           },
           "detail": {
             "type": "string"
+          }
+        }
+      },
+      "RecruitListType": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "pk": {
+                  "type": "integer"
+                },
+                "user_name": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "dueAt": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "RecruitPostType": {
+        "type": "object",
+        "properties": {
+          "pk": {
+            "type": "integer"
+          },
+          "user_name": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dueAt": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "recruitQuestion": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "pk": {
+                  "type": "integer"
+                },
+                "question": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "recruitAnswerer": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "pk": {
+                  "type": "integer"
+                },
+                "user_name": {
+                  "type": "string"
+                },
+                "createdAt": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       },
