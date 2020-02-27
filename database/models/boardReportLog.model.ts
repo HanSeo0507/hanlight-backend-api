@@ -1,66 +1,60 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  ForeignKey,
-  Model,
-  PrimaryKey,
-  Table,
-} from 'sequelize-typescript';
+import { Model, DataTypes, BelongsTo } from 'sequelize';
 
+import { sequelize } from '../index';
+import User from './user.model';
 import Board from './board.model';
 import BoardComment from './boardComment.model';
-import User from './user.model';
 
-@Table({
-  timestamps: false,
-})
 export default class BoardReportLog extends Model<BoardReportLog> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public static associations: {
+    user: BelongsTo<BoardReportLog, User>;
+    board: BelongsTo<BoardReportLog, Board>;
+    boardComment: BelongsTo<BoardReportLog, BoardComment>;
+  };
+
+  public user: User;
+  public board: Board;
+  public boardComment: BoardComment;
+
   public pk: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public type: 'board' | 'comment';
-
-  @ForeignKey(() => User)
-  @AllowNull(true)
-  @Column(DataType.UUID)
   public user_pk: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public user_name: string;
-
-  @ForeignKey(() => Board)
-  @AllowNull(true)
-  @Column(DataType.INTEGER)
   public board_pk: number;
-
-  @ForeignKey(() => BoardComment)
-  @AllowNull(true)
-  @Column(DataType.INTEGER)
   public comment_pk: number;
-
-  @AllowNull(true)
-  @Column(DataType.TEXT)
+  public type: 'board' | 'comment';
   public content: string;
 
-  @CreatedAt
-  public createdAt: Date;
-
-  @BelongsTo(() => User)
-  public user: User;
-
-  @BelongsTo(() => Board)
-  public board: Board;
-
-  @BelongsTo(() => BoardComment)
-  public boardComment: BoardComment;
+  public readonly createdAt: Date;
 }
+
+BoardReportLog.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    board_pk: {
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    comment_pk: {
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    type: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    content: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'boardReportLogs',
+  }
+);

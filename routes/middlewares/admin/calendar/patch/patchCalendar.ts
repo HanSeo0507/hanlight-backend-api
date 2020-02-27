@@ -24,7 +24,6 @@ const patchCalendar = async (req: Request, res: Response, next: NextFunction) =>
         }),
         CalendarLog.create({
           user_pk: user.pk,
-          user_name: user[user.type].name,
           type: 'U',
           month: calendar.month,
           date: calendar.date,

@@ -28,13 +28,14 @@ const postBoardLike = async (req: Request, res: Response, next: NextFunction) =>
                   pk: comment_pk,
                 },
                 required: false,
+                as: 'boardComment',
               },
             ]
           : undefined,
     });
 
     if (board) {
-      if (type === 'board' || (type === 'comment' && board.comment[0])) {
+      if (type === 'board' || (type === 'comment' && board.boardComment[0])) {
         const like: BoardLike | BoardCommentLike | undefined =
           type === 'board'
             ? await BoardLike.findOne({
@@ -58,14 +59,14 @@ const postBoardLike = async (req: Request, res: Response, next: NextFunction) =>
             await BoardLike.create({
               board_pk,
               user_pk: user.pk,
-              user_name: user[user.type].name,
+              user_name: user.name,
             });
           } else {
             await BoardCommentLike.create({
               board_pk,
               comment_pk,
               user_pk: user.pk,
-              user_name: user[user.type].name,
+              user_name: user.name,
             });
           }
         }

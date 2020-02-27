@@ -20,7 +20,13 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
       },
       include: [
         {
+          model: User,
+          attributes: ['name'],
+          as: 'user',
+        },
+        {
           model: BoardImage,
+          as: 'boardImage',
         },
       ],
     });
@@ -36,7 +42,7 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
           BoardPatchLog.create({
             board_pk,
             user_pk: user.pk,
-            user_name: user[user.type].name,
+            user_name: user.name,
             type: 'board',
             past_content: past_board.content,
           }),
@@ -47,9 +53,9 @@ const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
           data: {
             board: {
               pk: current_board.pk,
-              user_name: current_board.user_name,
+              user_name: current_board.user.name,
               user_image:
-                current_board.user_name && user.image
+                current_board.user.name && user.image
                   ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}`
                   : null,
               content: current_board.content,

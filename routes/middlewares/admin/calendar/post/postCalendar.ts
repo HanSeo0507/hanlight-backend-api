@@ -21,7 +21,6 @@ const postCalendar = async (req: Request, res: Response, next: NextFunction) => 
       }),
       CalendarLog.create({
         user_pk: user.pk,
-        user_name: user[user.type].name,
         type: 'C',
         month,
         date,

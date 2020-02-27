@@ -1,69 +1,68 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  DeletedAt,
-  ForeignKey,
-  HasMany,
-  Model,
-  PrimaryKey,
-  Table,
-  UpdatedAt,
-} from 'sequelize-typescript';
+import { Model, BelongsTo, DataTypes, HasMany } from 'sequelize';
 
+import { sequelize } from '../index';
+import User from './user.model';
 import BoardComment from './boardComment.model';
 import BoardImage from './boardImage.model';
 import BoardLike from './boardLike.model';
 import BoardManageLog from './boardManageLog.model';
 import BoardPatchLog from './boardPatchLog.model';
-import User from './user.model';
+import BoardReportLog from './boardReportLog.model';
 
-@Table({
-  timestamps: true,
-})
 export default class Board extends Model<Board> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public pk: number;
+  public static associations: {
+    user: BelongsTo<Board, User>;
+    boardLike: HasMany<Board, BoardLike>;
+    boardImage: HasMany<Board, BoardImage>;
+    boardComment: HasMany<Board, BoardComment>;
+    boardManageLog: HasMany<Board, BoardManageLog>;
+    boardPatchLog: HasMany<Board, BoardPatchLog>;
+    boardReportLog: HasMany<Board, BoardReportLog>;
+  };
 
-  @ForeignKey(() => User)
-  @AllowNull(false)
-  @Column(DataType.UUID)
-  public user_pk: string;
-
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  public user_name: string;
-
-  @AllowNull(false)
-  @Column(DataType.TEXT)
-  public content: string;
-
-  @CreatedAt
-  public createdAt: Date;
-
-  @UpdatedAt
-  public updatedAt: Date;
-
-  @BelongsTo(() => User, {
-    onDelete: 'CASCADE',
-  })
   public user: User;
-
-  @HasMany(() => BoardComment)
-  public comment: BoardComment[];
-  @HasMany(() => BoardLike)
   public boardLike: BoardLike[];
-  @HasMany(() => BoardImage)
   public boardImage: BoardImage[];
-
-  @HasMany(() => BoardPatchLog)
+  public boardComment: BoardComment[];
+  public boardManageLog: BoardManageLog[];
   public boardPatchLog: BoardPatchLog[];
-  @HasMany(() => BoardManageLog)
-  public BoardManageLog: BoardManageLog[];
+  public boardReportLog: BoardReportLog[];
+
+  public pk: number;
+  public user_pk: string;
+  public content: string;
+  public is_anonymous: boolean;
+
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+  public readonly deletedAt: Date;
 }
+
+Board.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    content: {
+      allowNull: false,
+      type: DataTypes.TEXT,
+    },
+    is_anonymous: {
+      defaultValue: false,
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'boards',
+    paranoid: true,
+  }
+);

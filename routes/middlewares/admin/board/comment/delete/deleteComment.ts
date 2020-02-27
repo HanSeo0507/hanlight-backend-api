@@ -20,7 +20,6 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
         BoardManageLog.create({
           board_pk: comment.board_pk,
           user_pk: user.pk,
-          user_name: user[user.type].name,
           type: 'comment',
           reason,
         }),

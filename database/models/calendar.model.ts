@@ -1,46 +1,49 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  Column,
-  CreatedAt,
-  DataType,
-  DeletedAt,
-  HasMany,
-  Model,
-  PrimaryKey,
-  Table,
-  UpdatedAt,
-} from 'sequelize-typescript';
+import { Model, DataTypes, HasMany } from 'sequelize';
 
-@Table({
-  timestamps: true,
-})
+import { sequelize } from '../index';
+import CalendarLog from './calendarLog.model';
+
 export default class Calendar extends Model<Calendar> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public static associations: {
+    calendarLog: HasMany<Calendar, CalendarLog>;
+  };
+
+  public calendarLog: CalendarLog[];
+
   public pk: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public year: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public month: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public date: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
   public detail: string;
-
-  @CreatedAt
-  public createdAt: Date;
-
-  @UpdatedAt
-  public updatedAt: Date;
 }
+
+Calendar.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    year: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    month: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    date: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    detail: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'calendars',
+  }
+);

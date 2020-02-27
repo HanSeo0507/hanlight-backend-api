@@ -30,7 +30,6 @@ const deleteTimeTable = async (req: Request, res: Response, next: NextFunction) 
         TimeTableLog.create({
           type: 'D',
           user_pk: user.pk,
-          user_name: user[user.type].name,
           major,
           grade,
           classNum,

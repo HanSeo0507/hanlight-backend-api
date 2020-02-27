@@ -3,28 +3,21 @@ import { col, Includeable, Op } from 'sequelize';
 
 import deleteUndefined from '@Lib/deleteUndefined';
 
-import Graduate from '@Model/graduate.model';
-import Parent from '@Model/parent.model';
-import Student from '@Model/student.model';
-import Teacher from '@Model/teacher.model';
 import User from '@Model/user.model';
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   const limit = 15;
   const page = (req.query.page && req.query.page - 1) || 0;
 
-  const type: 'student' | 'teacher' | 'graduate' | 'parent' | undefined = req.query.type;
-  const major: 'H' | 'U' | 'G' | undefined = req.query.major;
-  const grade: number | undefined = req.query.grade;
-  const classNum: number | undefined = req.query.classNum;
-  const studentNum: number | undefined = req.query.studentNum;
-  const name: string | undefined = req.query.name;
+  const type: User['type'] | undefined = req.query.type;
+  const major: User['major'] | undefined = req.query.major;
+  const grade: User['grade'] | undefined = req.query.grade;
+  const classNum: User['classNum'] | undefined = req.query.classNum;
+  const studentNum: User['studentNum'] | undefined = req.query.studentNum;
+  const name: User['name'] | undefined = req.query.name;
 
   const userClause = {
     type,
-  };
-
-  const stduentClause = {
     major,
     grade,
     classNum,
@@ -32,79 +25,13 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
     name: name ? { [Op.like]: `%${name}%` } : undefined,
   };
 
-  const onlyNameClause = {
-    name: name ? { [Op.like]: `%${name}%` } : undefined,
-  };
-
   deleteUndefined(userClause);
-  deleteUndefined(stduentClause);
-  deleteUndefined(onlyNameClause);
-
-  const include: Includeable[] = [];
-
-  if (type === 'student' || major || grade || classNum || studentNum) {
-    include.push({
-      model: Student,
-      where: stduentClause,
-      attributes: ['major', 'grade', 'classNum', 'studentNum', 'name'],
-      required: true,
-    });
-  } else if (type === 'graduate') {
-    include.push({
-      model: Graduate,
-      where: onlyNameClause,
-      attributes: ['name'],
-      required: true,
-    });
-  } else if (type === 'parent') {
-    include.push({
-      model: Parent,
-      where: onlyNameClause,
-      attributes: ['name'],
-      required: true,
-    });
-  } else if (type === 'teacher') {
-    include.push({
-      model: Teacher,
-      where: onlyNameClause,
-      attributes: ['name'],
-      required: true,
-    });
-  } else {
-    include.push(
-      {
-        model: Student,
-        attributes: ['major', 'grade', 'classNum', 'studentNum', 'name'],
-        where: onlyNameClause,
-        required: false,
-      },
-      {
-        model: Graduate,
-        attributes: ['name'],
-        where: onlyNameClause,
-        required: false,
-      },
-      {
-        model: Parent,
-        attributes: ['name'],
-        where: onlyNameClause,
-        required: false,
-      },
-      {
-        model: Teacher,
-        where: onlyNameClause,
-        attributes: ['name'],
-        required: false,
-      }
-    );
-  }
 
   const users: User[] = await User.findAll({
     limit,
     offset: page * limit,
     where: userClause,
-    attributes: ['pk', 'type', 'admin', 'signKey', 'id', 'tp'],
-    include,
+    attributes: ['pk', 'type', 'name', 'id', 'signKey', 'tp', 'major', 'grade', 'classNum', 'studentNum', 'adminLevel'],
   });
   res.json({
     success: true,

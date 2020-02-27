@@ -29,10 +29,12 @@ const getBoardLike = async (req: Request, res: Response, next: NextFunction) => 
                 include: [
                   {
                     model: BoardCommentLike,
+                    as: 'boardCommentLike',
                     include: [
                       {
                         model: User,
-                        attributes: ['image'],
+                        as: 'user',
+                        attributes: ['name', 'image'],
                       },
                     ],
                   },
@@ -45,6 +47,7 @@ const getBoardLike = async (req: Request, res: Response, next: NextFunction) => 
                 include: [
                   {
                     model: User,
+                    as: 'user',
                     attributes: ['image'],
                   },
                 ],
@@ -53,7 +56,7 @@ const getBoardLike = async (req: Request, res: Response, next: NextFunction) => 
     });
 
     if (board) {
-      if (type === 'comment' && !board.comment.length) {
+      if (type === 'comment' && !board.boardComment.length) {
         next(new CustomError({ name: 'Not_Found_Comment' }));
       } else {
         res.json({
@@ -62,13 +65,13 @@ const getBoardLike = async (req: Request, res: Response, next: NextFunction) => 
             like:
               type === 'board'
                 ? board.boardLike.map(like => ({
-                    user_name: like.user_name,
+                    user_name: like.user.name,
                     user_image: like.user.image
                       ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${like.user.image}`
                       : null,
                   }))
-                : board.comment[0].boardCommentLike.map(like => ({
-                    user_name: like.user_name,
+                : board.boardComment[0].boardCommentLike.map(like => ({
+                    user_name: like.user.name,
                     user_image: like.user.image
                       ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${like.user.image}`
                       : null,

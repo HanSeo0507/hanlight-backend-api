@@ -16,7 +16,6 @@ const postBoard = async (req: Request, res: Response, next: NextFunction) => {
     const board: Board = await Board.create(
       {
         user_pk: user.pk,
-        user_name: anonymous ? null : user[user.type].name,
         content,
         boardImage: files.map(file => ({ file })),
       },
@@ -24,6 +23,7 @@ const postBoard = async (req: Request, res: Response, next: NextFunction) => {
         include: [
           {
             model: BoardImage,
+            as: 'boardImage',
           },
         ],
       }
@@ -34,7 +34,7 @@ const postBoard = async (req: Request, res: Response, next: NextFunction) => {
       data: {
         board: {
           pk: board.pk,
-          user_name: board.user_name,
+          user_name: user.name,
           user_image: !anonymous && user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
           content: board.content,
           createdAt: board.createdAt,

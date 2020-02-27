@@ -1,24 +1,37 @@
-import { AllowNull, AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { Model, DataTypes } from 'sequelize';
 
-@Table({
-  timestamps: false,
-})
+import { sequelize } from '../index';
+
 export default class Meal extends Model<Meal> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public pk: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public month: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public date: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
   public detail: string;
 }
+
+Meal.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    month: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    date: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    detail: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'meals',
+  }
+);

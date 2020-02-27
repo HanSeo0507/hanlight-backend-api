@@ -1,46 +1,42 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  ForeignKey,
-  Model,
-  PrimaryKey,
-  Table,
-  UpdatedAt,
-} from 'sequelize-typescript';
+import { Model, DataTypes, BelongsTo } from 'sequelize';
 
+import { sequelize } from '../index';
 import User from './user.model';
 
-@Table({
-  timestamps: true,
-})
 export default class TermAcceptLog extends Model<TermAcceptLog> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public static associations: {
+    user: BelongsTo<TermAcceptLog, User>;
+  };
+
+  public user: User;
+
   public pk: number;
-
-  @ForeignKey(() => User)
-  @AllowNull(false)
-  @Column(DataType.UUID)
   public user_pk: string;
-
-  @AllowNull(false)
-  @Column(DataType.BOOLEAN)
   public accept: boolean;
 
-  @CreatedAt
-  public createdAt: Date;
-
-  @UpdatedAt
-  public updatedAt: Date;
-
-  @BelongsTo(() => User, {
-    onDelete: 'CASCADE',
-  })
-  public user: User;
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
 }
+
+TermAcceptLog.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    accept: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'termAcceptLogs',
+  }
+);

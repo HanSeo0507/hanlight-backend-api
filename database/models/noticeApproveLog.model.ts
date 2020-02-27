@@ -1,64 +1,56 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  Default,
-  ForeignKey,
-  Model,
-  PrimaryKey,
-  Table,
-  DeletedAt,
-} from 'sequelize-typescript';
+import { Model, DataTypes, BelongsTo } from 'sequelize';
 
+import { sequelize } from '../index';
 import Notice from './notice.model';
 import User from './user.model';
 
-@Table({
-  timestamps: true,
-})
 export default class NoticeApproveLog extends Model<NoticeApproveLog> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public pk: number;
+  public static associations: {
+    notice: BelongsTo<NoticeApproveLog, Notice>;
+    user: BelongsTo<NoticeApproveLog, User>;
+  };
 
-  @ForeignKey(() => Notice)
-  @Column(DataType.INTEGER)
-  public notice_pk: number;
-
-  @ForeignKey(() => User)
-  @Column(DataType.UUID)
-  public user_pk: string;
-
-  @Column(DataType.STRING)
-  public user_name: string;
-
-  @Default(false)
-  @Column(DataType.BOOLEAN)
-  public approved: boolean;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public type: 'C' | 'R' | 'U' | 'D';
-
-  @Column(DataType.STRING)
-  public title: string;
-
-  @Column(DataType.TEXT)
-  public content: string;
-
-  @CreatedAt
-  public createdAt: Date;
-
-  @DeletedAt
-  public deletedAt: Date;
-
-  @BelongsTo(() => Notice)
   public notice: Notice;
-  @BelongsTo(() => User)
   public user: User;
+
+  public pk: number;
+  public notice_pk: number;
+  public user_pk: string;
+  public approved: boolean;
+  public type: string;
+
+  public readonly createdAt: Date;
+  public readonly deletedAt: Date;
 }
+
+NoticeApproveLog.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    notice_pk: {
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    approved: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.BOOLEAN,
+    },
+    type: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'noticeApproveLogs',
+  }
+);

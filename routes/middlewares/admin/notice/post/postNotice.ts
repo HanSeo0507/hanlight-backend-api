@@ -15,7 +15,6 @@ const postNotice = async (req: Request, res: Response, next: NextFunction) => {
     const notice: Notice = await Notice.create(
       {
         user_pk: user.pk,
-        user_name: user[user.type].name,
         noticeApproveLog: {
           type: 'C',
           title,
@@ -26,6 +25,7 @@ const postNotice = async (req: Request, res: Response, next: NextFunction) => {
         include: [
           {
             model: NoticeApproveLog,
+            as: 'noticeApproveLog',
           },
         ],
       }

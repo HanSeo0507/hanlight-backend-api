@@ -20,7 +20,7 @@ const patchUser = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (resultUser) {
-      if ((resultUser.pk !== user.pk && resultUser.admin < user.admin && admin < user.admin) || user.admin >= 4) {
+      if ((resultUser.pk !== user.pk && resultUser.adminLevel < user.adminLevel && admin < user.adminLevel) || user.adminLevel >= 4) {
         const updatedUser: User = await resultUser.update({
           id,
           admin,
@@ -31,7 +31,7 @@ const patchUser = async (req: Request, res: Response, next: NextFunction) => {
           data: {
             user: {
               pk: updatedUser.pk,
-              admin: updatedUser.admin,
+              admin: updatedUser.adminLevel,
               id: updatedUser.id,
               signKey: updatedUser.signKey,
               tp: updatedUser.tp,

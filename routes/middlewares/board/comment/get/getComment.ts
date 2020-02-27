@@ -29,21 +29,24 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
         limit,
         offset: page * limit,
         order: [['createdAt', 'DESC']],
-        attributes: ['pk', 'user_pk', 'user_name', 'content', 'createdAt'],
+        attributes: ['pk', 'user_pk', 'content', 'createdAt'],
         distinct: true,
         include: [
           {
             model: User,
-            attributes: ['image'],
+            attributes: ['name', 'image'],
+            as: 'user',
           },
           {
             model: BoardPatchLog,
             attributes: ['pk'],
             limit: 1,
+            as: 'boardPatchLog',
           },
           {
             model: BoardCommentLike,
             attributes: ['user_pk'],
+            as: 'boardCommentLike',
           },
         ],
       });
@@ -53,8 +56,9 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
         data: {
           comment: comments.rows.map((val: BoardComment) => ({
             pk: val.pk,
-            user_name: val.user_name,
-            user_image: val.user_name && val.user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${val.user.image}` : null,
+            user_name: val.user.name,
+            user_image:
+              val.user.name && val.user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${val.user.image}` : null,
             content: val.content,
             createdAt: val.createdAt,
             edited: !!val.boardPatchLog.length,

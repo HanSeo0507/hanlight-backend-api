@@ -8,10 +8,10 @@ const checkAdmin = (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
 
   function checkLevel(minLevel: number) {
-    return user.admin >= minLevel ? next() : next(new CustomError({ name: 'Forbidden' }));
+    return user.adminLevel >= minLevel ? next() : next(new CustomError({ name: 'Forbidden' }));
   }
 
-  if (user.admin >= 2) {
+  if (user.adminLevel >= 2) {
     switch (`${req.method} ${req.path}`) {
       case 'GET /user':
         checkLevel(3);

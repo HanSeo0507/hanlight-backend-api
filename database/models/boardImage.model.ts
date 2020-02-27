@@ -1,26 +1,38 @@
-import { AllowNull, AutoIncrement, BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { Model, DataTypes, BelongsTo } from 'sequelize';
+
+import { sequelize } from '../index';
 import Board from './board.model';
 
-@Table({
-  timestamps: false,
-})
 export default class BoardImage extends Model<BoardImage> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public pk: number;
+  public static associations: {
+    board: BelongsTo<BoardImage, Board>;
+  };
 
-  @ForeignKey(() => Board)
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public board_pk: number;
-
-  @Column(DataType.STRING)
-  public file: string;
-
-  @BelongsTo(() => Board, {
-    onDelete: 'CASCADE',
-  })
   public board: Board;
+
+  public pk: number;
+  public board_pk: number;
+  public file: string;
 }
+
+BoardImage.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    board_pk: {
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    file: {
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'boardImages',
+  }
+);

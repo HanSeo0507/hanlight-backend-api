@@ -21,7 +21,6 @@ const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
           pk,
           board_pk: board.pk,
           user_pk: user.pk,
-          user_name: user[user.type].name,
           type: 'board',
           reason: content,
         }),

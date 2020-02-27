@@ -42,7 +42,6 @@ const report = async (req: Request, res: Response, next: NextFunction) => {
           board_pk,
           comment_pk: comment_pk || null,
           user_pk: user.pk,
-          user_name: user[user.type].name,
           content: content || null,
         },
       });

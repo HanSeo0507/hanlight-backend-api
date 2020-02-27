@@ -22,7 +22,6 @@ const deleteCalendar = async (req: Request, res: Response, next: NextFunction) =
         calendar.destroy(),
         CalendarLog.create({
           user_pk: user.pk,
-          user_name: user[user.type].name,
           type: 'D',
           month: calendar.month,
           date: calendar.date,

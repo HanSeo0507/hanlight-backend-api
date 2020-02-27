@@ -18,6 +18,7 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
       include: [
         {
           model: NoticeApproveLog,
+          as: 'noticeApproveLog',
         },
       ],
     });

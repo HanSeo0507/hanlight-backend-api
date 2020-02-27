@@ -22,13 +22,14 @@ const deleteComment = async (req: Request, res: Response, next: NextFunction) =>
             pk: comment_pk,
             user_pk: user.pk,
           },
+          as: 'boardComment',
         },
       ],
     });
 
     if (board) {
-      if (board.comment[0]) {
-        await board.comment[0].destroy();
+      if (board.boardComment[0]) {
+        await board.boardComment[0].destroy();
         res.json({
           success: true,
         });

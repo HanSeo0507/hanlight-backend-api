@@ -16,7 +16,6 @@ const deleteNotice = async (req: Request, res: Response, next: NextFunction) => 
       const log: NoticeApproveLog = await NoticeApproveLog.create({
         notice_pk: notice.pk,
         user_pk: user.pk,
-        user_name: user[user.type].name,
         type: 'D',
       });
 

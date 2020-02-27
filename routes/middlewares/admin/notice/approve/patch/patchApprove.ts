@@ -13,7 +13,7 @@ const patchApprove = async (req: Request, res: Response, next: NextFunction) => 
   try {
     const noticeApproveLog: NoticeApproveLog = await NoticeApproveLog.findOne({
       where: { pk: approve_pk, approved: false },
-      include: [{ model: Notice, required: true }],
+      include: [{ model: Notice, as: 'notice', required: true }],
     });
 
     if (noticeApproveLog) {
@@ -22,15 +22,15 @@ const patchApprove = async (req: Request, res: Response, next: NextFunction) => 
       } else {
         const [updatedNotice]: [Notice, unknown] = await Promise.all([
           noticeApproveLog.type === 'D'
-            ? noticeApproveLog.notice.destroy()
+            ? (noticeApproveLog.notice.destroy() as any)
             : noticeApproveLog.notice.update({
                 approved: true,
-                title: noticeApproveLog.title || noticeApproveLog.notice.title,
-                content: noticeApproveLog.content || noticeApproveLog.notice.content,
+                title: noticeApproveLog.notice.title,
+                content: noticeApproveLog.notice.content,
               }),
           noticeApproveLog.update({
             user_pk: user.pk,
-            user_name: user[user.type].name,
+            user_name: user.name,
             approved: true,
           }),
         ]);

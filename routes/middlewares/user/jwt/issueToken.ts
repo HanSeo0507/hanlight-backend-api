@@ -27,13 +27,13 @@ const issueToken = (type: 'login' | 'none') => (req: Request, res: Response, nex
       type === 'login'
         ? {
             type: user.type,
-            admin: user.admin,
-            name: user[user.type].name,
+            admin: user.adminLevel,
+            name: user.name,
             id: user.id,
-            major: user.type === 'student' ? user.student.major : null,
-            grade: user.type === 'student' ? user.student.grade : null,
-            classNum: user.type === 'student' ? user.student.classNum : null,
-            studentNum: user.type === 'student' ? user.student.studentNum : null,
+            major: user.major,
+            grade: user.grade,
+            classNum: user.classNum,
+            studentNum: user.studentNum,
             image: user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
           }
         : undefined,

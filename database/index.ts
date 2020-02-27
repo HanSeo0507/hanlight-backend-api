@@ -23,14 +23,16 @@ export const sequelize = new Sequelize({
   },
 });
 
-export async function connect(force: boolean, logging?: boolean) {
+import { associate } from './associate';
+
+export const connect = async (force: boolean, logging?: boolean) => {
   try {
-    await sequelize.addModels([__dirname + '/models/**/*.model.ts']);
+    associate();
     await sequelize.sync({ force, logging });
   } catch (error) {
-    console.error(error);
+    console.log(error);
     process.exit(1);
   }
-}
+};
 
 export const models = sequelize.model;

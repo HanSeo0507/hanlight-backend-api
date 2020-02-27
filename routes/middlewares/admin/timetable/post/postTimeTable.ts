@@ -39,7 +39,6 @@ const postTimeTable = async (req: Request, res: Response, next: NextFunction) =>
         TimeTableLog.create({
           type: 'C',
           user_pk: user.pk,
-          user_name: user[user.type].name,
           major,
           grade,
           classNum,

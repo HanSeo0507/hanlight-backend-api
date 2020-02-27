@@ -1,57 +1,64 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  ForeignKey,
-  Model,
-  PrimaryKey,
-  Table,
-} from 'sequelize-typescript';
+import { Model, DataTypes, BelongsTo } from 'sequelize';
 
+import { sequelize } from '../index';
 import Calendar from './calendar.model';
 import User from './user.model';
 
-@Table({
-  timestamps: true,
-})
 export default class CalendarLog extends Model<CalendarLog> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public static associations: {
+    calendar: BelongsTo<CalendarLog, Calendar>;
+    user: BelongsTo<CalendarLog, User>;
+  };
+
+  public calendar: Calendar;
+  public user: User;
+
   public pk: number;
-
-  @ForeignKey(() => User)
-  @AllowNull(true)
-  @Column(DataType.UUID)
+  public calendar_pk: number;
   public user_pk: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public user_name: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public type: 'C' | 'U' | 'D';
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public type: string;
   public month: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public date: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
   public detail: string;
 
-  @CreatedAt
-  public createdAt: Date;
-
-  @BelongsTo(() => User)
-  public user: User;
+  public readonly createdAt: Date;
 }
+
+CalendarLog.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    calendar_pk: {
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    type: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    month: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    date: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    detail: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'calendarLogs',
+  }
+);

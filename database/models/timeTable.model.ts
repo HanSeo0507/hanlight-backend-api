@@ -1,36 +1,59 @@
-import { AllowNull, AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
+import { Model, DataTypes, HasMany } from 'sequelize';
 
-@Table({
-  timestamps: false,
-})
+import { sequelize } from '../index';
+import TimeTableLog from './timeTableLog.model';
+
 export default class TimeTable extends Model<TimeTable> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public static associations: {
+    timeTableLog: HasMany<TimeTable, TimeTableLog>;
+  };
+
+  public timeTableLog: TimeTableLog[];
+
   public pk: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public major: string;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public major: 'G' | 'N' | 'H' | 'I';
   public grade: number;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public classNum: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
   public day: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
   public detail: string;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public th: number;
 }
+
+TimeTable.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    major: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    grade: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    classNum: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    day: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    detail: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    th: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'timeTables',
+  }
+);

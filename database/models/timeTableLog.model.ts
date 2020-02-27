@@ -1,56 +1,64 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  ForeignKey,
-  Model,
-  PrimaryKey,
-  Table,
-} from 'sequelize-typescript';
+import { Model, DataTypes, BelongsTo } from 'sequelize';
 
+import { sequelize } from '../index';
+import TimeTable from './timeTable.model';
 import User from './user.model';
 
-@Table({
-  timestamps: true,
-})
 export default class TimeTableLog extends Model<TimeTableLog> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public static associations: {
+    timeTable: BelongsTo<TimeTableLog, TimeTable>;
+    user: BelongsTo<TimeTableLog, User>;
+  };
+
+  public timeTable: TimeTable;
+  public user: User;
+
   public pk: number;
-
-  @ForeignKey(() => User)
-  @AllowNull(true)
-  @Column(DataType.UUID)
+  public timeTable_pk: number;
   public user_pk: string;
-
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  public user_name: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
   public type: string;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public major: 'G' | 'N' | 'H' | 'I';
   public grade: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public major: string;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public classNum: number;
 
-  @CreatedAt
-  public createdAt: Date;
-
-  @BelongsTo(() => User)
-  public user: User;
+  public readonly createdAt: Date;
 }
+
+TimeTableLog.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    timeTable_pk: {
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    type: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    major: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    grade: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    classNum: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'timeTableLogs',
+  }
+);

@@ -20,45 +20,53 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
     const result: { rows: Board[]; count: number } = await Board.findAndCountAll({
       limit: board_limit,
       offset: page * board_limit,
-      attributes: ['pk', 'user_pk', 'user_name', 'content', 'createdAt'],
+      attributes: ['pk', 'user_pk', 'content', 'createdAt'],
       order: [['createdAt', 'DESC']],
       distinct: true,
       include: [
         {
           model: User,
-          attributes: ['image'],
+          as: 'user',
+          attributes: ['name', 'image'],
         },
         {
           model: BoardPatchLog,
+          as: 'boardPatchLog',
           attributes: ['pk'],
         },
         {
           model: BoardComment,
-          attributes: ['pk', 'user_pk', 'user_name', 'content', 'createdAt'],
+          as: 'boardComment',
+          attributes: ['pk', 'user_pk', 'content', 'createdAt'],
           order: [['createdAt', 'DESC']],
           limit: comment_limit,
           include: [
             {
               model: User,
-              attributes: ['image'],
+              as: 'user',
+              attributes: ['name', 'image'],
             },
             {
               model: BoardPatchLog,
+              as: 'boardPatchLog',
               attributes: ['pk'],
               limit: 1,
             },
             {
               model: BoardCommentLike,
+              as: 'boardCommentLike',
               attributes: ['user_pk'],
             },
           ],
         },
         {
           model: BoardLike,
+          as: 'boardLike',
           attributes: ['user_pk'],
         },
         {
           model: BoardImage,
+          as: 'boardImage',
         },
       ],
     });
@@ -73,9 +81,9 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
       data: {
         board: result.rows.map(val => ({
           pk: val.pk,
-          user_name: val.user_name,
+          user_name: val.user.name,
           user_image:
-            val.user_name && val.user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${val.user.image}` : null,
+            val.user.name && val.user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${val.user.image}` : null,
           content: val.content,
           files: val.boardImage.map(
             (boardImage: BoardImage) => `https://s3.ap-northeast-2.amazonaws.com/hanlight/board/${boardImage.file}`
@@ -85,11 +93,11 @@ const getBoard = async (req: Request, res: Response, next: NextFunction) => {
           isLiked: val.boardLike.some(val => val.user_pk === user.pk),
           likeCount: val.boardLike.length,
           commentCount: commentResult.filter(comment => comment.board_pk === val.pk).length,
-          comment: val.comment.map(comment => ({
+          comment: val.boardComment.map(comment => ({
             pk: comment.pk,
-            user_name: comment.user_name,
+            user_name: comment.user.name,
             user_image:
-              comment.user_name && comment.user.image
+              comment.user.name && comment.user.image
                 ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${comment.user.image}`
                 : null,
             content: comment.content,
