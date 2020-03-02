@@ -1,7 +1,6 @@
 import { Model, DataTypes, HasMany } from 'sequelize';
 
 import { sequelize } from '../index';
-import CalendarLog from './calendarLog.model';
 
 export default class Calendar extends Model<Calendar> {
   public static associations: {
@@ -47,3 +46,11 @@ Calendar.init(
     tableName: 'calendars',
   }
 );
+
+import CalendarLog from './calendarLog.model';
+
+Calendar.hasMany(CalendarLog, {
+  sourceKey: 'pk',
+  foreignKey: 'calendar_pk',
+  as: 'calendarLog',
+});

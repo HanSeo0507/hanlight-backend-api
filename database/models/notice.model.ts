@@ -1,9 +1,6 @@
 import { Model, DataTypes, BelongsTo, HasMany } from 'sequelize';
 
 import { sequelize } from '../index';
-import User from './user.model';
-import NoticeApproveLog from './noticeApproveLog.model';
-import NoticeViewLog from './noticeViewLog.model';
 
 export default class Notice extends Model<Notice> {
   public static associations: {
@@ -58,3 +55,24 @@ Notice.init(
     tableName: 'notices',
   }
 );
+
+import User from './user.model';
+import NoticeApproveLog from './noticeApproveLog.model';
+import NoticeViewLog from './noticeViewLog.model';
+
+Notice.hasMany(NoticeApproveLog, {
+  sourceKey: 'pk',
+  foreignKey: 'notice_pk',
+  as: 'noticeApproveLog',
+});
+
+Notice.hasMany(NoticeViewLog, {
+  sourceKey: 'pk',
+  foreignKey: 'notice_pk',
+  as: 'noticeViewLog',
+});
+
+Notice.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+});

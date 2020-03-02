@@ -1,8 +1,6 @@
 import { Model, DataTypes, BelongsTo } from 'sequelize';
 
 import { sequelize } from '../index';
-import User from './user.model';
-import Notice from './notice.model';
 
 export default class NoticeViewLog extends Model<NoticeViewLog> {
   public static associations: {
@@ -42,3 +40,20 @@ NoticeViewLog.init(
     tableName: 'noticeViewLogs',
   }
 );
+
+import User from './user.model';
+import Notice from './notice.model';
+
+NoticeViewLog.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+NoticeViewLog.belongsTo(Notice, {
+  foreignKey: 'notice_pk',
+  as: 'notice',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

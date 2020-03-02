@@ -1,8 +1,6 @@
 import { Model, BelongsTo, DataTypes } from 'sequelize';
 
 import { sequelize } from '../index';
-import Board from './board.model';
-import User from './user.model';
 
 export default class BoardLike extends Model<BoardLike> {
   public static associations: {
@@ -40,3 +38,20 @@ BoardLike.init(
     tableName: 'boardLikes',
   }
 );
+
+import Board from './board.model';
+import User from './user.model';
+
+BoardLike.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+BoardLike.belongsTo(Board, {
+  foreignKey: 'board_pk',
+  as: 'board',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

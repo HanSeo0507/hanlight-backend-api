@@ -1,8 +1,6 @@
 import { Model, DataTypes, BelongsTo } from 'sequelize';
 
 import { sequelize } from '../index';
-import TimeTable from './timeTable.model';
-import User from './user.model';
 
 export default class TimeTableLog extends Model<TimeTableLog> {
   public static associations: {
@@ -62,3 +60,19 @@ TimeTableLog.init(
     tableName: 'timeTableLogs',
   }
 );
+
+import TimeTable from './timeTable.model';
+import User from './user.model';
+
+TimeTableLog.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onUpdate: 'CASCADE',
+});
+
+TimeTableLog.belongsTo(TimeTable, {
+  foreignKey: 'timeTable_pk',
+  as: 'timeTable',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

@@ -1,8 +1,6 @@
 import { Model, DataTypes, BelongsTo } from 'sequelize';
 
 import { sequelize } from '../index';
-import Calendar from './calendar.model';
-import User from './user.model';
 
 export default class CalendarLog extends Model<CalendarLog> {
   public static associations: {
@@ -62,3 +60,18 @@ CalendarLog.init(
     tableName: 'calendarLogs',
   }
 );
+
+import Calendar from './calendar.model';
+import User from './user.model';
+
+CalendarLog.belongsTo(Calendar, {
+  foreignKey: 'calendar_pk',
+  as: 'calendar',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+CalendarLog.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+});

@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 
-import { Sequelize } from 'sequelize-typescript';
+import { Sequelize } from 'sequelize';
 
 dotenv.config();
 
@@ -11,7 +11,7 @@ const DB_CONFIG = {
   DB_PASSWORD: process.env.DB_PASSWORD,
 };
 
-export const sequelize = new Sequelize({
+export const sequelize: Sequelize = new Sequelize({
   host: DB_CONFIG.DB_HOST,
   dialect: 'mysql',
   database: DB_CONFIG.DB_NAME,
@@ -23,16 +23,11 @@ export const sequelize = new Sequelize({
   },
 });
 
-import { associate } from './associate';
-
 export const connect = async (force: boolean, logging?: boolean) => {
   try {
-    associate();
     await sequelize.sync({ force, logging });
   } catch (error) {
     console.log(error);
     process.exit(1);
   }
 };
-
-export const models = sequelize.model;

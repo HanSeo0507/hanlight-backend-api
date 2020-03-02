@@ -1,13 +1,6 @@
 import { Model, BelongsTo, DataTypes, HasMany } from 'sequelize';
 
 import { sequelize } from '../index';
-import User from './user.model';
-import BoardComment from './boardComment.model';
-import BoardImage from './boardImage.model';
-import BoardLike from './boardLike.model';
-import BoardManageLog from './boardManageLog.model';
-import BoardPatchLog from './boardPatchLog.model';
-import BoardReportLog from './boardReportLog.model';
 
 export default class Board extends Model<Board> {
   public static associations: {
@@ -66,3 +59,54 @@ Board.init(
     paranoid: true,
   }
 );
+
+import User from './user.model';
+import BoardComment from './boardComment.model';
+import BoardImage from './boardImage.model';
+import BoardLike from './boardLike.model';
+import BoardManageLog from './boardManageLog.model';
+import BoardPatchLog from './boardPatchLog.model';
+import BoardReportLog from './boardReportLog.model';
+
+Board.hasMany(BoardLike, {
+  sourceKey: 'pk',
+  foreignKey: 'board_pk',
+  as: 'boardLike',
+});
+
+Board.hasMany(BoardComment, {
+  sourceKey: 'pk',
+  foreignKey: 'board_pk',
+  as: 'boardComment',
+});
+
+Board.hasMany(BoardImage, {
+  sourceKey: 'pk',
+  foreignKey: 'board_pk',
+  as: 'boardImage',
+});
+
+Board.hasMany(BoardManageLog, {
+  sourceKey: 'pk',
+  foreignKey: 'board_pk',
+  as: 'boardManageLog',
+});
+
+Board.hasMany(BoardPatchLog, {
+  sourceKey: 'pk',
+  foreignKey: 'board_pk',
+  as: 'boardPatchLog',
+});
+
+Board.hasMany(BoardReportLog, {
+  sourceKey: 'pk',
+  foreignKey: 'board_pk',
+  as: 'boardReportLog',
+});
+
+Board.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

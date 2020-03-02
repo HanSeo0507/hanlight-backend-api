@@ -1,7 +1,6 @@
 import { Model, DataTypes, HasMany } from 'sequelize';
 
 import { sequelize } from '../index';
-import TimeTableLog from './timeTableLog.model';
 
 export default class TimeTable extends Model<TimeTable> {
   public static associations: {
@@ -57,3 +56,11 @@ TimeTable.init(
     tableName: 'timeTables',
   }
 );
+
+import TimeTableLog from './timeTableLog.model';
+
+TimeTable.hasMany(TimeTableLog, {
+  sourceKey: 'pk',
+  foreignKey: 'timeTable_pk',
+  as: 'timeTableLog',
+});

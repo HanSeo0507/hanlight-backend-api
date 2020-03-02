@@ -1,7 +1,6 @@
 import { Model, DataTypes, BelongsTo } from 'sequelize';
 
 import { sequelize } from '../index';
-import User from './user.model';
 
 export default class TermAcceptLog extends Model<TermAcceptLog> {
   public static associations: {
@@ -40,3 +39,12 @@ TermAcceptLog.init(
     tableName: 'termAcceptLogs',
   }
 );
+
+import User from './user.model';
+
+TermAcceptLog.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

@@ -1,7 +1,6 @@
 import { Model, DataTypes, BelongsTo } from 'sequelize';
 
 import { sequelize } from '../index';
-import Board from './board.model';
 
 export default class BoardImage extends Model<BoardImage> {
   public static associations: {
@@ -36,3 +35,12 @@ BoardImage.init(
     tableName: 'boardImages',
   }
 );
+
+import Board from './board.model';
+
+BoardImage.belongsTo(Board, {
+  foreignKey: 'board_pk',
+  as: 'board',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

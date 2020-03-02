@@ -1,11 +1,6 @@
 import { Model, BelongsTo, DataTypes, HasMany } from 'sequelize';
 
 import { sequelize } from '../index';
-import User from './user.model';
-import Board from './board.model';
-import BoardCommentLike from './boardCommentLike.model';
-import BoardPatchLog from './boardPatchLog.model';
-import BoardReportLog from './boardReportLog.model';
 
 export default class BoardComment extends Model<BoardComment> {
   public static associations: {
@@ -57,3 +52,41 @@ BoardComment.init(
     tableName: 'boardComments',
   }
 );
+
+import User from './user.model';
+import Board from './board.model';
+import BoardCommentLike from './boardCommentLike.model';
+import BoardPatchLog from './boardPatchLog.model';
+import BoardReportLog from './boardReportLog.model';
+
+BoardComment.hasMany(BoardCommentLike, {
+  sourceKey: 'pk',
+  foreignKey: 'comment_pk',
+  as: 'boardCommentLike',
+});
+
+BoardComment.hasMany(BoardPatchLog, {
+  sourceKey: 'pk',
+  foreignKey: 'comment_pk',
+  as: 'boardPatchLog',
+});
+
+BoardComment.hasMany(BoardReportLog, {
+  sourceKey: 'pk',
+  foreignKey: 'comment_pk',
+  as: 'boardReportLog',
+});
+
+BoardComment.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+BoardComment.belongsTo(Board, {
+  foreignKey: 'board_pk',
+  as: 'board',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

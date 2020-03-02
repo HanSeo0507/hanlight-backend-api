@@ -1,9 +1,6 @@
 import { Model, DataTypes, BelongsTo } from 'sequelize';
 
 import { sequelize } from '../index';
-import User from './user.model';
-import Board from './board.model';
-import BoardComment from './boardComment.model';
 
 export default class BoardReportLog extends Model<BoardReportLog> {
   public static associations: {
@@ -58,3 +55,23 @@ BoardReportLog.init(
     tableName: 'boardReportLogs',
   }
 );
+
+import User from './user.model';
+import Board from './board.model';
+import BoardComment from './boardComment.model';
+
+BoardReportLog.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+});
+
+BoardReportLog.belongsTo(Board, {
+  foreignKey: 'board_pk',
+  as: 'board',
+  onUpdate: 'CASCADE',
+});
+
+BoardReportLog.belongsTo(BoardComment, {
+  foreignKey: 'comment_pk',
+  as: 'boardComment',
+});
