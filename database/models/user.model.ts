@@ -1,6 +1,7 @@
 import { Model, DataTypes, HasMany, HasOne } from 'sequelize';
 
 import { sequelize } from '../index';
+import { UserType, UserMajor } from '@Lib/type';
 
 export default class User extends Model<User> {
   static associations: {
@@ -32,7 +33,7 @@ export default class User extends Model<User> {
   public termAcceptLog: TermAcceptLog;
 
   public pk: string;
-  public type: 'student' | 'teacher' | 'graduate' | 'parent';
+  public type: UserType;
   public name: string;
   public id: string;
   public password: string;
@@ -40,7 +41,7 @@ export default class User extends Model<User> {
   public signKey: string;
   public tp: string;
   public image: string;
-  public major: 'G' | 'N' | 'H' | 'I';
+  public major: UserMajor;
   public grade: number;
   public classNum: number;
   public studentNum: number;

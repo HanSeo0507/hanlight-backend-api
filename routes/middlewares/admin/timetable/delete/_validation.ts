@@ -5,7 +5,7 @@ import { days } from '@Middleware/timetable/getTimeTable';
 const deleteTimeTableValidation: ValidationChain[] = [
   query('major')
     .isString()
-    .custom(val => ['H', 'U', 'G'].includes(val)),
+    .custom(val => ['I', 'H', 'N', 'G'].includes(val)),
   query('grade').isInt({ min: 1, max: 3 }),
   query('classNum').isInt({ min: 1, max: 2 }),
   query('day')

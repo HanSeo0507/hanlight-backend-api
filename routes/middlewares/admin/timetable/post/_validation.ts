@@ -8,7 +8,7 @@ import { days } from '@Middleware/timetable/getTimeTable';
 const postTimeTableValidation: ValidationChain[] = [
   body('major')
     .isString()
-    .custom(val => ['H', 'U', 'G'].includes(val)),
+    .custom(val => ['I', 'H', 'N', 'G'].includes(val)),
   body('grade').isInt({ min: 1, max: 3 }),
   body('classNum').isInt({ min: 1, max: 2 }),
   body('day')

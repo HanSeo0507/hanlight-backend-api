@@ -20,20 +20,21 @@ const patchApprove = async (req: Request, res: Response, next: NextFunction) => 
       if (noticeApproveLog.notice.user_pk === user.pk) {
         next(new CustomError({ name: 'Forbidden' }));
       } else {
-        const [updatedNotice]: [Notice, unknown] = await Promise.all([
+        const [updatedNotice]: [void | Notice, NoticeApproveLog] = await Promise.all([
           noticeApproveLog.type === 'D'
-            ? (noticeApproveLog.notice.destroy() as any)
-            : noticeApproveLog.notice.update({
+            ? await noticeApproveLog.notice.destroy()
+            : await noticeApproveLog.notice.update({
                 approved: true,
                 title: noticeApproveLog.notice.title,
                 content: noticeApproveLog.notice.content,
               }),
-          noticeApproveLog.update({
+          await noticeApproveLog.update({
             user_pk: user.pk,
             user_name: user.name,
             approved: true,
           }),
         ]);
+
         res.json({
           success: true,
           data: {
