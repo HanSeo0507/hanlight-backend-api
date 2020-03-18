@@ -14,9 +14,9 @@ export default class BoardReportLog extends Model<BoardReportLog> {
   public boardComment: BoardComment;
 
   public pk: number;
-  public user_pk: string;
-  public board_pk: number;
-  public comment_pk: number;
+  public user_pk: User['pk'];
+  public board_pk: Board['pk'];
+  public comment_pk: BoardComment['pk'];
   public type: 'board' | 'comment';
   public content: string;
 

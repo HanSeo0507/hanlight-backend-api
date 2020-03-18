@@ -1,6 +1,7 @@
 import { Model, DataTypes, BelongsTo } from 'sequelize';
 
 import { sequelize } from '../index';
+import { UserType } from '@Lib/type';
 
 export default class TimeTableLog extends Model<TimeTableLog> {
   public static associations: {
@@ -12,10 +13,10 @@ export default class TimeTableLog extends Model<TimeTableLog> {
   public user: User;
 
   public pk: number;
-  public timeTable_pk: number;
-  public user_pk: string;
+  public timeTable_pk: TimeTable['pk'];
+  public user_pk: User['pk'];
   public type: string;
-  public major: 'G' | 'N' | 'H' | 'I';
+  public major: UserType;
   public grade: number;
   public classNum: number;
 

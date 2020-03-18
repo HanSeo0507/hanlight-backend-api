@@ -18,8 +18,8 @@ export default class BoardComment extends Model<BoardComment> {
   public boardReportLog: BoardReportLog[];
 
   public pk: number;
-  public user_pk: string;
-  public board_pk: number;
+  public user_pk: User['pk'];
+  public board_pk: Board['pk'];
   public content: string;
 
   public readonly createdAt: Date;

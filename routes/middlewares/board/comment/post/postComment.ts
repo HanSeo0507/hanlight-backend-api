@@ -7,8 +7,8 @@ import BoardComment from '@Model/boardComment.model';
 import User from '@Model/user.model';
 
 const postComment = async (req: Request, res: Response, next: NextFunction) => {
-  const board_pk: number = req.body.board_pk;
-  const content: string = req.body.content;
+  const board_pk: Board['pk'] = req.body.board_pk;
+  const content: BoardComment['content'] = req.body.content;
   const user: User = res.locals.user;
 
   try {

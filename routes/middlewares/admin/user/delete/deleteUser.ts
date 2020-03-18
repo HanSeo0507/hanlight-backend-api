@@ -5,7 +5,7 @@ import CustomError from '@Middleware/error/customError';
 import User from '@Model/user.model';
 
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-  const pk: string = req.query.user_pk;
+  const pk: User['pk'] = req.query.user_pk;
 
   try {
     const user: User = await User.findOne({

@@ -8,8 +8,8 @@ import User from '@Model/user.model';
 
 const postNotice = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const title: string = req.body.title;
-  const content: string = req.body.content;
+  const title: Notice['title'] = req.body.title;
+  const content: Notice['content'] = req.body.content;
 
   try {
     const notice: Notice = await Notice.create(

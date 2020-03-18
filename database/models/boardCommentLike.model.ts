@@ -12,8 +12,8 @@ export default class BoardCommentLike extends Model<BoardCommentLike> {
   public user: User;
 
   public pk: number;
-  public comment_pk: number;
-  public user_pk: string;
+  public comment_pk: BoardComment['pk'];
+  public user_pk: User['pk'];
 }
 
 BoardCommentLike.init(

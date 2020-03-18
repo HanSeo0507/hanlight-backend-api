@@ -12,8 +12,8 @@ export default class CalendarLog extends Model<CalendarLog> {
   public user: User;
 
   public pk: number;
-  public calendar_pk: number;
-  public user_pk: string;
+  public calendar_pk: Calendar['pk'];
+  public user_pk: User['pk'];
   public type: string;
   public month: number;
   public date: number;

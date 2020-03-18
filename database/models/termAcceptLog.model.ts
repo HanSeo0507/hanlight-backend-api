@@ -10,7 +10,7 @@ export default class TermAcceptLog extends Model<TermAcceptLog> {
   public user: User;
 
   public pk: number;
-  public user_pk: string;
+  public user_pk: User['pk'];
   public accept: boolean;
 
   public readonly createdAt: Date;

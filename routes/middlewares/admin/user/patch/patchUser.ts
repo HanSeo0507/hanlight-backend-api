@@ -7,10 +7,10 @@ import User from '@Model/user.model';
 const patchUser = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
 
-  const pk: string = req.body.user_pk;
-  const id: string | undefined = req.body.id;
-  const admin: number | undefined = (req.body.admin && parseInt(req.body.admin, 10)) || undefined;
-  const tp: string | undefined = req.body.tp;
+  const pk: User['pk'] = req.body.user_pk;
+  const id: User['id'] | undefined = req.body.id;
+  const admin: User['admin'] | undefined = (req.body.admin && parseInt(req.body.admin, 10)) || undefined;
+  const tp: User['tp'] | undefined = req.body.tp;
 
   try {
     const resultUser: User = await User.findOne({
@@ -20,7 +20,7 @@ const patchUser = async (req: Request, res: Response, next: NextFunction) => {
     });
 
     if (resultUser) {
-      if ((resultUser.pk !== user.pk && resultUser.adminLevel < user.adminLevel && admin < user.adminLevel) || user.adminLevel >= 4) {
+      if ((resultUser.pk !== user.pk && resultUser.admin < user.admin && admin < user.admin) || user.admin >= 4) {
         const updatedUser: User = await resultUser.update({
           id,
           admin,
@@ -31,7 +31,7 @@ const patchUser = async (req: Request, res: Response, next: NextFunction) => {
           data: {
             user: {
               pk: updatedUser.pk,
-              admin: updatedUser.adminLevel,
+              admin: updatedUser.admin,
               id: updatedUser.id,
               signKey: updatedUser.signKey,
               tp: updatedUser.tp,

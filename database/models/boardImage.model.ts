@@ -10,7 +10,7 @@ export default class BoardImage extends Model<BoardImage> {
   public board: Board;
 
   public pk: number;
-  public board_pk: number;
+  public board_pk: Board['pk'];
   public file: string;
 }
 

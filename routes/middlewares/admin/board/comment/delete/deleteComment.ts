@@ -5,11 +5,12 @@ import CustomError from '@Middleware/error/customError';
 import BoardComment from '@Model/boardComment.model';
 import BoardManageLog from '@Model/boardManageLog.model';
 import User from '@Model/user.model';
+import Board from '@Model/board.model';
 
 const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const pk: number = req.body.board_pk;
-  const reason: string | undefined = req.body.content;
+  const pk: Board['pk'] = req.body.board_pk;
+  const reason: BoardManageLog['reason'] = req.body.content;
 
   try {
     const comment: BoardComment = await BoardComment.findOne({ where: { pk } });

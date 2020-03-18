@@ -4,7 +4,7 @@ import CustomError from '@Middleware/error/customError';
 import User from '@Model/user.model';
 
 const recoveryId = (req: Request, res: Response, next: NextFunction) => {
-  const tp = res.locals.temp.tp;
+  const tp: User['tp'] = res.locals.temp.tp;
 
   User.findOne({
     where: {

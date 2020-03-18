@@ -8,7 +8,7 @@ import User from '@Model/user.model';
 
 const patchApprove = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const approve_pk: number = req.query.approve_pk;
+  const approve_pk: NoticeApproveLog['pk'] = req.query.approve_pk;
 
   try {
     const noticeApproveLog: NoticeApproveLog = await NoticeApproveLog.findOne({

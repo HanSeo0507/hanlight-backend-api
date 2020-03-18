@@ -12,7 +12,7 @@ export default class NoticeViewLog extends Model<NoticeViewLog> {
   public notice: Notice;
 
   public pk: number;
-  public user_pk: string;
+  public user_pk: User['pk'];
   public notice_pk: number;
 
   public readonly createdAt: Date;

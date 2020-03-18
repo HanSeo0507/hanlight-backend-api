@@ -45,7 +45,7 @@ export default class User extends Model<User> {
   public grade: number;
   public classNum: number;
   public studentNum: number;
-  public adminLevel: number;
+  public admin: number;
 
   public readonly createdAt: Date;
   public readonly updatedAt: Date;
@@ -96,7 +96,7 @@ User.init(
     studentNum: {
       type: DataTypes.INTEGER,
     },
-    adminLevel: {
+    admin: {
       defaultValue: 0,
       allowNull: false,
       type: DataTypes.INTEGER,

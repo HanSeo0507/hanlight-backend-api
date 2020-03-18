@@ -12,8 +12,8 @@ export default class BoardManageLog extends Model<BoardManageLog> {
   public user: User;
 
   public pk: number;
-  public board_pk: number;
-  public user_pk: string;
+  public board_pk: Board['pk'];
+  public user_pk: User['pk'];
   public type: 'board' | 'comment';
   public reason: string;
 

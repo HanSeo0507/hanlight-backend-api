@@ -4,7 +4,7 @@ import CustomError from '@Middleware/error/customError';
 import User from '@Model/user.model';
 
 const signKeyCheck = (req: Request, res: Response, next: NextFunction) => {
-  const signKey: string = req.body.signKey;
+  const signKey: User['signKey'] = req.body.signKey;
 
   User.findOne({
     where: {

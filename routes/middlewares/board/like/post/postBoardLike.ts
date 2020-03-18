@@ -11,8 +11,8 @@ import User from '@Model/user.model';
 const postBoardLike = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
   const type: 'board' | 'comment' = req.body.type;
-  const board_pk: number = req.body.board_pk;
-  const comment_pk: number | undefined = req.body.comment_pk;
+  const board_pk: Board['pk'] = req.body.board_pk;
+  const comment_pk: BoardComment['pk'] | undefined = req.body.comment_pk;
 
   try {
     const board: Board | undefined = await Board.findOne({

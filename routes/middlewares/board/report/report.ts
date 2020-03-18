@@ -9,9 +9,9 @@ import User from '@Model/user.model';
 
 const report = async (req: Request, res: Response, next: NextFunction) => {
   const type: 'board' | 'comment' = req.body.type;
-  const board_pk: number = req.body.board_pk;
-  const comment_pk: number = req.body.comment_pk;
-  const content: string = req.body.content;
+  const board_pk: Board['pk'] = req.body.board_pk;
+  const comment_pk: BoardComment['pk'] = req.body.comment_pk;
+  const content: BoardReportLog['content'] = req.body.content;
   const user: User = res.locals.user;
 
   try {

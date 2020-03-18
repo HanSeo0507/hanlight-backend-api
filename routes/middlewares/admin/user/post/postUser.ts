@@ -8,11 +8,11 @@ import deleteUndefined from '@Lib/deleteUndefined';
 
 const postUser = async (req: Request, res: Response, next: NextFunction) => {
   const type: 'student' | 'teacher' | 'parent' | 'graduate' = req.body.type;
-  const name: string = req.body.name;
-  const major: 'I' | 'H' | 'G' | 'U' | undefined = req.body.major;
-  const grade: number | undefined = (req.body.grade && parseInt(req.body.grade, 10)) || undefined;
-  const classNum: number | undefined = (req.body.classNum && parseInt(req.body.classNum, 10)) || undefined;
-  const studentNum: number | undefined = (req.body.studentNum && parseInt(req.body.studentNum, 10)) || undefined;
+  const name: User['name'] = req.body.name;
+  const major: User['major'] | undefined = req.body.major;
+  const grade: User['grade'] | undefined = (req.body.grade && parseInt(req.body.grade, 10)) || undefined;
+  const classNum: User['classNum'] | undefined = (req.body.classNum && parseInt(req.body.classNum, 10)) || undefined;
+  const studentNum: User['studentNum'] | undefined = (req.body.studentNum && parseInt(req.body.studentNum, 10)) || undefined;
 
   const userClause = {
     type,

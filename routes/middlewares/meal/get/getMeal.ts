@@ -7,15 +7,15 @@ import Meal from '@Model/meal.model';
 
 const getMeal = async (req: Request, res: Response, next: NextFunction) => {
   const sort: 'month' | 'week' = req.query.sort;
-  const month: number | null = req.query.month;
+  const month: Meal['month'] | null = req.query.month;
 
   const date = new Date();
 
   try {
     const meal: Array<{
-      month: number;
-      date: number;
-      detail: string;
+      month: Meal['month'];
+      date: Meal['date'];
+      detail: Meal['detail'];
     }> = await Meal.findAll({
       where:
         sort === 'week'
@@ -38,7 +38,10 @@ const getMeal = async (req: Request, res: Response, next: NextFunction) => {
                 [Op.ne]: null,
               },
             },
-      order: [['month', 'ASC'], ['date', 'ASC']],
+      order: [
+        ['month', 'ASC'],
+        ['date', 'ASC'],
+      ],
       attributes: ['month', 'date', 'detail'],
       limit: sort === 'week' ? 7 : 32,
     });

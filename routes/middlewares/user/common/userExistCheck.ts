@@ -5,7 +5,7 @@ import CustomError from '@Middleware/error/customError';
 import User from '@Model/user.model';
 
 const userExistCheck = async (req: Request, res: Response, next: NextFunction) => {
-  const { id } = req.body;
+  const { id }: { id: User['id'] } = req.body;
 
   try {
     const user: User | undefined = await User.findOne({

@@ -12,7 +12,7 @@ const getComment = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
   const limit = 10;
   const page: number = (req.query.page && req.query.page - 1) || 0;
-  const board_pk: number = req.query.board_pk;
+  const board_pk: Board['pk'] = req.query.board_pk;
 
   try {
     const board: Board | undefined = await Board.findOne({

@@ -8,8 +8,8 @@ import User from '@Model/user.model';
 
 const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const pk: number = req.body.board_pk;
-  const content: string = req.body.content;
+  const pk: Board['pk'] = req.body.board_pk;
+  const content: BoardManageLog['reason'] = req.body.content;
 
   try {
     const board: Board = await Board.findOne({ where: { pk } });

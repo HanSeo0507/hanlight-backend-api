@@ -14,7 +14,7 @@ export default class Notice extends Model<Notice> {
   public noticeViewLog: NoticeViewLog[];
 
   public pk: number;
-  public user_pk: string;
+  public user_pk: User['pk'];
   public title: string;
   public content: string;
   public approved: boolean;

@@ -5,7 +5,7 @@ import CustomError from '@Middleware/error/customError';
 import NoticeApproveLog from '@Model/noticeApproveLog.model';
 
 const deleteApprove = async (req: Request, res: Response, next: NextFunction) => {
-  const pk = req.query.approve_pk;
+  const pk: NoticeApproveLog['pk'] = req.query.approve_pk;
 
   try {
     const noticeApproveLog: NoticeApproveLog = await NoticeApproveLog.findOne({ where: { pk, approved: false } });

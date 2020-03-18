@@ -12,8 +12,8 @@ export default class NoticeApproveLog extends Model<NoticeApproveLog> {
   public user: User;
 
   public pk: number;
-  public notice_pk: number;
-  public user_pk: string;
+  public notice_pk: Notice['pk'];
+  public user_pk: User['pk'];
   public approved: boolean;
   public type: string;
 

@@ -9,8 +9,8 @@ import User from '@Model/user.model';
 
 const patchBoard = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const board_pk = req.body.board_pk;
-  const current_content = req.body.content;
+  const board_pk: Board['pk'] = req.body.board_pk;
+  const current_content: Board['content'] = req.body.content;
 
   try {
     const past_board: Board = await Board.findOne({

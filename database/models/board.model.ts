@@ -22,7 +22,7 @@ export default class Board extends Model<Board> {
   public boardReportLog: BoardReportLog[];
 
   public pk: number;
-  public user_pk: string;
+  public user_pk: User['pk'];
   public content: string;
   public is_anonymous: boolean;
 

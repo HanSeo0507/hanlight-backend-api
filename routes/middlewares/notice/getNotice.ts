@@ -10,8 +10,8 @@ const getNotice = async (req: Request, res: Response, next: NextFunction) => {
   const limit = 10;
   const searchType: 'list' | 'post' = req.query.type;
   const searchPage = (req.query.page && req.query.page - 1) || 0;
-  const searchPk = req.query.post_pk;
-  const searchTitle = req.query.title;
+  const searchPk: Notice['pk'] = req.query.post_pk;
+  const searchTitle: Notice['title'] = req.query.title;
 
   const whereClause =
     searchType === 'post'

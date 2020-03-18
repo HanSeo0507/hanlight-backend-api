@@ -5,7 +5,7 @@ import User from '@Model/user.model';
 
 const login = (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const requestPassword = res.locals.temp.password;
+  const requestPassword: User['password'] = res.locals.temp.password;
 
   if (user.password === requestPassword) {
     next();

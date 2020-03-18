@@ -9,8 +9,8 @@ import User from '@Model/user.model';
 
 const getBoardLike = async (req: Request, res: Response, next: NextFunction) => {
   const type: 'board' | 'comment' = req.query.type;
-  const board_pk: number = req.query.board_pk;
-  const comment_pk: number | undefined = req.query.comment_pk;
+  const board_pk: Board['pk'] = req.query.board_pk;
+  const comment_pk: BoardComment['pk'] | undefined = req.query.comment_pk;
 
   try {
     const board: Board = await Board.findOne({

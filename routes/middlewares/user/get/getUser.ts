@@ -10,7 +10,7 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
     data: {
       user: {
         type: user.type,
-        admin: user.adminLevel,
+        admin: user.admin,
         name: user.name,
         id: user.id,
         major: user.major,

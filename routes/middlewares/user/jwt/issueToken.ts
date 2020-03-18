@@ -27,7 +27,7 @@ const issueToken = (type: 'login' | 'none') => (req: Request, res: Response, nex
       type === 'login'
         ? {
             type: user.type,
-            admin: user.adminLevel,
+            admin: user.admin,
             name: user.name,
             id: user.id,
             major: user.major,

@@ -31,7 +31,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
     limit,
     offset: page * limit,
     where: userClause,
-    attributes: ['pk', 'type', 'name', 'id', 'signKey', 'tp', 'major', 'grade', 'classNum', 'studentNum', 'adminLevel'],
+    attributes: ['pk', 'type', 'name', 'id', 'signKey', 'tp', 'major', 'grade', 'classNum', 'studentNum', 'admin'],
   });
   res.json({
     success: true,

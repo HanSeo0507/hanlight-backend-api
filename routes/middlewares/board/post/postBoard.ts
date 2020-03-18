@@ -8,7 +8,7 @@ import User from '@Model/user.model';
 
 const postBoard = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const content: string = req.body.content;
+  const content: Board['content'] = req.body.content;
   const files: string[] = (res.locals.temp && res.locals.temp.files) || [];
   const anonymous = req.body.anonymous ? parseInt(req.body.anonymous, 10) : false;
 

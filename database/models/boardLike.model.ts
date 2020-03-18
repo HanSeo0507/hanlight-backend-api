@@ -12,8 +12,8 @@ export default class BoardLike extends Model<BoardLike> {
   public user: User;
 
   public pk: number;
-  public board_pk: number;
-  public user_pk: string;
+  public board_pk: Board['pk'];
+  public user_pk: User['pk'];
 }
 
 BoardLike.init(

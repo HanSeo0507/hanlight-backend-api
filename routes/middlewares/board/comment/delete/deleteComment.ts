@@ -6,8 +6,8 @@ import BoardComment from '@Model/boardComment.model';
 import User from '@Model/user.model';
 
 const deleteComment = async (req: Request, res: Response, next: NextFunction) => {
-  const board_pk = req.query.board_pk;
-  const comment_pk = req.query.comment_pk;
+  const board_pk: Board['pk'] = req.query.board_pk;
+  const comment_pk: BoardComment['pk'] = req.query.comment_pk;
   const user: User = res.locals.user;
 
   try {

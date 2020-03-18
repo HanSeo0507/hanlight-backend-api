@@ -12,8 +12,8 @@ export default class BoardPatchLog extends Model<BoardPatchLog> {
   public boardComment: BoardComment;
 
   public pk: number;
-  public board_pk: number;
-  public comment_pk: number;
+  public board_pk: Board['pk'];
+  public comment_pk: BoardComment['pk'];
   public past_content: string;
 
   public readonly createdAt: Date;
