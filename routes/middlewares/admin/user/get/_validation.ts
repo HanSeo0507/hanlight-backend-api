@@ -1,7 +1,7 @@
 import { query, ValidationChain } from 'express-validator';
 
 const userTypes = ['student', 'teacher', 'graduate', 'parent'];
-const majors = ['H', 'U', 'G'];
+const majors = ['I', 'H', 'N', 'G'];
 
 const getUserValidation: ValidationChain[] = [
   query('type')

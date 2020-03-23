@@ -1,105 +1,194 @@
-import {
-  AllowNull,
-  Column,
-  CreatedAt,
-  DataType,
-  Default,
-  HasMany,
-  HasOne,
-  Model,
-  PrimaryKey,
-  Table,
-  UpdatedAt,
-} from 'sequelize-typescript';
+import { Model, DataTypes, HasMany, HasOne } from 'sequelize';
+
+import { sequelize } from '../index';
+import { UserType, UserMajor } from '@Lib/type';
+
+export default class User extends Model<User> {
+  static associations: {
+    board: HasMany<User, Board>;
+    boardLike: HasMany<User, BoardLike>;
+    boardComment: HasMany<User, BoardComment>;
+    boardCommentLike: HasMany<User, BoardCommentLike>;
+    boardManageLog: HasMany<User, BoardManageLog>;
+    boardReportLog: HasMany<User, BoardReportLog>;
+    calendarLog: HasMany<User, CalendarLog>;
+    notice: HasMany<User, Notice>;
+    noticeApproveLog: HasMany<User, NoticeApproveLog>;
+    noticeViewLog: HasMany<User, NoticeViewLog>;
+    timeTableLog: HasMany<User, TimeTableLog>;
+    termAcceptLog: HasOne<User, TermAcceptLog>;
+  };
+
+  public board: Board[];
+  public boardLike: BoardLike[];
+  public boardComment: BoardComment[];
+  public boardCommentLike: BoardCommentLike[];
+  public boardManageLog: BoardManageLog[];
+  public boardReportLog: BoardReportLog[];
+  public calendarLog: CalendarLog[];
+  public notice: Notice[];
+  public noticeApproveLog: NoticeApproveLog[];
+  public noticeViewLog: NoticeViewLog[];
+  public timeTableLog: TimeTableLog[];
+  public termAcceptLog: TermAcceptLog;
+
+  public pk: string;
+  public type: UserType;
+  public name: string;
+  public id: string;
+  public password: string;
+  public passwordKey: string;
+  public signKey: string;
+  public tp: string;
+  public image: string;
+  public major: UserMajor;
+  public grade: number;
+  public classNum: number;
+  public studentNum: number;
+  public admin: number;
+
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+}
+
+User.init(
+  {
+    pk: {
+      allowNull: false,
+      primaryKey: true,
+      type: DataTypes.UUID,
+    },
+    type: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    name: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    id: {
+      type: DataTypes.STRING,
+    },
+    password: {
+      type: DataTypes.STRING,
+    },
+    passwordKey: {
+      type: DataTypes.STRING,
+    },
+    signKey: {
+      type: DataTypes.STRING,
+    },
+    tp: {
+      type: DataTypes.STRING,
+    },
+    image: {
+      type: DataTypes.STRING,
+    },
+    major: {
+      type: DataTypes.STRING,
+    },
+    grade: {
+      type: DataTypes.INTEGER,
+    },
+    classNum: {
+      type: DataTypes.INTEGER,
+    },
+    studentNum: {
+      type: DataTypes.INTEGER,
+    },
+    admin: {
+      defaultValue: 0,
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'users',
+  }
+);
 
 import Board from './board.model';
+import BoardComment from './boardComment.model';
 import BoardCommentLike from './boardCommentLike.model';
 import BoardLike from './boardLike.model';
+import TermAcceptLog from './termAcceptLog.model';
 import BoardManageLog from './boardManageLog.model';
+import BoardReportLog from './boardReportLog.model';
 import CalendarLog from './calendarLog.model';
-import Graduate from './graduate.model';
 import Notice from './notice.model';
 import NoticeApproveLog from './noticeApproveLog.model';
 import NoticeViewLog from './noticeViewLog.model';
-import Parent from './parent.model';
-import Student from './student.model';
-import Teacher from './teacher.model';
-import TermAcceptLog from './termAcceptLog.model';
 import TimeTableLog from './timeTableLog.model';
 
-@Table({
-  timestamps: true,
-})
-export default class User extends Model<User> {
-  @PrimaryKey
-  @AllowNull(false)
-  @Default(DataType.UUIDV4)
-  @Column(DataType.UUID)
-  public pk: string;
+User.hasMany(Board, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'board',
+});
 
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public type: 'student' | 'teacher' | 'graduate' | 'parent';
+User.hasMany(BoardLike, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'boardLike',
+});
 
-  @AllowNull(false)
-  @Default(0)
-  @Column(DataType.INTEGER)
-  public admin: number;
+User.hasMany(BoardComment, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'boardComment',
+});
 
-  @Column(DataType.STRING)
-  public id: string;
+User.hasMany(BoardCommentLike, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'boardCommentLike',
+});
 
-  @Column(DataType.STRING)
-  public password: string;
+User.hasMany(BoardManageLog, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'boardManageLog',
+});
 
-  @Column(DataType.STRING)
-  public passwordKey: string;
+User.hasMany(BoardReportLog, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'boardReportLog',
+});
 
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  public signKey: string;
+User.hasMany(CalendarLog, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'calendarLog',
+});
 
-  @Column(DataType.STRING)
-  public tp: string;
+User.hasMany(Notice, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'notice',
+});
 
-  @Column(DataType.STRING)
-  public image: string;
+User.hasMany(NoticeApproveLog, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'noticeApproveLog',
+});
 
-  @CreatedAt
-  public createdAt: Date;
+User.hasMany(NoticeViewLog, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'noticeViewLog',
+});
 
-  @UpdatedAt
-  public updatedAt: Date;
+User.hasMany(TimeTableLog, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'timeTableLog',
+});
 
-  @HasOne(() => Student)
-  public student: Student;
-  @HasOne(() => Teacher)
-  public teacher: Teacher;
-  @HasOne(() => Graduate)
-  public graduate: Graduate;
-  @HasOne(() => Parent)
-  public parent: Parent;
-
-  @HasMany(() => Notice)
-  public notice: Notice[];
-  @HasMany(() => Board)
-  public board: Board[];
-  @HasMany(() => BoardLike)
-  public boardLike: BoardLike[];
-  @HasMany(() => BoardCommentLike)
-  public boardCommentLike: BoardCommentLike[];
-
-  @HasMany(() => NoticeViewLog)
-  public noticeViewLog: NoticeViewLog[];
-  @HasMany(() => CalendarLog)
-  public calendarLog: CalendarLog[];
-  @HasMany(() => TimeTableLog)
-  public timeTableLog: TimeTableLog[];
-  @HasMany(() => BoardManageLog)
-  public boardManageLog: BoardManageLog[];
-  @HasMany(() => NoticeApproveLog)
-  public noticeApproveLog: NoticeApproveLog[];
-
-  @HasOne(() => TermAcceptLog)
-  public termAcceptLog: TermAcceptLog;
-}
+User.hasOne(TermAcceptLog, {
+  sourceKey: 'pk',
+  foreignKey: 'user_pk',
+  as: 'termAcceptLog',
+});

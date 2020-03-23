@@ -1,71 +1,92 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  DeletedAt,
-  ForeignKey,
-  HasMany,
-  Model,
-  PrimaryKey,
-  Table,
-  UpdatedAt,
-} from 'sequelize-typescript';
+import { Model, BelongsTo, DataTypes, HasMany } from 'sequelize';
 
+import { sequelize } from '../index';
+
+export default class BoardComment extends Model<BoardComment> {
+  public static associations: {
+    user: BelongsTo<BoardComment, User>;
+    board: BelongsTo<BoardComment, Board>;
+    boardCommentLike: HasMany<BoardComment, BoardCommentLike>;
+    boardPatchLog: HasMany<BoardComment, BoardPatchLog>;
+    boardReportLog: HasMany<BoardComment, BoardReportLog>;
+  };
+
+  public user: User;
+  public board: Board;
+  public boardCommentLike: BoardCommentLike[];
+  public boardPatchLog: BoardPatchLog[];
+  public boardReportLog: BoardReportLog[];
+
+  public pk: number;
+  public user_pk: User['pk'];
+  public board_pk: Board['pk'];
+  public content: string;
+
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+}
+
+BoardComment.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    board_pk: {
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    content: {
+      allowNull: false,
+      type: DataTypes.TEXT,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'boardComments',
+  }
+);
+
+import User from './user.model';
 import Board from './board.model';
 import BoardCommentLike from './boardCommentLike.model';
 import BoardPatchLog from './boardPatchLog.model';
-import User from './user.model';
+import BoardReportLog from './boardReportLog.model';
 
-@Table({
-  timestamps: true,
-})
-export default class BoardComment extends Model<BoardComment> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public pk: number;
+BoardComment.hasMany(BoardCommentLike, {
+  sourceKey: 'pk',
+  foreignKey: 'comment_pk',
+  as: 'boardCommentLike',
+});
 
-  @ForeignKey(() => Board)
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public board_pk: number;
+BoardComment.hasMany(BoardPatchLog, {
+  sourceKey: 'pk',
+  foreignKey: 'comment_pk',
+  as: 'boardPatchLog',
+});
 
-  @ForeignKey(() => User)
-  @AllowNull(false)
-  @Column(DataType.UUID)
-  public user_pk: string;
+BoardComment.hasMany(BoardReportLog, {
+  sourceKey: 'pk',
+  foreignKey: 'comment_pk',
+  as: 'boardReportLog',
+});
 
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  public user_name: string;
+BoardComment.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 
-  @AllowNull(false)
-  @Column(DataType.TEXT)
-  public content: string;
-
-  @CreatedAt
-  public createdAt: Date;
-
-  @UpdatedAt
-  public updatedAt: Date;
-
-  @BelongsTo(() => User, {
-    onDelete: 'CASCADE',
-  })
-  public user: User;
-
-  @BelongsTo(() => Board, {
-    onDelete: 'CASCADE',
-  })
-  public board: Board;
-
-  @HasMany(() => BoardPatchLog)
-  public boardPatchLog: BoardPatchLog[];
-
-  @HasMany(() => BoardCommentLike)
-  public boardCommentLike: BoardCommentLike[];
-}
+BoardComment.belongsTo(Board, {
+  foreignKey: 'board_pk',
+  as: 'board',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

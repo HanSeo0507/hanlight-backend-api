@@ -7,10 +7,10 @@ import User from '@Model/user.model';
 const patchUser = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
 
-  const pk: string = req.body.user_pk;
-  const id: string | undefined = req.body.id;
-  const admin: number | undefined = (req.body.admin && parseInt(req.body.admin, 10)) || undefined;
-  const tp: string | undefined = req.body.tp;
+  const pk: User['pk'] = req.body.user_pk;
+  const id: User['id'] | undefined = req.body.id;
+  const admin: User['admin'] | undefined = (req.body.admin && parseInt(req.body.admin, 10)) || undefined;
+  const tp: User['tp'] | undefined = req.body.tp;
 
   try {
     const resultUser: User = await User.findOne({

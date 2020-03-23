@@ -8,10 +8,10 @@ import User from '@Model/user.model';
 
 const patchCalendar = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const pk: number = req.body.calendar_pk;
-  const detail: string = req.body.detail;
-  const month: number = (req.body.month && parseInt(req.body.month, 10)) || undefined;
-  const date: number = (req.body.date && parseInt(req.body.date, 10)) || undefined;
+  const pk: Calendar['pk'] = req.body.calendar_pk;
+  const detail: Calendar['detail'] = req.body.detail;
+  const month: Calendar['month'] = (req.body.month && parseInt(req.body.month, 10)) || undefined;
+  const date: Calendar['date'] = (req.body.date && parseInt(req.body.date, 10)) || undefined;
   try {
     const calendar: Calendar = await Calendar.findOne({ where: { pk } });
 
@@ -24,7 +24,6 @@ const patchCalendar = async (req: Request, res: Response, next: NextFunction) =>
         }),
         CalendarLog.create({
           user_pk: user.pk,
-          user_name: user[user.type].name,
           type: 'U',
           month: calendar.month,
           date: calendar.date,

@@ -8,9 +8,9 @@ import User from '@Model/user.model';
 
 const postCalendar = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const month: number = parseInt(req.body.month, 10);
-  const date: number = parseInt(req.body.date, 10);
-  const detail: string = req.body.detail;
+  const month: Calendar['month'] = parseInt(req.body.month, 10);
+  const date: Calendar['date'] = parseInt(req.body.date, 10);
+  const detail: Calendar['detail'] = req.body.detail;
 
   try {
     const [calendar]: [Calendar, unknown] = await Promise.all([
@@ -21,7 +21,6 @@ const postCalendar = async (req: Request, res: Response, next: NextFunction) => 
       }),
       CalendarLog.create({
         user_pk: user.pk,
-        user_name: user[user.type].name,
         type: 'C',
         month,
         date,

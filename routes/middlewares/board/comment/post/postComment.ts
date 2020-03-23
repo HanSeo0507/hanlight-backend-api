@@ -7,8 +7,8 @@ import BoardComment from '@Model/boardComment.model';
 import User from '@Model/user.model';
 
 const postComment = async (req: Request, res: Response, next: NextFunction) => {
-  const board_pk: number = req.body.board_pk;
-  const content: string = req.body.content;
+  const board_pk: Board['pk'] = req.body.board_pk;
+  const content: BoardComment['content'] = req.body.content;
   const user: User = res.locals.user;
 
   try {
@@ -16,15 +16,21 @@ const postComment = async (req: Request, res: Response, next: NextFunction) => {
       where: {
         pk: board_pk,
       },
+      include: [
+        {
+          model: User,
+          attributes: ['name'],
+          as: 'user',
+        },
+      ],
     });
 
     if (board) {
-      const anonymousWrite: boolean = board.user_name === null && board.user_pk === user.pk;
+      const anonymousWrite: boolean = board.user.name === null && board.user_pk === user.pk;
       const comment: BoardComment = await BoardComment.create({
         board_pk,
         content,
         user_pk: user.pk,
-        user_name: anonymousWrite ? null : user[user.type].name,
       });
 
       await res.json({
@@ -32,7 +38,7 @@ const postComment = async (req: Request, res: Response, next: NextFunction) => {
         data: {
           comment: {
             pk: comment.pk,
-            user_name: comment.user_name,
+            user_name: user.name,
             user_image:
               !anonymousWrite && user.image ? `https://s3.ap-northeast-2.amazonaws.com/hanlight/profile-image/${user.image}` : null,
             content: comment.content,

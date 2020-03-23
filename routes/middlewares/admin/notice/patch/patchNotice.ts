@@ -6,9 +6,9 @@ import Notice from '@Model/notice.model';
 import NoticeApproveLog from '@Model/noticeApproveLog.model';
 
 const patchNotice = async (req: Request, res: Response, next: NextFunction) => {
-  const notice_pk: number = req.body.notice_pk;
-  const title: string | undefined = req.body.title;
-  const content: string | undefined = req.body.content;
+  const notice_pk: Notice['pk'] = req.body.notice_pk;
+  const title: Notice['title'] | undefined = req.body.title;
+  const content: Notice['content'] | undefined = req.body.content;
 
   try {
     const notice: Notice = await Notice.findOne({

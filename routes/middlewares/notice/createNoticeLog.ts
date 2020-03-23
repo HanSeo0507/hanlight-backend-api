@@ -3,12 +3,13 @@ import { NextFunction, Request, Response } from 'express';
 import CustomError from '@Middleware/error/customError';
 import Notice from '@Model/notice.model';
 import NoticeViewLog from '@Model/noticeViewLog.model';
+import User from '@Model/user.model';
 
 const createNoticeLog = async (req: Request, res: Response, next: NextFunction) => {
   const notice: Notice | Notice[] = res.locals.temp.notice;
   const resultCount = res.locals.temp.resultCount;
   const searchType: 'list' | 'post' = req.query.type;
-  const user_pk = res.locals.user.pk;
+  const user_pk: User['pk'] = res.locals.user.pk;
 
   try {
     if (searchType === 'post' && !notice) {

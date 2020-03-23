@@ -6,7 +6,7 @@ import Board from '@Model/board.model';
 import User from '@Model/user.model';
 
 const deleteBoard = async (req: Request, res: Response, next: NextFunction) => {
-  const board_pk = req.query.board_pk;
+  const board_pk: Board['pk'] = req.query.board_pk;
   const user: User = res.locals.user;
 
   try {

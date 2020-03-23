@@ -1,56 +1,79 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  ForeignKey,
-  Model,
-  PrimaryKey,
-  Table,
-} from 'sequelize-typescript';
+import { Model, DataTypes, BelongsTo } from 'sequelize';
 
-import User from './user.model';
+import { sequelize } from '../index';
+import { UserType } from '@Lib/type';
 
-@Table({
-  timestamps: true,
-})
 export default class TimeTableLog extends Model<TimeTableLog> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public static associations: {
+    timeTable: BelongsTo<TimeTableLog, TimeTable>;
+    user: BelongsTo<TimeTableLog, User>;
+  };
+
+  public timeTable: TimeTable;
+  public user: User;
+
   public pk: number;
-
-  @ForeignKey(() => User)
-  @AllowNull(true)
-  @Column(DataType.UUID)
-  public user_pk: string;
-
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  public user_name: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
+  public timeTable_pk: TimeTable['pk'];
+  public user_pk: User['pk'];
   public type: string;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public major: UserType;
   public grade: number;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public major: string;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
   public classNum: number;
 
-  @CreatedAt
-  public createdAt: Date;
-
-  @BelongsTo(() => User)
-  public user: User;
+  public readonly createdAt: Date;
 }
+
+TimeTableLog.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    timeTable_pk: {
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    type: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    major: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    grade: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    classNum: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'timeTableLogs',
+  }
+);
+
+import TimeTable from './timeTable.model';
+import User from './user.model';
+
+TimeTableLog.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onUpdate: 'CASCADE',
+});
+
+TimeTableLog.belongsTo(TimeTable, {
+  foreignKey: 'timeTable_pk',
+  as: 'timeTable',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

@@ -8,14 +8,13 @@ import User from '@Model/user.model';
 
 const postNotice = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const title: string = req.body.title;
-  const content: string = req.body.content;
+  const title: Notice['title'] = req.body.title;
+  const content: Notice['content'] = req.body.content;
 
   try {
     const notice: Notice = await Notice.create(
       {
         user_pk: user.pk,
-        user_name: user[user.type].name,
         noticeApproveLog: {
           type: 'C',
           title,
@@ -26,6 +25,7 @@ const postNotice = async (req: Request, res: Response, next: NextFunction) => {
         include: [
           {
             model: NoticeApproveLog,
+            as: 'noticeApproveLog',
           },
         ],
       }

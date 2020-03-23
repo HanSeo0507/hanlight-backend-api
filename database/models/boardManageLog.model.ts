@@ -1,56 +1,67 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  ForeignKey,
-  Model,
-  PrimaryKey,
-  Table,
-} from 'sequelize-typescript';
+import { Model, DataTypes, BelongsTo } from 'sequelize';
+
+import { sequelize } from '../index';
+
+export default class BoardManageLog extends Model<BoardManageLog> {
+  public static associations: {
+    board: BelongsTo<BoardManageLog, Board>;
+    user: BelongsTo<BoardManageLog, User>;
+  };
+
+  public board: Board;
+  public user: User;
+
+  public pk: number;
+  public board_pk: Board['pk'];
+  public user_pk: User['pk'];
+  public type: 'board' | 'comment';
+  public reason: string;
+
+  public readonly createdAt: Date;
+}
+
+BoardManageLog.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    board_pk: {
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    type: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    reason: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'boardManageLogs',
+  }
+);
 
 import Board from './board.model';
 import User from './user.model';
 
-@Table({
-  timestamps: true,
-})
-export default class BoardManageLog extends Model<BoardManageLog> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public pk: number;
+BoardManageLog.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onUpdate: 'CASCADE',
+});
 
-  @ForeignKey(() => Board)
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public board_pk: number;
-
-  @ForeignKey(() => User)
-  @AllowNull(false)
-  @Column(DataType.UUID)
-  public user_pk: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public user_name: string;
-
-  @AllowNull(false)
-  @Column(DataType.STRING)
-  public type: 'board' | 'comment';
-
-  @AllowNull(true)
-  @Column(DataType.STRING)
-  public reason: string;
-
-  @CreatedAt
-  public CreatedAt: Date;
-
-  @BelongsTo(() => Board)
-  public board: Board;
-  @BelongsTo(() => User)
-  public user: User;
-}
+BoardManageLog.belongsTo(Board, {
+  foreignKey: 'board_pk',
+  as: 'board',
+  onUpdate: 'CASCADE',
+});

@@ -8,7 +8,7 @@ import User from '@Model/user.model';
 
 const deleteNotice = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const pk = req.query.notice_pk;
+  const pk: Notice['pk'] = req.query.notice_pk;
 
   try {
     const notice: Notice = await Notice.findOne({ where: { pk, approved: true } });
@@ -16,7 +16,6 @@ const deleteNotice = async (req: Request, res: Response, next: NextFunction) => 
       const log: NoticeApproveLog = await NoticeApproveLog.create({
         notice_pk: notice.pk,
         user_pk: user.pk,
-        user_name: user[user.type].name,
         type: 'D',
       });
 

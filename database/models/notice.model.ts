@@ -1,67 +1,78 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  Default,
-  DeletedAt,
-  ForeignKey,
-  HasMany,
-  Model,
-  PrimaryKey,
-  Table,
-  UpdatedAt,
-} from 'sequelize-typescript';
+import { Model, DataTypes, BelongsTo, HasMany } from 'sequelize';
 
-import NoticeApproveLog from './noticeApproveLog.model';
-import NoticeViewLog from './noticeViewLog.model';
-import User from './user.model';
+import { sequelize } from '../index';
 
-@Table({
-  timestamps: true,
-})
 export default class Notice extends Model<Notice> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public static associations: {
+    user: BelongsTo<Notice, User>;
+    noticeApproveLog: HasMany<Notice, NoticeApproveLog>;
+    noticeViewLog: HasMany<Notice, NoticeViewLog>;
+  };
+
+  public user: User;
+  public noticeApproveLog: NoticeApproveLog[];
+  public noticeViewLog: NoticeViewLog[];
+
   public pk: number;
-
-  @ForeignKey(() => User)
-  @AllowNull(true)
-  @Column(DataType.UUID)
-  public user_pk: string;
-
-  @Column(DataType.STRING)
-  public user_name: string;
-
-  @Column(DataType.STRING)
+  public user_pk: User['pk'];
   public title: string;
-
-  @Column(DataType.TEXT)
   public content: string;
-
-  @AllowNull(false)
-  @Default(false)
-  @Column(DataType.BOOLEAN)
   public approved: boolean;
 
-  @CreatedAt
-  public createdAt: Date;
-
-  @UpdatedAt
-  public updatedAt: Date;
-
-  @DeletedAt
-  public deletedAt: Date;
-
-  @BelongsTo(() => User)
-  public user: User;
-
-  @HasMany(() => NoticeViewLog)
-  public noticeViewLog: NoticeViewLog;
-  @HasMany(() => NoticeApproveLog)
-  public noticeApproveLog: NoticeApproveLog[];
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+  public readonly deletedAt: Date;
 }
+
+Notice.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    title: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    content: {
+      allowNull: false,
+      type: DataTypes.TEXT,
+    },
+    approved: {
+      allowNull: false,
+      defaultValue: 0,
+      type: DataTypes.BOOLEAN,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'notices',
+  }
+);
+
+import User from './user.model';
+import NoticeApproveLog from './noticeApproveLog.model';
+import NoticeViewLog from './noticeViewLog.model';
+
+Notice.hasMany(NoticeApproveLog, {
+  sourceKey: 'pk',
+  foreignKey: 'notice_pk',
+  as: 'noticeApproveLog',
+});
+
+Notice.hasMany(NoticeViewLog, {
+  sourceKey: 'pk',
+  foreignKey: 'notice_pk',
+  as: 'noticeViewLog',
+});
+
+Notice.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+});

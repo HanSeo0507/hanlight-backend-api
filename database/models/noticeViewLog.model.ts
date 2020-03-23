@@ -1,48 +1,59 @@
-import {
-  AllowNull,
-  AutoIncrement,
-  BelongsTo,
-  Column,
-  CreatedAt,
-  DataType,
-  ForeignKey,
-  Model,
-  PrimaryKey,
-  Table,
-} from 'sequelize-typescript';
-import Notice from './notice.model';
-import User from './user.model';
+import { Model, DataTypes, BelongsTo } from 'sequelize';
 
-@Table({
-  timestamps: false,
-})
+import { sequelize } from '../index';
+
 export default class NoticeViewLog extends Model<NoticeViewLog> {
-  @AutoIncrement
-  @PrimaryKey
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public static associations: {
+    user: BelongsTo<NoticeViewLog, User>;
+    notice: BelongsTo<NoticeViewLog, Notice>;
+  };
+
+  public user: User;
+  public notice: Notice;
+
   public pk: number;
-
-  @ForeignKey(() => User)
-  @AllowNull(false)
-  @Column(DataType.UUID)
-  public user_pk: string;
-
-  @ForeignKey(() => Notice)
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
+  public user_pk: User['pk'];
   public notice_pk: number;
 
-  @CreatedAt
-  public createdAt: Date;
-
-  @BelongsTo(() => User, {
-    onDelete: 'CASCADE',
-  })
-  public user: User;
-
-  @BelongsTo(() => Notice, {
-    onDelete: 'CASCADE',
-  })
-  public notice: Notice;
+  public readonly createdAt: Date;
 }
+
+NoticeViewLog.init(
+  {
+    pk: {
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+    user_pk: {
+      allowNull: false,
+      type: DataTypes.UUID,
+    },
+    notice_pk: {
+      allowNull: false,
+      type: DataTypes.INTEGER.UNSIGNED,
+    },
+  },
+  {
+    sequelize,
+    tableName: 'noticeViewLogs',
+  }
+);
+
+import User from './user.model';
+import Notice from './notice.model';
+
+NoticeViewLog.belongsTo(User, {
+  foreignKey: 'user_pk',
+  as: 'user',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+NoticeViewLog.belongsTo(Notice, {
+  foreignKey: 'notice_pk',
+  as: 'notice',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});

@@ -11,8 +11,8 @@ import User from '@Model/user.model';
 const postBoardLike = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
   const type: 'board' | 'comment' = req.body.type;
-  const board_pk: number = req.body.board_pk;
-  const comment_pk: number | undefined = req.body.comment_pk;
+  const board_pk: Board['pk'] = req.body.board_pk;
+  const comment_pk: BoardComment['pk'] | undefined = req.body.comment_pk;
 
   try {
     const board: Board | undefined = await Board.findOne({
@@ -28,13 +28,14 @@ const postBoardLike = async (req: Request, res: Response, next: NextFunction) =>
                   pk: comment_pk,
                 },
                 required: false,
+                as: 'boardComment',
               },
             ]
           : undefined,
     });
 
     if (board) {
-      if (type === 'board' || (type === 'comment' && board.comment[0])) {
+      if (type === 'board' || (type === 'comment' && board.boardComment[0])) {
         const like: BoardLike | BoardCommentLike | undefined =
           type === 'board'
             ? await BoardLike.findOne({
@@ -58,14 +59,14 @@ const postBoardLike = async (req: Request, res: Response, next: NextFunction) =>
             await BoardLike.create({
               board_pk,
               user_pk: user.pk,
-              user_name: user[user.type].name,
+              user_name: user.name,
             });
           } else {
             await BoardCommentLike.create({
               board_pk,
               comment_pk,
               user_pk: user.pk,
-              user_name: user[user.type].name,
+              user_name: user.name,
             });
           }
         }

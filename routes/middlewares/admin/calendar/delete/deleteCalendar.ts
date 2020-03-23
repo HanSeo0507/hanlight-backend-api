@@ -8,7 +8,7 @@ import User from '@Model/user.model';
 
 const deleteCalendar = async (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const pk = req.query.calendar_pk;
+  const pk: Calendar['pk'] = req.query.calendar_pk;
 
   try {
     const calendar: Calendar = await Calendar.findOne({
@@ -22,7 +22,6 @@ const deleteCalendar = async (req: Request, res: Response, next: NextFunction) =
         calendar.destroy(),
         CalendarLog.create({
           user_pk: user.pk,
-          user_name: user[user.type].name,
           type: 'D',
           month: calendar.month,
           date: calendar.date,

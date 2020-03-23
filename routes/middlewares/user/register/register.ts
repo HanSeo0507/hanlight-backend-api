@@ -5,8 +5,8 @@ import User from '@Model/user.model';
 
 const register = (req: Request, res: Response, next: NextFunction) => {
   const user: User = res.locals.user;
-  const { id } = req.body;
-  const { password, passwordKey } = res.locals.temp;
+  const { id }: { id: User['id'] } = req.body;
+  const { password, passwordKey }: { password: User['password']; passwordKey: User['passwordKey'] } = res.locals.temp;
 
   user
     .update({
